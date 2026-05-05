@@ -209,7 +209,8 @@ final class ClipboardPanel: NSPanel {
         }
 
         // Find the screen containing the status item button
-        let screen = NSScreen.screens.first { $0.frame.contains(buttonFrame.midX) } ?? NSScreen.main
+        let buttonPoint = NSPoint(x: buttonFrame.midX, y: buttonFrame.midY)
+        let screen: NSScreen? = NSScreen.screens.first { $0.frame.contains(buttonPoint) } ?? NSScreen.main
         guard let screen else { return }
         let screenFrame = screen.visibleFrame
         let finalHeight = max(100, min(desiredHeight, screenFrame.height - 50))
