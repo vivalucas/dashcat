@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: macos-15
@@ -28,49 +31,17 @@ jobs:
         run: |
           APP_PATH="build/DashCat.app"
           DMG_NAME="DashCat.dmg"
-          DMG_TEMP="DashCat_temp.dmg"
           VOLUME_NAME="DashCat"
 
-          # Create a temporary DMG
-          hdiutil create -srcfolder "$APP_PATH" \
-            -volname "$VOLUME_NAME" \
-            -fs HFS+ \
-            -fsargs "-c c=64,a=16,e=16" \
-            -format UDRW \
-            "$DMG_TEMP"
+          # Create a staging folder with app + Applications symlink
+          STAGING="$(mktemp -d)"
+          cp -R "$APP_PATH" "$STAGING/"
+          ln -s /Applications "$STAGING/Applications"
 
-          # Mount it
-          DEVICE=$(hdiutil attach -readwrite -noverify -noautoopen "$DMG_TEMP" | \
-            egrep '^/dev/' | sed 1q | awk '{print $1}')
-          MOUNT_POINT="/Volumes/$VOLUME_NAME"
-
-          # Create Applications shortcut
-          ln -s /Applications "$MOUNT_POINT/Applications"
-
-          # Set window properties
-          osascript -e "
-            tell application \"Finder\"
-              tell disk \"$VOLUME_NAME\"
-                open
-                set current view of container window to icon view
-                set toolbar visible of container window to false
-                set statusbar visible of container window to false
-                set the bounds of container window to {400, 100, 900, 450}
-                set theViewOptions to the icon view options of container window
-                set arrangement of theViewOptions to not arranged
-                set icon size of theViewOptions to 80
-                set background picture of theViewOptions to file \"background.png\" of folder \"Pictures\" of folder \"Resources\" of disk \"$VOLUME_NAME\"
-              end tell
-            end tell
-          " 2>/dev/null || true
-
-          # Sync and unmount
-          sync
-          hdiutil detach "$DEVICE" -quiet
-
-          # Convert to compressed read-only DMG
-          hdiutil convert "$DMG_TEMP" -format UDZO -imagekey zlib-level=9 -o "$DMG_NAME"
-          rm -f "$DMG_TEMP"
+          # Create compressed DMG
+          hdiutil create -volname "$VOLUME_NAME" -srcfolder "$STAGING" \
+            -fs HFS+ -format UDZO -imagekey zlib-level=9 "$DMG_NAME"
+          rm -rf "$STAGING"
 
       - name: Upload DMG to Release
         uses: softprops/action-gh-release@v2
