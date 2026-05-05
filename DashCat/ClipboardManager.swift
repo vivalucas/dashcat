@@ -27,6 +27,7 @@ final class ClipboardManager {
     private var changeCount: Int = 0
     private var pollTimer: Timer?
     private var lastStorageCheck: TimeInterval = 0
+    private var latestCache: ClipboardItem?
 
     private let dbPath: String
     private let imagesDir: String
@@ -118,12 +119,13 @@ final class ClipboardManager {
             return
         }
 
-        // Try image
-        if UserDefaults.standard.bool(forKey: "DashCatSaveImages"),
-           let tiff = pb.data(forType: .tiff) {
-            let image = NSImage(data: tiff)
-            if let saved = saveImage(image) {
-                insert(content: nil, imagePath: saved, sourceApp: sourceApp)
+        // Try image (TIFF or PNG)
+        if UserDefaults.standard.bool(forKey: "DashCatSaveImages") {
+            let imageData = pb.data(forType: .tiff) ?? pb.data(forType: .png)
+            if let data = imageData, let image = NSImage(data: data) {
+                if let saved = saveImage(image) {
+                    insert(content: nil, imagePath: saved, sourceApp: sourceApp)
+                }
             }
         }
     }
@@ -147,22 +149,36 @@ final class ClipboardManager {
             targetSize = origSize
         }
 
-        let resized = NSImage(size: targetSize)
-        resized.lockFocus()
-        NSGraphicsContext.current?.imageInterpolation = .high
-        bitmap.draw(in: NSRect(origin: .zero, size: targetSize),
-                    from: .zero, operation: .copy, fraction: 1.0, respectFlipped: true, hints: nil)
-        resized.unlockFocus()
+        let resized = NSImage(size: targetSize, flipped: false) { rect in
+            NSGraphicsContext.current?.imageInterpolation = .high
+            bitmap.draw(in: rect,
+                        from: .zero, operation: .copy, fraction: 1.0, respectFlipped: true, hints: nil)
+            return true
+        }
 
         guard let resizedRep = resized.tiffRepresentation.flatMap({ NSBitmapImageRep(data: $0) }) else { return nil }
 
-        // Try decreasing compression until under 500KB
+        // Try decreasing compression, then downsample if needed
         let maxImageBytes = 500 * 1024
         var jpegData: Data?
         for factor: CGFloat in [0.6, 0.4, 0.25] {
             if let data = resizedRep.representation(using: .jpeg, properties: [.compressionFactor: factor]) {
                 jpegData = data
                 if data.count <= maxImageBytes { break }
+            }
+        }
+        // If still too large, downsample and retry
+        if let data = jpegData, data.count > maxImageBytes {
+            let halfSize = NSSize(width: targetSize.width / 2, height: targetSize.height / 2)
+            let smaller = NSImage(size: halfSize, flipped: false) { rect in
+                NSGraphicsContext.current?.imageInterpolation = .high
+                resizedRep.draw(in: rect,
+                                from: .zero, operation: .copy, fraction: 1.0, respectFlipped: true, hints: nil)
+                return true
+            }
+            if let smallerRep = smaller.tiffRepresentation.flatMap({ NSBitmapImageRep(data: $0) }),
+               let data = smallerRep.representation(using: .jpeg, properties: [.compressionFactor: 0.25]) {
+                jpegData = data
             }
         }
         guard let finalData = jpegData else { return nil }
@@ -177,12 +193,12 @@ final class ClipboardManager {
 
         // Save thumbnail
         let thumbSize = NSSize(width: 80, height: 80)
-        let thumb = NSImage(size: thumbSize)
-        thumb.lockFocus()
-        NSGraphicsContext.current?.imageInterpolation = .high
-        resizedRep.draw(in: NSRect(origin: .zero, size: thumbSize),
-                        from: .zero, operation: .copy, fraction: 1.0, respectFlipped: true, hints: nil)
-        thumb.unlockFocus()
+        let thumb = NSImage(size: thumbSize, flipped: false) { rect in
+            NSGraphicsContext.current?.imageInterpolation = .high
+            resizedRep.draw(in: rect,
+                            from: .zero, operation: .copy, fraction: 1.0, respectFlipped: true, hints: nil)
+            return true
+        }
 
         if let thumbRep = thumb.tiffRepresentation.flatMap({ NSBitmapImageRep(data: $0) }),
            let thumbData = thumbRep.representation(using: .jpeg, properties: [.compressionFactor: 0.6]) {
@@ -213,7 +229,11 @@ final class ClipboardManager {
         }
         sqlite3_bind_text(stmt, 3, sourceApp, -1, SQLITE_TRANSIENT)
         sqlite3_bind_double(stmt, 4, Date().timeIntervalSince1970)
-        if sqlite3_step(stmt) != SQLITE_DONE {
+        if sqlite3_step(stmt) == SQLITE_DONE {
+            let rowId = sqlite3_last_insert_rowid(db)
+            latestCache = ClipboardItem(id: rowId, content: content, imagePath: imagePath,
+                                        sourceApp: sourceApp, isPinned: false, createdAt: Date().timeIntervalSince1970)
+        } else {
             logger.error("Failed to insert clipboard item")
         }
 
@@ -263,6 +283,7 @@ final class ClipboardManager {
 
     func togglePin(id: Int64) {
         guard db != nil else { return }
+        latestCache = nil
         var stmt: OpaquePointer?
         let sql = "UPDATE clipboard_history SET is_pinned = 1 - is_pinned WHERE id = ?"
         guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else {
@@ -278,6 +299,7 @@ final class ClipboardManager {
 
     func deleteItem(id: Int64) {
         guard db != nil else { return }
+        latestCache = nil
         // Delete associated image files first
         var stmt: OpaquePointer?
         let selectSql = "SELECT image_path FROM clipboard_history WHERE id = ?"
@@ -308,6 +330,7 @@ final class ClipboardManager {
 
     func clearAll() {
         guard db != nil else { return }
+        latestCache = nil
         // Delete image files first, then database records
         if let files = try? FileManager.default.contentsOfDirectory(atPath: imagesDir) {
             for file in files {
@@ -441,13 +464,16 @@ final class ClipboardManager {
     // MARK: - Helpers
 
     private func fetchLatest() -> ClipboardItem? {
+        if let cache = latestCache { return cache }
         guard db != nil else { return nil }
         var stmt: OpaquePointer?
         let sql = "SELECT id, content, image_path, source_app, is_pinned, created_at FROM clipboard_history ORDER BY created_at DESC LIMIT 1"
         guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else { return nil }
         defer { sqlite3_finalize(stmt) }
         if sqlite3_step(stmt) == SQLITE_ROW {
-            return itemFromRow(stmt)
+            let item = itemFromRow(stmt)
+            latestCache = item
+            return item
         }
         return nil
     }

@@ -14,6 +14,7 @@ final class ClipboardPanel: NSPanel {
     private var searchQuery = ""
     private let maxHeight: CGFloat = 500
     private var searchTimer: Timer?
+    private var hasAppeared = false
 
     var onSelect: ((ClipboardItem) -> Void)?
     weak var statusItem: NSStatusItem?
@@ -70,7 +71,9 @@ final class ClipboardPanel: NSPanel {
     }
 
     override func keyDown(with event: NSEvent) {
-        if event.keyCode == 36 { // Enter key
+        if event.keyCode == 53 { // Escape key
+            close()
+        } else if event.keyCode == 36 { // Enter key
             let row = tableView.selectedRow
             guard row >= 0, row < items.count else {
                 super.keyDown(with: event)
@@ -193,20 +196,23 @@ final class ClipboardPanel: NSPanel {
         let padding: CGFloat = 28
         let desiredHeight = min(maxHeight, contentHeight + searchHeight + padding)
 
-        guard let screen = NSScreen.main else { return }
-        let screenFrame = screen.visibleFrame
-        let finalHeight = max(100, min(desiredHeight, screenFrame.height - 50))
-
-        guard let statusItem = statusItem, let buttonFrame = statusItem.button?.window?.frame else {
-            // Fallback: center on screen
+        guard let buttonFrame = statusItem?.button?.window?.frame else {
+            guard let screen = NSScreen.main else { return }
+            let finalHeight = max(100, min(desiredHeight, screen.visibleFrame.height - 50))
             let currentFrame = frame
             let newFrame = NSRect(x: currentFrame.origin.x,
                                   y: currentFrame.origin.y + currentFrame.height - finalHeight,
                                   width: currentFrame.width,
                                   height: finalHeight)
-            setFrame(newFrame, display: true, animate: isVisible)
+            setFrame(newFrame, display: true, animate: isVisible && !hasAppeared)
             return
         }
+
+        // Find the screen containing the status item button
+        let screen = NSScreen.screens.first { $0.frame.contains(buttonFrame.midX) } ?? NSScreen.main
+        guard let screen else { return }
+        let screenFrame = screen.visibleFrame
+        let finalHeight = max(100, min(desiredHeight, screenFrame.height - 50))
 
         let buttonCenterX = buttonFrame.midX
         let panelX = buttonCenterX - frame.width / 2
@@ -214,7 +220,7 @@ final class ClipboardPanel: NSPanel {
         let clampedX = max(screenFrame.minX, min(panelX, screenFrame.maxX - frame.width))
 
         setFrame(NSRect(x: clampedX, y: panelY, width: frame.width, height: finalHeight),
-                 display: true, animate: isVisible)
+                 display: true, animate: isVisible && !hasAppeared)
     }
 
     // MARK: - Public
@@ -222,7 +228,9 @@ final class ClipboardPanel: NSPanel {
     func showPanel() {
         searchField.stringValue = ""
         searchQuery = ""
+        hasAppeared = false
         reloadData()
+        hasAppeared = true
         makeKeyAndOrderFront(nil)
         if let window = searchField.window {
             window.makeFirstResponder(searchField)

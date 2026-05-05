@@ -725,8 +725,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func isNewerVersion(_ remote: String, than local: String) -> Bool {
-        let r = remote.split(separator: ".").compactMap { Int($0) }
-        let l = local.split(separator: ".").compactMap { Int($0) }
+        let parseVersion: (String) -> [Int] = { s in
+            s.split(separator: ".").compactMap { Int($0.prefix(while: { $0.isNumber })) }
+        }
+        let r = parseVersion(remote)
+        let l = parseVersion(local)
         for i in 0..<max(r.count, l.count) {
             let rv = i < r.count ? r[i] : 0
             let lv = i < l.count ? l[i] : 0
