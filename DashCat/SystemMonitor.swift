@@ -17,6 +17,10 @@ final class SystemMonitor {
     private let pageSize: Double
     private let totalMemory: Double
 
+    deinit {
+        mach_port_deallocate(mach_task_self_, hostPort)
+    }
+
     init() {
         cpuInfoCount = UInt32(MemoryLayout<host_cpu_load_info_data_t>.size / MemoryLayout<integer_t>.size)
         pageSize = Double(vm_kernel_page_size)
