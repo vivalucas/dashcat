@@ -1,12 +1,10 @@
 # DashCat
 
-[中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Français](README.fr.md) | [Русский](README.ru.md)
+[中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Русский](README.ru.md)
 
 ---
 
-Ich hatte drei Menüleisten-Tools auf macOS laufen: eines für die Systemauslastung, eines für die Zwischenablage, eines zur Ruhestand-Verhinderung. Drei Symbole, drei Hintergrundprozesse — das fühlte sich irgendwann verschwenderisch an.
-
-Kann man die nicht zusammenfassen?
+Ich hatte drei Menüleisten-Tools auf macOS laufen: eines für die Systemauslastung, eines für die Zwischenablage (Maccy), eines zur Ruhestand-Verhinderung (Caffeine). Drei Symbole, drei Hintergrundprozesse — das fühlte sich irgendwann verschwenderisch an. Also habe ich alles von Grund auf neu gebaut und nur das Wesentliche behalten: Systemmonitoring, Zwischenablage-Verwaltung und Ruhestand-Verhinderung. Der Monitor ist für Apple Silicon optimiert, die Zwischenablage-Verwaltung ist schlank und effizient, und die Ruhestand-Verhinderung ist direkt eingebaut. Nichts überflüssiges.
 
 So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, desto höher die Systemauslastung; ein Linksklick öffnet die Zwischenablage-Historie mit Sofortsuche; ein Rechtsklick zeigt Ruhestand-Verhinderung, Monitor-Modus und Sprachwechsel auf einen Blick. Ein Symbol erledigt die Arbeit von drei. Keine Abhängigkeiten, minimaler Ressourcenverbrauch, alle Daten lokal gespeichert.
 
@@ -111,10 +109,6 @@ DashCat vereint Zwischenablage-Verwaltung (wie Maccy), Systemmonitoring und Ruhe
 **Warum zeigt macOS beim ersten Start an, die App sei „beschädigt"?**
 
 Die vorgebaute Version ist nicht mit einem Apple-Entwicklerzertifikat signiert, daher zeigt Gatekeeper diese Meldung — die App selbst ist in Ordnung. Führen Sie `xattr -cr /Applications/DashCat.app` im Terminal aus, um die Quarantäne-Flagge zu entfernen, und starten Sie dann normal. Um diesen Schritt zu vermeiden, bauen Sie aus dem Quellcode und signieren Sie mit Ihrem eigenen Konto.
-
-## Danksagung
-
-Basiert auf [CatMeter](https://github.com/vivalucas/CatMeter) — die Grundlage für Systemmonitor und Ruhestand-Verhinderung.
 
 ## Lizenz
 

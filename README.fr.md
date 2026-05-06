@@ -1,12 +1,10 @@
 # DashCat
 
-[中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Русский](README.ru.md)
+[中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Русский](README.ru.md)
 
 ---
 
-J'avais trois outils dans la barre de menus macOS : un pour la charge système, un pour le presse-papiers, un pour empêcher la mise en veille. Trois icônes, trois processus en arrière-plan — ça semblait du gaspillage.
-
-Et si on les combinait ?
+J'avais trois outils dans la barre de menus macOS : un pour la charge système, un pour le presse-papiers (Maccy), un pour empêcher la mise en veille (Caffeine). Trois icônes, trois processus en arrière-plan — ça semblait du gaspillage. Alors j'ai tout recréé de zéro, en gardant l'essentiel : surveillance système, gestion du presse-papiers et prévention de veille. Le moniteur est optimisé pour Apple Silicon, le presse-papiers est épuré et efficace, la prévention de veille est intégrée. Juste ce qu'il faut, rien de plus.
 
 C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court vite, plus la charge système est élevée ; un clic gauche ouvre l'historique du presse-papiers avec recherche instantanée ; un clic droit affiche la prévention de veille, le mode de surveillance et le changement de langue en un clin d'œil. Une seule icône fait le travail de trois. Zéro dépendance, ressource minimale, toutes les données stockées localement.
 
@@ -111,10 +109,6 @@ DashCat combine la gestion du presse-papiers (comme Maccy), la surveillance syst
 **Pourquoi macOS indique-t-il que l'application est « endommagée » au premier lancement ?**
 
 La version précompilée n'est pas signée avec un certificat Apple Developer, donc Gatekeeper affiche ce message — l'application elle-même va très bien. Exécutez `xattr -cr /Applications/DashCat.app` dans le Terminal pour supprimer le marqueur de quarantaine, puis lancez normalement. Pour éviter cette étape, compilez depuis le code source et signez avec votre propre compte.
-
-## Remerciements
-
-Basé sur [CatMeter](https://github.com/vivalucas/CatMeter) — la base de surveillance système et de prévention de veille.
 
 ## Licence
 

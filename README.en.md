@@ -1,14 +1,12 @@
 # DashCat
 
-[中文](README.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Русский](README.ru.md)
+[中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Русский](README.ru.md)
 
 ---
 
-I'd been running three menu bar tools on macOS: one for system load, one for clipboard history, one for sleep prevention. Three icons, three background processes — felt like a waste.
+I'd been running three menu bar tools on macOS: one for system load, one for clipboard history (Maccy), one for sleep prevention (Caffeine). Three icons, three background processes — felt like a waste. So I built one from scratch, keeping only the essentials: system monitoring, clipboard management, and sleep prevention. The monitor is optimized for Apple Silicon, the clipboard manager is streamlined and efficient, and sleep prevention is built right in. Just what you need, nothing more.
 
-Why not combine them?
-
-That's how DashCat came to be. A cat sitting in the menu bar — the faster it runs, the more pressure on your system; left-click for clipboard history with instant search; right-click for sleep prevention, monitor mode, and language switching. One icon does the work of three. Zero dependencies, minimal resource usage, all data stored locally.
+That's how DashCat came to be. A cat sitting in the menu bar — the faster it runs, the higher the load; left-click for clipboard history with instant search; right-click for sleep prevention, monitor mode, and language switching. One icon does the work of three. Zero dependencies, minimal resource usage, all data stored locally.
 
 ---
 
@@ -111,10 +109,6 @@ DashCat combines clipboard management (like Maccy), system monitoring, and sleep
 **Why does macOS say the app is "damaged" or "cannot verify the developer" on first launch?**
 
 The prebuilt binary is not signed with an Apple Developer certificate, so Gatekeeper shows this message — the app itself is fine. Run `xattr -cr /Applications/DashCat.app` in Terminal to remove the quarantine flag, then launch normally. To avoid this step entirely, build from source and sign with your own account.
-
-## Acknowledgments
-
-Built on top of [CatMeter](https://github.com/vivalucas/CatMeter) — the system monitor + sleep prevention base.
 
 ## License
 
