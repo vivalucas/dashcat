@@ -600,7 +600,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         input.stringValue = "\(currentDays)"
         alert.accessoryView = input
 
-        NSApp.activate()
+        activateAppForModal()
         if alert.runModal() == .alertFirstButtonReturn {
             let days = max(1, min(365, Int(input.stringValue) ?? 30))
             UserDefaults.standard.set(days, forKey: "DashCatHistoryDays")
@@ -813,7 +813,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             alert.informativeText = String(format: l.str("updateAvailMsg"), remote, local)
             alert.addButton(withTitle: l.str("download"))
             alert.addButton(withTitle: l.str("later"))
-            NSApp.activate()
+            activateAppForModal()
             if alert.runModal() == .alertFirstButtonReturn { openGitHub() }
         } else {
             presentAlert(title: l.str("updateOk"),
@@ -825,7 +825,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let alert = NSAlert()
         alert.messageText     = title
         alert.informativeText = message
-        NSApp.activate()
+        activateAppForModal()
         _ = alert.runModal()
     }
 
@@ -854,8 +854,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         alert.messageText = l.str("contactTitle")
         alert.informativeText = l.str("contactBody")
         alert.addButton(withTitle: l.str("ok"))
-        NSApp.activate()
+        activateAppForModal()
         _ = alert.runModal()
+    }
+
+    private func activateAppForModal() {
+        if #available(macOS 14.0, *) {
+            NSApp.activate()
+        } else {
+            NSApp.activate(ignoringOtherApps: true)
+        }
     }
 
     // MARK: - Restore State

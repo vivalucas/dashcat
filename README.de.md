@@ -43,7 +43,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
 
 ## Systemanforderungen
 
-- macOS 26 (Tahoe) oder neuer
+- macOS 13 (Ventura) oder neuer
 - Apple Silicon Mac (M-Serie Chips)
 
 ## Installation

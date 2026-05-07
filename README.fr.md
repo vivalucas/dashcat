@@ -43,7 +43,7 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
 
 ## Configuration requise
 
-- macOS 26 (Tahoe) ou version ultérieure
+- macOS 13 (Ventura) ou version ultérieure
 - Mac Apple Silicon (puces M)
 
 ## Installation

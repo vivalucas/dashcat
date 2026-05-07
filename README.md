@@ -43,7 +43,7 @@ DashCat 就是这么来的。一只小猫蹲在菜单栏，跑得快说明电脑
 
 ## 系统要求
 
-- macOS 26（Tahoe）或更高版本
+- macOS 13（Ventura）或更高版本
 - Apple Silicon Mac（M 系列芯片）
 
 ## 安装

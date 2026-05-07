@@ -43,7 +43,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 
 ## Requirements
 
-- macOS 26 (Tahoe) or later
+- macOS 13 (Ventura) or later
 - Apple Silicon Mac (M-series chips)
 
 ## Installation
