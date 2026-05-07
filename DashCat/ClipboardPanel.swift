@@ -343,7 +343,11 @@ extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
             }
         } else {
             let text = item.content ?? ""
-            label?.stringValue = String(text.prefix(80)).replacingOccurrences(of: "\n", with: " ")
+            let display = String(text.prefix(80))
+                .replacingOccurrences(of: "\r\n", with: " ")
+                .replacingOccurrences(of: "\r", with: " ")
+                .replacingOccurrences(of: "\n", with: " ")
+            label?.stringValue = display
             label?.textColor = .labelColor
         }
 

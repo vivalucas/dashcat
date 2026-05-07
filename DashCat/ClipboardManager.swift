@@ -113,9 +113,13 @@ final class ClipboardManager {
         // Try text first
         if let string = pb.string(forType: .string), !string.isEmpty {
             let truncated = string.count > maxTextLength ? String(string.prefix(maxTextLength)) : string
+            // Normalize Windows/Mac line endings to Unix
+            let normalized = truncated
+                .replacingOccurrences(of: "\r\n", with: "\n")
+                .replacingOccurrences(of: "\r", with: "\n")
             // Skip duplicate of last item
-            if let last = fetchLatest(), !last.isImage, last.content == truncated { return }
-            insert(content: truncated, imagePath: nil, sourceApp: sourceApp)
+            if let last = fetchLatest(), !last.isImage, last.content == normalized { return }
+            insert(content: normalized, imagePath: nil, sourceApp: sourceApp)
             return
         }
 

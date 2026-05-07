@@ -18,6 +18,22 @@ enum MonitorMode: String, CaseIterable {
     }
 }
 
+// MARK: - DisplayMode
+
+enum DisplayMode: String, CaseIterable {
+    case both      = "both"
+    case animOnly  = "animOnly"
+    case pctOnly   = "pctOnly"
+
+    var locKey: String {
+        switch self {
+        case .both:     return "displayBoth"
+        case .animOnly: return "displayAnimOnly"
+        case .pctOnly:  return "displayPctOnly"
+        }
+    }
+}
+
 // MARK: - CaffeineMode
 
 enum CaffeineMode: Int, CaseIterable {
@@ -94,7 +110,10 @@ enum Language: String, CaseIterable {
         "sleepOff":     ["zh":"关闭",       "en":"Off",              "ja":"オフ",                 "ko":"끔",            "de":"Aus",                         "fr":"Désactivé",              "ru":"Выкл"],
         "sleepSystem":  ["zh":"阻止系统休眠","en":"Prevent System Sleep","ja":"システムスリープを防止","ko":"시스템 절전 방지","de":"Systemschlaf verhindern","fr":"Empêcher la mise en veille","ru":"Предотвратить сон системы"],
         "sleepDisplay": ["zh":"阻止屏幕休眠","en":"Prevent Display Sleep","ja":"ディスプレイスリープを防止","ko":"화면 절전 방지","de":"Display-Schlaf verhindern","fr":"Empêcher la veille écran","ru":"Предотвратить сон экрана"],
-        "showPct":      ["zh":"显示数值",   "en":"Show Percentage",  "ja":"使用率を表示",         "ko":"사용률 표시",   "de":"Prozentwert anzeigen",        "fr":"Afficher le pourcentage","ru":"Показать процент"],
+        "display":       ["zh":"显示",          "en":"Display",            "ja":"表示",                "ko":"표시",           "de":"Anzeige",                     "fr":"Affichage",              "ru":"Отображение"],
+        "displayBoth":   ["zh":"数值与动画",    "en":"Percentage & Animation","ja":"数値とアニメーション","ko":"숫자 및 애니메이션","de":"Prozentwert & Animation","fr":"Pourcentage & animation","ru":"Процент и анимация"],
+        "displayAnimOnly":["zh":"仅动画",       "en":"Animation Only",     "ja":"アニメーションのみ",   "ko":"애니메이션만",   "de":"Nur Animation",               "fr":"Animation uniquement",   "ru":"Только анимация"],
+        "displayPctOnly":["zh":"仅数值",        "en":"Percentage Only",    "ja":"数値のみ",             "ko":"숫자만",         "de":"Nur Prozentwert",             "fr":"Pourcentage uniquement", "ru":"Только процент"],
         "clipboard":    ["zh":"剪贴板",     "en":"Clipboard",        "ja":"クリップボード",       "ko":"클립보드",      "de":"Zwischenablage",              "fr":"Presse-papiers",         "ru":"Буфер обмена"],
         "language":     ["zh":"语言",       "en":"Language",         "ja":"言語",                 "ko":"언어",          "de":"Sprache",                     "fr":"Langue",                 "ru":"Язык"],
         "saveImages":   ["zh":"保存图片",   "en":"Save Images",      "ja":"画像を保存",           "ko":"이미지 저장",   "de":"Bilder speichern",            "fr":"Enregistrer les images", "ru":"Сохранять изображения"],
@@ -115,9 +134,12 @@ enum Language: String, CaseIterable {
         "cancel":       ["zh":"取消",           "en":"Cancel",          "ja":"キャンセル",           "ko":"취소",              "de":"Abbrechen",                   "fr":"Annuler",                "ru":"Отмена"],
         "clearHistory": ["zh":"清除历史",   "en":"Clear History",    "ja":"履歴をクリア",         "ko":"기록 지우기",   "de":"Verlauf löschen",             "fr":"Effacer l'historique",   "ru":"Очистить историю"],
         "launchLogin":  ["zh":"开机启动",   "en":"Launch at Login",  "ja":"ログイン時に起動",     "ko":"로그인 시 시작","de":"Beim Login starten",          "fr":"Lancer au démarrage",    "ru":"Запуск при входе"],
-        "help":         ["zh":"帮助与更新", "en":"Help & Updates",   "ja":"ヘルプと更新",         "ko":"도움말 및 업데이트","de":"Hilfe & Updates",           "fr":"Aide & mises à jour",   "ru":"Справка и обновления"],
+        "help":         ["zh":"帮助与更新",   "en":"Help & Updates",   "ja":"ヘルプと更新",         "ko":"도움말 및 업데이트","de":"Hilfe & Updates",            "fr":"Aide et mises à jour",  "ru":"Справка и обновления"],
         "checkUpdates": ["zh":"检查更新\u{2026}","en":"Check for Updates\u{2026}","ja":"アップデートを確認\u{2026}","ko":"업데이트 확인\u{2026}","de":"Nach Updates suchen\u{2026}","fr":"Vérifier les mises à jour\u{2026}","ru":"Проверить обновления\u{2026}"],
         "viewOnGitHub": ["zh":"在 GitHub 上查看","en":"View on GitHub","ja":"GitHubで開く",       "ko":"GitHub에서 보기","de":"Auf GitHub öffnen",          "fr":"Voir sur GitHub",       "ru":"Открыть на GitHub"],
+        "contact":      ["zh":"联系方式",            "en":"Contact",                "ja":"お問い合わせ",           "ko":"연락처",              "de":"Kontakt",                    "fr":"Contact",                "ru":"Контакты"],
+        "contactTitle": ["zh":"DashCat 联系信息",    "en":"DashCat Contact Info",   "ja":"DashCat 連絡先",         "ko":"DashCat 연락처 정보", "de":"DashCat Kontaktinformationen","fr":"Infos de contact DashCat","ru":"Контактная информация DashCat"],
+        "contactBody":  ["zh":"作者：Lucas\n\n功能建议与问题反馈：\nhttps://github.com/vivalucas/DashCat/issues\n\n邮箱：lucas6.zju@vip.163.com","en":"Author: Lucas\n\nBug reports & feature requests:\nhttps://github.com/vivalucas/DashCat/issues\n\nEmail: lucas6.zju@vip.163.com","ja":"作者：Lucas\n\nバグ報告・機能リクエスト：\nhttps://github.com/vivalucas/DashCat/issues\n\nメール：lucas6.zju@vip.163.com","ko":"작성자: Lucas\n\n버그 신고 및 기능 요청:\nhttps://github.com/vivalucas/DashCat/issues\n\n이메일: lucas6.zju@vip.163.com","de":"Autor: Lucas\n\nFehlermeldungen & Feature Requests:\nhttps://github.com/vivalucas/DashCat/issues\n\nE-Mail: lucas6.zju@vip.163.com","fr":"Auteur : Lucas\n\nSignalement de bugs et demandes de fonctionnalités :\nhttps://github.com/vivalucas/DashCat/issues\n\nE-mail : lucas6.zju@vip.163.com","ru":"Автор: Lucas\n\nОтчёты об ошибках и запросы функций:\nhttps://github.com/vivalucas/DashCat/issues\n\nEmail: lucas6.zju@vip.163.com"],
         "quit":         ["zh":"退出 DashCat","en":"Quit DashCat","ja":"DashCatを終了",     "ko":"DashCat 종료","de":"DashCat beenden",           "fr":"Quitter DashCat",      "ru":"Выйти из DashCat"],
         "updateFail":     ["zh":"无法检查更新",       "en":"Could not check for updates",         "ja":"アップデートを確認できませんでした",       "ko":"업데이트를 확인할 수 없습니다",           "de":"Updates konnten nicht überprüft werden",          "fr":"Impossible de vérifier les mises à jour",       "ru":"Не удалось проверить обновления"],
         "updateFailMsg":  ["zh":"请检查网络连接后重试。","en":"Please check your internet connection and try again.","ja":"ネットワーク接続を確認して、もう一度お試しください。","ko":"네트워크 연결을 확인하고 다시 시도해 주세요.","de":"Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.","fr":"Veuillez vérifier votre connexion Internet et réessayer.","ru":"Проверьте подключение к интернету и попробуйте снова."],
@@ -184,7 +206,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var metric: MonitorInfo = SystemMonitor.default
     private var cpuTimer: Timer?
     private var runnerTimer: Timer?
-    private var isShowValue = true
+    private var displayMode: DisplayMode = .both
     private var currentMode: MonitorMode = .combined
     private var caffeineMode: CaffeineMode = .off
     private var sleepAssertionID: IOPMAssertionID = 0
@@ -195,7 +217,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // Menu item references
     private var monitorHeader: NSMenuItem!
     private var modeItems: [NSMenuItem] = []
-    private var showPctItem: NSMenuItem!
+    private var displayMenu: NSMenuItem!
+    private var displayModeItems: [NSMenuItem] = []
     private var sleepHeader: NSMenuItem!
     private var caffeineItems: [NSMenuItem] = []
     private var clipboardHeader: NSMenuItem!
@@ -210,6 +233,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var helpMenuItem: NSMenuItem!
     private var checkUpdatesItem: NSMenuItem!
     private var viewGitHubItem: NSMenuItem!
+    private var contactItem: NSMenuItem!
     private var quitItem: NSMenuItem!
 
     private var language: Language = {
@@ -241,6 +265,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Migrate from CatMeter if needed
         migrateFromCatMeter()
+        migrateDisplayMode()
 
         setupMenu()
         setupStatusItem()
@@ -270,6 +295,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    private func migrateDisplayMode() {
+        let newKey = "DashCatDisplayMode"
+        guard UserDefaults.standard.string(forKey: newKey) == nil else { return }
+        let oldKey = "DashCatShowPercentage"
+        if UserDefaults.standard.object(forKey: oldKey) != nil {
+            let old = UserDefaults.standard.bool(forKey: oldKey)
+            UserDefaults.standard.set(old ? DisplayMode.both.rawValue : DisplayMode.animOnly.rawValue,
+                                      forKey: newKey)
+            UserDefaults.standard.removeObject(forKey: oldKey)
+        }
+    }
+
     private func setupStatusItem() {
         statusItem.behavior = []
         statusItem.button?.imagePosition = .imageTrailing
@@ -296,11 +333,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         modeItems.first?.state = .on
 
-        // Show Percentage (inside Monitor section)
+        // Display submenu (inside Monitor section)
         menu.addItem(.separator())
-        showPctItem = NSMenuItem(title: "", action: #selector(toggleShowValue(_:)), keyEquivalent: "")
-        showPctItem.indentationLevel = 1
-        menu.addItem(showPctItem)
+        displayMenu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        let displaySubmenu = NSMenu()
+        for mode in DisplayMode.allCases {
+            let item = NSMenuItem(title: "", action: #selector(selectDisplayMode(_:)), keyEquivalent: "")
+            item.representedObject = mode
+            item.indentationLevel = 1
+            displayModeItems.append(item)
+            displaySubmenu.addItem(item)
+        }
+        displayMenu.submenu = displaySubmenu
+        displayMenu.indentationLevel = 1
+        menu.addItem(displayMenu)
 
         menu.addItem(.separator())
 
@@ -382,8 +428,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let helpSubmenu = NSMenu()
         checkUpdatesItem = NSMenuItem(title: "", action: #selector(checkForUpdates), keyEquivalent: "")
         viewGitHubItem   = NSMenuItem(title: "", action: #selector(openGitHub),      keyEquivalent: "")
+        contactItem      = NSMenuItem(title: "", action: #selector(showContact),     keyEquivalent: "")
         helpSubmenu.addItem(checkUpdatesItem)
         helpSubmenu.addItem(viewGitHubItem)
+        helpSubmenu.addItem(.separator())
+        helpSubmenu.addItem(contactItem)
         helpMenuItem.submenu = helpSubmenu
         menu.addItem(helpMenuItem)
 
@@ -410,7 +459,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 item.title = l.str(mode.locKey)
             }
         }
-        showPctItem.title = l.str("showPct")
+        displayMenu.title = l.str("display")
+        for item in displayModeItems {
+            if let mode = item.representedObject as? DisplayMode {
+                item.title = l.str(mode.locKey)
+            }
+        }
         sleepHeader.title = l.str("sleep")
         for item in caffeineItems {
             if let mode = item.representedObject as? CaffeineMode {
@@ -436,6 +490,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         helpMenuItem.title      = l.str("help")
         checkUpdatesItem.title  = l.str("checkUpdates")
         viewGitHubItem.title    = l.str("viewOnGitHub")
+        contactItem.title       = l.str("contact")
         quitItem.title          = l.str("quit")
     }
 
@@ -479,11 +534,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Menu Actions
 
-    @objc private func toggleShowValue(_ sender: NSMenuItem) {
-        isShowValue = sender.state == .off
-        sender.state = isShowValue ? .on : .off
-        if isShowValue { applyMetricDisplay() } else { statusItem.button?.title = "" }
-        UserDefaults.standard.set(isShowValue, forKey: "DashCatShowPercentage")
+    @objc private func selectDisplayMode(_ sender: NSMenuItem) {
+        guard let mode = sender.representedObject as? DisplayMode else { return }
+        displayMode = mode
+        displayModeItems.forEach { $0.state = ($0.representedObject as? DisplayMode) == mode ? .on : .off }
+        UserDefaults.standard.set(mode.rawValue, forKey: "DashCatDisplayMode")
+        switch mode {
+        case .pctOnly:
+            statusItem.button?.image = nil
+            applyMetricDisplay()
+        case .animOnly:
+            statusItem.button?.title = ""
+            statusItem.button?.attributedTitle = NSAttributedString()
+            let frames = currentFrames
+            statusItem.button?.image = frames[index % frames.count]
+        case .both:
+            applyMetricDisplay()
+            let frames = currentFrames
+            statusItem.button?.image = frames[index % frames.count]
+        }
     }
 
     @objc private func selectMode(_ sender: NSMenuItem) {
@@ -618,7 +687,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let t = min(metric.value / 100.0, 1.0)
         let fps = 1.0 + 11.0 * t
         let interval = 1.0 / fps
-        if isShowValue { applyMetricDisplay() }
+        applyMetricDisplay()
         runnerTimer?.invalidate()
         runnerTimer = Timer(timeInterval: interval, repeats: true) { [weak self] _ in
             self?.nextFrame()
@@ -629,6 +698,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func nextFrame() {
+        guard displayMode != .pctOnly else { return }
         let frames = currentFrames
         index = (index + 1) % frames.count
         statusItem.button?.image = frames[index]
@@ -637,6 +707,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Display
 
     private func applyMetricDisplay() {
+        guard displayMode != .animOnly else {
+            statusItem.button?.title = ""
+            statusItem.button?.attributedTitle = NSAttributedString()
+            return
+        }
         if currentMode == .combined {
             statusItem.button?.attributedTitle = makeStackedTitle(metric.description)
         } else {
@@ -730,6 +805,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSWorkspace.shared.open(URL(string: "https://github.com/vivalucas/DashCat")!)
     }
 
+    @objc private func showContact() {
+        let l = language
+        let alert = NSAlert()
+        alert.messageText = l.str("contactTitle")
+        alert.informativeText = l.str("contactBody")
+        alert.addButton(withTitle: l.str("ok"))
+        NSApp.activate()
+        _ = alert.runModal()
+    }
+
     // MARK: - Restore State
 
     private func restoreState() {
@@ -739,13 +824,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             currentMode = mode
             modeItems.forEach { $0.state = ($0.representedObject as? MonitorMode) == mode ? .on : .off }
         }
-        // Restore show percentage (default to true when key has never been set)
-        let showPctKey = "DashCatShowPercentage"
-        if UserDefaults.standard.object(forKey: showPctKey) != nil {
-            isShowValue = UserDefaults.standard.bool(forKey: showPctKey)
+        // Restore display mode (default: .both)
+        if let modeStr = UserDefaults.standard.string(forKey: "DashCatDisplayMode"),
+           let mode = DisplayMode(rawValue: modeStr) {
+            displayMode = mode
         }
-        showPctItem.state = isShowValue ? .on : .off
-        if isShowValue { applyMetricDisplay() }
+        displayModeItems.forEach { $0.state = ($0.representedObject as? DisplayMode) == displayMode ? .on : .off }
+        switch displayMode {
+        case .pctOnly:
+            statusItem.button?.image = nil
+            applyMetricDisplay()
+        case .animOnly:
+            break // image already set in setupStatusItem
+        case .both:
+            applyMetricDisplay()
+        }
         // Restore caffeine mode
         let caffeineRaw = UserDefaults.standard.integer(forKey: "DashCatCaffeineMode")
         if let mode = CaffeineMode(rawValue: caffeineRaw), mode != .off {
