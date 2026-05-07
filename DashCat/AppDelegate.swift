@@ -194,7 +194,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var metric: MonitorInfo = SystemMonitor.default
     private var cpuTimer: Timer?
     private var runnerTimer: Timer?
-    private var isShowValue = false
+    private var isShowValue = true
     private var currentMode: MonitorMode = .combined
     private var caffeineMode: CaffeineMode = .off
     private var sleepAssertionID: IOPMAssertionID = 0
@@ -752,9 +752,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             currentMode = mode
             modeItems.forEach { $0.state = ($0.representedObject as? MonitorMode) == mode ? .on : .off }
         }
-        // Restore show percentage
-        isShowValue = UserDefaults.standard.bool(forKey: "DashCatShowPercentage")
+        // Restore show percentage (default to true when key has never been set)
+        let showPctKey = "DashCatShowPercentage"
+        if UserDefaults.standard.object(forKey: showPctKey) != nil {
+            isShowValue = UserDefaults.standard.bool(forKey: showPctKey)
+        }
         showPctItem.state = isShowValue ? .on : .off
+        if isShowValue { applyMetricDisplay() }
         // Restore caffeine mode
         let caffeineRaw = UserDefaults.standard.integer(forKey: "DashCatCaffeineMode")
         if let mode = CaffeineMode(rawValue: caffeineRaw), mode != .off {
