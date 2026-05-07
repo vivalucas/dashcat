@@ -579,6 +579,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         UserDefaults.standard.set(days.rawValue, forKey: "DashCatHistoryDays")
         historyDaysItems.forEach { $0.state = ($0.representedObject as? HistoryDays) == days ? .on : .off }
         customDaysItem.title = language.str("customDays")
+        cleanupClipboardHistoryAfterRetentionChange()
     }
 
     @objc private func selectCustomDays(_ sender: NSMenuItem) {
@@ -600,7 +601,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             UserDefaults.standard.set(days, forKey: "DashCatHistoryDays")
             historyDaysItems.forEach { $0.state = .off }
             customDaysItem.title = "\(l.str("customDays")) (\(days))"
+            cleanupClipboardHistoryAfterRetentionChange()
         }
+    }
+
+    private func cleanupClipboardHistoryAfterRetentionChange() {
+        ClipboardManager.shared.cleanupExpired()
+        clipboardPanel?.reloadData()
     }
 
     @objc private func clearClipboardHistory(_ sender: NSMenuItem) {
@@ -619,13 +626,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func toggleLaunchAtLogin(_ sender: NSMenuItem) {
         let newValue = sender.state == .off
-        sender.state = newValue ? .on : .off
-        UserDefaults.standard.set(newValue, forKey: "DashCatLaunchAtLogin")
-        if newValue {
-            try? SMAppService.mainApp.register()
-        } else {
-            try? SMAppService.mainApp.unregister()
+        do {
+            if newValue {
+                try SMAppService.mainApp.register()
+            } else {
+                try SMAppService.mainApp.unregister()
+            }
+        } catch {
+            NSLog("DashCat launch at login update failed: \(error.localizedDescription)")
         }
+        refreshLaunchAtLoginState()
+    }
+
+    private func refreshLaunchAtLoginState() {
+        let isEnabled = SMAppService.mainApp.status == .enabled
+        launchAtLoginItem.state = isEnabled ? .on : .off
+        UserDefaults.standard.set(isEnabled, forKey: "DashCatLaunchAtLogin")
     }
 
     @objc private func terminateApp(_ sender: Any?) { NSApp.terminate(nil) }
@@ -849,12 +865,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             historyDaysItems.forEach { $0.state = .off }
             customDaysItem.title = "\(language.str("customDays")) (\(custom))"
         }
+        refreshLaunchAtLoginState()
     }
 }
 
 // MARK: - NSMenuDelegate
 
 extension AppDelegate: NSMenuDelegate {
+    func menuWillOpen(_ menu: NSMenu) {
+        refreshLaunchAtLoginState()
+    }
+
     func menuDidClose(_ menu: NSMenu) {
         statusItem.menu = nil
     }
