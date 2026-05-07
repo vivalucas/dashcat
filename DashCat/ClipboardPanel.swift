@@ -15,6 +15,8 @@ final class ClipboardPanel: NSPanel {
     private let maxHeight: CGFloat = 500
     private var searchTimer: Timer?
     private var hasAppeared = false
+    private var isSelecting = false
+    private var iconCache: [String: NSImage] = [:]
 
     var onSelect: ((ClipboardItem) -> Void)?
     weak var statusItem: NSStatusItem?
@@ -34,11 +36,6 @@ final class ClipboardPanel: NSPanel {
         animationBehavior = .utilityWindow
         collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
 
-        // Close when clicking outside
-        NotificationCenter.default.addObserver(self,
-            selector: #selector(resignKey),
-            name: NSWindow.didResignKeyNotification, object: self)
-
         // Auto-refresh when clipboard data changes
         NotificationCenter.default.addObserver(self,
             selector: #selector(reloadDataFromNotification),
@@ -56,10 +53,15 @@ final class ClipboardPanel: NSPanel {
         NotificationCenter.default.removeObserver(self)
     }
 
+    private var isResigningKey = false
+
     @objc override func resignKey() {
+        guard !isResigningKey else { return }
+        isResigningKey = true
         super.resignKey()
         // Delay close to avoid dismissal on transient key loss (e.g. input method, system dialogs)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            self?.isResigningKey = false
             guard let self = self, self.isVisible, !self.isKeyWindow else { return }
             self.close()
         }
@@ -310,11 +312,18 @@ extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
         let label = cell.viewWithTag(2) as? NSTextField
         let pinIndicator = cell.viewWithTag(3) as? NSTextField
 
-        // App icon
-        if let bundleId = item.sourceApp.isEmpty ? nil : item.sourceApp,
-           let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleId) {
-            iconView?.image = NSWorkspace.shared.icon(forFile: appURL.path)
-            iconView?.image?.size = NSSize(width: 16, height: 16)
+        // App icon (cached)
+        if let bundleId = item.sourceApp.isEmpty ? nil : item.sourceApp {
+            if let cached = iconCache[bundleId] {
+                iconView?.image = cached
+            } else if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleId) {
+                let icon = NSWorkspace.shared.icon(forFile: appURL.path)
+                icon.size = NSSize(width: 16, height: 16)
+                iconCache[bundleId] = icon
+                iconView?.image = icon
+            } else {
+                iconView?.image = nil
+            }
         } else {
             iconView?.image = nil
         }
@@ -344,8 +353,10 @@ extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     func tableViewSelectionDidChange(_ notification: Notification) {
+        guard !isSelecting else { return }
         let row = tableView.selectedRow
         guard row >= 0, row < items.count else { return }
+        isSelecting = true
         let item = items[row]
 
         // Copy to pasteboard
@@ -360,6 +371,7 @@ extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
         ClipboardManager.shared.syncChangeCount()
         tableView.deselectRow(row)
         close()
+        isSelecting = false
         onSelect?(item)
     }
 
@@ -374,27 +386,25 @@ extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
 
         let pinTitle = item.isPinned ? localized("unpin") : localized("pin")
         let pinItem = NSMenuItem(title: pinTitle, action: #selector(togglePinForItem(_:)), keyEquivalent: "")
-        pinItem.tag = row
+        pinItem.representedObject = item.id
         menu.addItem(pinItem)
 
         let deleteItem = NSMenuItem(title: localized("delete"), action: #selector(deleteItemAtIndex(_:)), keyEquivalent: "")
-        deleteItem.tag = row
+        deleteItem.representedObject = item.id
         menu.addItem(deleteItem)
 
         return menu
     }
 
     @objc private func togglePinForItem(_ sender: NSMenuItem) {
-        let row = sender.tag
-        guard row >= 0, row < items.count else { return }
-        ClipboardManager.shared.togglePin(id: items[row].id)
+        guard let id = sender.representedObject as? Int64 else { return }
+        ClipboardManager.shared.togglePin(id: id)
         reloadData()
     }
 
     @objc private func deleteItemAtIndex(_ sender: NSMenuItem) {
-        let row = sender.tag
-        guard row >= 0, row < items.count else { return }
-        ClipboardManager.shared.deleteItem(id: items[row].id)
+        guard let id = sender.representedObject as? Int64 else { return }
+        ClipboardManager.shared.deleteItem(id: id)
         reloadData()
     }
 }

@@ -51,16 +51,6 @@ enum HistoryDays: Int, CaseIterable {
     case ninety = 90
     case forever = 36500
 
-    var displayName: String {
-        switch self {
-        case .seven:    return "7 Days"
-        case .fourteen: return "14 Days"
-        case .thirty:   return "30 Days"
-        case .ninety:   return "90 Days"
-        case .forever:  return "Forever"
-        }
-    }
-
     var locKey: String {
         switch self {
         case .seven:    return "days7"
@@ -230,12 +220,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }()
 
     private var historyDays: HistoryDays {
-        get {
-            let saved = UserDefaults.standard.integer(forKey: "DashCatHistoryDays")
-            if saved == 0 { return .thirty }
-            return HistoryDays(rawValue: saved) ?? .thirty
-        }
-        set { /* only set via selectHistoryDays/selectCustomDays */ }
+        let saved = UserDefaults.standard.integer(forKey: "DashCatHistoryDays")
+        if saved == 0 { return .thirty }
+        return HistoryDays(rawValue: saved) ?? .thirty
     }
 
     private var customHistoryDays: Int? {
@@ -366,8 +353,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
 
-        // Language submenu
-        languageMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        // Language submenu — title stays fixed so users can always find it
+        languageMenuItem = NSMenuItem(title: "Language", action: nil, keyEquivalent: "")
         let langSubmenu = NSMenu()
         for lang in Language.allCases {
             let item = NSMenuItem(title: lang.displayName,
@@ -444,7 +431,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             customDaysItem.title = l.str("customDays")
         }
         clearHistoryItem.title  = l.str("clearHistory")
-        languageMenuItem.title  = l.str("language")
+        // Language menu title stays fixed so users can always find it
         launchAtLoginItem.title = l.str("launchLogin")
         helpMenuItem.title      = l.str("help")
         checkUpdatesItem.title  = l.str("checkUpdates")
