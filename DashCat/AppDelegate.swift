@@ -103,17 +103,17 @@ enum Language: String, CaseIterable {
 
     private static let table: [String: [String: String]] = [
         "monitor":      ["zh":"监控",       "en":"Monitor",          "ja":"モニター",             "ko":"모니터",        "de":"Monitor",                     "fr":"Moniteur",               "ru":"Монитор"],
-        "combined":     ["zh":"综合",       "en":"Combined",         "ja":"複合",                 "ko":"복합",          "de":"Kombiniert",                  "fr":"Combiné",                "ru":"Комбинированный"],
+        "combined":     ["zh":"综合",       "en":"Combined",         "ja":"総合",                 "ko":"종합",          "de":"Kombiniert",                  "fr":"Combiné",                "ru":"Комбинированный"],
         "cpu":          ["zh":"CPU",        "en":"CPU",              "ja":"CPU",                  "ko":"CPU",           "de":"CPU",                         "fr":"CPU",                    "ru":"CPU"],
         "memory":       ["zh":"内存",       "en":"Memory",           "ja":"メモリ",               "ko":"메모리",        "de":"Speicher",                    "fr":"Mémoire",                "ru":"Память"],
-        "sleep":        ["zh":"阻止休眠",   "en":"Sleep Prevention", "ja":"スリープ防止",         "ko":"절전 방지",     "de":"Ruhezustand",                 "fr":"Prévention veille",      "ru":"Режим сна"],
+        "sleep":        ["zh":"阻止休眠",   "en":"Sleep Prevention", "ja":"スリープ防止",         "ko":"절전 방지",     "de":"Ruhezustand verhindern",      "fr":"Prévention de veille",   "ru":"Предотвращение сна"],
         "sleepOff":     ["zh":"关闭",       "en":"Off",              "ja":"オフ",                 "ko":"끔",            "de":"Aus",                         "fr":"Désactivé",              "ru":"Выкл"],
-        "sleepSystem":  ["zh":"阻止系统休眠","en":"Prevent System Sleep","ja":"システムスリープを防止","ko":"시스템 절전 방지","de":"Systemschlaf verhindern","fr":"Empêcher la mise en veille","ru":"Предотвратить сон системы"],
-        "sleepDisplay": ["zh":"阻止屏幕休眠","en":"Prevent Display Sleep","ja":"ディスプレイスリープを防止","ko":"화면 절전 방지","de":"Display-Schlaf verhindern","fr":"Empêcher la veille écran","ru":"Предотвратить сон экрана"],
+        "sleepSystem":  ["zh":"阻止系统休眠","en":"Prevent System Sleep","ja":"システムスリープを防止","ko":"시스템 절전 방지","de":"System-Ruhezustand verhindern","fr":"Empêcher la veille du système","ru":"Предотвратить сон системы"],
+        "sleepDisplay": ["zh":"阻止屏幕休眠","en":"Prevent Display Sleep","ja":"ディスプレイスリープを防止","ko":"화면 절전 방지","de":"Display-Ruhezustand verhindern","fr":"Empêcher la veille de l'écran","ru":"Предотвратить сон экрана"],
         "display":       ["zh":"显示",          "en":"Display",            "ja":"表示",                "ko":"표시",           "de":"Anzeige",                     "fr":"Affichage",              "ru":"Отображение"],
-        "displayBoth":   ["zh":"数值与动画",    "en":"Percentage & Animation","ja":"数値とアニメーション","ko":"숫자 및 애니메이션","de":"Prozentwert & Animation","fr":"Pourcentage & animation","ru":"Процент и анимация"],
+        "displayBoth":   ["zh":"数值与动画",    "en":"Percentage & Animation","ja":"数値とアニメーション","ko":"백분율 및 애니메이션","de":"Prozentwert & Animation","fr":"Pourcentage & animation","ru":"Процент и анимация"],
         "displayAnimOnly":["zh":"仅动画",       "en":"Animation Only",     "ja":"アニメーションのみ",   "ko":"애니메이션만",   "de":"Nur Animation",               "fr":"Animation uniquement",   "ru":"Только анимация"],
-        "displayPctOnly":["zh":"仅数值",        "en":"Percentage Only",    "ja":"数値のみ",             "ko":"숫자만",         "de":"Nur Prozentwert",             "fr":"Pourcentage uniquement", "ru":"Только процент"],
+        "displayPctOnly":["zh":"仅数值",        "en":"Percentage Only",    "ja":"数値のみ",             "ko":"백분율만",       "de":"Nur Prozentwert",             "fr":"Pourcentage uniquement", "ru":"Только процент"],
         "clipboard":    ["zh":"剪贴板",     "en":"Clipboard",        "ja":"クリップボード",       "ko":"클립보드",      "de":"Zwischenablage",              "fr":"Presse-papiers",         "ru":"Буфер обмена"],
         "language":     ["zh":"语言",       "en":"Language",         "ja":"言語",                 "ko":"언어",          "de":"Sprache",                     "fr":"Langue",                 "ru":"Язык"],
         "saveImages":   ["zh":"保存图片",   "en":"Save Images",      "ja":"画像を保存",           "ko":"이미지 저장",   "de":"Bilder speichern",            "fr":"Enregistrer les images", "ru":"Сохранять изображения"],
@@ -122,15 +122,15 @@ enum Language: String, CaseIterable {
         "days14":       ["zh":"14 天",      "en":"14 Days",          "ja":"14日",                 "ko":"14일",          "de":"14 Tage",                     "fr":"14 jours",               "ru":"14 дней"],
         "days30":       ["zh":"30 天",      "en":"30 Days",          "ja":"30日",                 "ko":"30일",          "de":"30 Tage",                     "fr":"30 jours",               "ru":"30 дней"],
         "days90":       ["zh":"90 天",      "en":"90 Days",          "ja":"90日",                 "ko":"90일",          "de":"90 Tage",                     "fr":"90 jours",               "ru":"90 дней"],
-        "forever":      ["zh":"永久",       "en":"Forever",          "ja":"無期限",               "ko":"영구",          "de":"Unbegrenzt",                  "fr":"Pour toujours",          "ru":"Навсегда"],
+        "forever":      ["zh":"永久",       "en":"Forever",          "ja":"無期限",               "ko":"영구",          "de":"Unbegrenzt",                  "fr":"Illimité",               "ru":"Навсегда"],
         "customDays":   ["zh":"自定义\u{2026}","en":"Custom\u{2026}","ja":"カスタム\u{2026}","ko":"사용자 정의\u{2026}","de":"Benutzerdefiniert\u{2026}","fr":"Personnalisé\u{2026}","ru":"Пользовательский\u{2026}"],
         "search":       ["zh":"搜索\u{2026}",   "en":"Search\u{2026}",  "ja":"検索\u{2026}",         "ko":"검색\u{2026}",      "de":"Suchen\u{2026}",              "fr":"Rechercher\u{2026}",      "ru":"Поиск\u{2026}"],
         "image":        ["zh":"图片",           "en":"Image",           "ja":"画像",                 "ko":"이미지",            "de":"Bild",                        "fr":"Image",                  "ru":"Изображение"],
         "pin":          ["zh":"固定",           "en":"Pin",             "ja":"ピン",                 "ko":"고정",              "de":"Anheften",                    "fr":"Épingler",               "ru":"Закрепить"],
         "unpin":        ["zh":"取消固定",       "en":"Unpin",           "ja":"ピン解除",             "ko":"고정 해제",         "de":"Lösen",                       "fr":"Détacher",               "ru":"Открепить"],
         "delete":       ["zh":"删除",           "en":"Delete",          "ja":"削除",                 "ko":"삭제",              "de":"Löschen",                     "fr":"Supprimer",              "ru":"Удалить"],
-        "customDaysPrompt":["zh":"输入天数 (1-365)：","en":"Enter number of days (1-365):","ja":"日数を入力 (1-365)：","ko":"일수 입력 (1-365)：","de":"Anzahl der Tage eingeben (1-365)：","fr":"Entrez le nombre de jours (1-365) :","ru":"Введите количество дней (1-365):"],
-        "ok":           ["zh":"好",             "en":"OK",              "ja":"OK",                   "ko":"확인",              "de":"OK",                          "fr":"OK",                     "ru":"OK"],
+        "customDaysPrompt":["zh":"输入天数 (1-365)：","en":"Enter number of days (1-365):","ja":"日数を入力 (1-365)：","ko":"일수 입력 (1-365)：","de":"Anzahl der Tage eingeben (1-365):","fr":"Entrez le nombre de jours (1-365) :","ru":"Введите количество дней (1-365):"],
+        "ok":           ["zh":"确定",           "en":"OK",              "ja":"OK",                   "ko":"확인",              "de":"OK",                          "fr":"OK",                     "ru":"OK"],
         "cancel":       ["zh":"取消",           "en":"Cancel",          "ja":"キャンセル",           "ko":"취소",              "de":"Abbrechen",                   "fr":"Annuler",                "ru":"Отмена"],
         "clearHistory": ["zh":"清除历史",   "en":"Clear History",    "ja":"履歴をクリア",         "ko":"기록 지우기",   "de":"Verlauf löschen",             "fr":"Effacer l'historique",   "ru":"Очистить историю"],
         "launchLogin":  ["zh":"开机启动",   "en":"Launch at Login",  "ja":"ログイン時に起動",     "ko":"로그인 시 시작","de":"Beim Login starten",          "fr":"Lancer au démarrage",    "ru":"Запуск при входе"],
@@ -527,8 +527,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             if ret != kIOReturnSuccess { sleepAssertionID = 0 }
         }
         caffeineItems.forEach { $0.state = ($0.representedObject as? CaffeineMode) == mode ? .on : .off }
-        let frames = currentFrames
-        statusItem.button?.image = frames[index % frames.count]
+        if displayMode == .pctOnly {
+            statusItem.button?.image = nil
+        } else {
+            let frames = currentFrames
+            statusItem.button?.image = frames[index % frames.count]
+        }
+        applyMetricDisplay()
         UserDefaults.standard.set(mode.rawValue, forKey: "DashCatCaffeineMode")
     }
 
@@ -729,9 +734,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         if currentMode == .combined {
+            statusItem.button?.title = ""
             statusItem.button?.attributedTitle = makeStackedTitle(metric.description)
+        } else if let textColor = metricTextColor {
+            statusItem.button?.title = ""
+            statusItem.button?.attributedTitle = NSAttributedString(string: metric.description, attributes: [
+                .font: NSFont.monospacedSystemFont(ofSize: 11, weight: .regular),
+                .foregroundColor: textColor
+            ])
         } else {
+            statusItem.button?.attributedTitle = NSAttributedString()
             statusItem.button?.title = metric.description
+        }
+    }
+
+    private var metricTextColor: NSColor? {
+        switch caffeineMode {
+        case .off:            return nil
+        case .noSleep:        return .systemBlue
+        case .noDisplaySleep: return .systemOrange
         }
     }
 
@@ -741,15 +762,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let para = NSMutableParagraphStyle()
         para.alignment = .center
         para.lineSpacing = 0
-        let result = NSMutableAttributedString()
-        result.append(NSAttributedString(string: value + "\n", attributes: [
+        var valueAttributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.monospacedSystemFont(ofSize: 9, weight: .regular),
             .paragraphStyle: para
-        ]))
-        result.append(NSAttributedString(string: label, attributes: [
+        ]
+        var labelAttributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.monospacedSystemFont(ofSize: 7, weight: .regular),
             .paragraphStyle: para
-        ]))
+        ]
+        if let textColor = metricTextColor {
+            valueAttributes[.foregroundColor] = textColor
+            labelAttributes[.foregroundColor] = textColor
+        }
+        let result = NSMutableAttributedString()
+        result.append(NSAttributedString(string: value + "\n", attributes: valueAttributes))
+        result.append(NSAttributedString(string: label, attributes: labelAttributes))
         return result
     }
 

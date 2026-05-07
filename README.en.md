@@ -1,5 +1,7 @@
 # DashCat
 
+A lightweight macOS menu bar app that combines clipboard history, system monitoring, and sleep prevention into one running cat.
+
 [中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Русский](README.ru.md)
 
 ---
@@ -18,7 +20,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - Click to copy, `Option + Enter` to copy as plain text
   - Pin frequently used items to the top
   - Text and image support (JPEG compressed, toggleable image storage)
-  - Customizable retention: 7 / 14 / 30 / 90 days, forever, or any custom range
+  - Customizable retention: 7 / 14 / 30 / 90 days, forever, or a custom 1-365 day value
   - All data stored locally — fully offline, no data collection
 
 - **System Monitor**
@@ -30,7 +32,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 - **Sleep Prevention**
   - Default color: normal — system can sleep
   - Blue: prevent system idle sleep (display can still turn off)
-  - Orange: prevent display sleep as well
+  - Orange: prevent display sleep
   - Switch directly from the right-click menu — cat color changes in real time
 
 - **More**
@@ -48,7 +50,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 
 **Option 1: DMG installer**
 
-1. Go to the [Releases](../../releases) page and download the latest `DashCat.dmg`
+1. Go to the [Releases](../../releases) page and download the latest `DashCat-<version>.dmg`
 2. Open the DMG and drag DashCat into your Applications folder
 3. On first launch, macOS may show "app is damaged" or "cannot verify the developer" — this is Gatekeeper blocking an unsigned app; the app itself is fine. Run the following command in Terminal to remove the quarantine flag:
    ```bash
@@ -56,16 +58,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
    ```
    Then double-click to launch normally. Alternatively, right-click → Open → click Open in the dialog.
 
-**Option 2: ZIP archive**
-
-1. Go to the [Releases](../../releases) page and download the latest `DashCat.zip`, then unzip it
-2. Move `DashCat.app` to your Applications folder
-3. Run in Terminal:
-   ```bash
-   xattr -cr /Applications/DashCat.app
-   ```
-
-**Option 3: Build from source (no Gatekeeper bypass needed)**
+**Option 2: Build from source (no Gatekeeper bypass needed)**
 
 1. Clone this repository
 2. Open `DashCat.xcodeproj` in Xcode
@@ -92,7 +85,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 
 **How much disk space do images use?**
 
-Images are stored as JPEG (a few hundred KB each). Image saving is off by default. When enabled, there is a 500 MB total cap — oldest images are deleted automatically when the limit is reached.
+Images are stored as JPEG (a few hundred KB each). Image saving is off by default. When enabled, there is a 500 MB total cap — the oldest unpinned images are deleted automatically when the limit is reached.
 
 **What do the cat colors mean?**
 

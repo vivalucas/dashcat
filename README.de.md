@@ -1,12 +1,14 @@
 # DashCat
 
+Eine leichte macOS-Menüleisten-App, die Zwischenablage-Historie, Systemmonitoring und Ruhezustand-Verhinderung in einer laufenden Katze vereint.
+
 [中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Русский](README.ru.md)
 
 ---
 
-Ich hatte drei Menüleisten-Tools auf macOS laufen: eines für die Systemauslastung, eines für die Zwischenablage (Maccy), eines zur Ruhestand-Verhinderung (Caffeine). Drei Symbole, drei Hintergrundprozesse — das fühlte sich irgendwann verschwenderisch an. Also habe ich alles von Grund auf neu gebaut und nur das Wesentliche behalten: Systemmonitoring, Zwischenablage-Verwaltung und Ruhestand-Verhinderung. Der Monitor ist für Apple Silicon optimiert, die Zwischenablage-Verwaltung ist schlank und effizient, und die Ruhestand-Verhinderung ist direkt eingebaut. Nichts überflüssiges.
+Ich hatte drei Menüleisten-Tools auf macOS laufen: eines für die Systemauslastung, eines für die Zwischenablage (Maccy), eines zur Ruhezustand-Verhinderung (Caffeine). Drei Symbole, drei Hintergrundprozesse — das fühlte sich irgendwann verschwenderisch an. Also habe ich alles von Grund auf neu gebaut und nur das Wesentliche behalten: Systemmonitoring, Zwischenablage-Verwaltung und Ruhezustand-Verhinderung. Der Monitor ist für Apple Silicon optimiert, die Zwischenablage-Verwaltung ist schlank und effizient, und die Ruhezustand-Verhinderung ist direkt eingebaut. Nichts Überflüssiges.
 
-So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, desto höher die Systemauslastung; ein Linksklick öffnet die Zwischenablage-Historie mit Sofortsuche; ein Rechtsklick zeigt Ruhestand-Verhinderung, Monitor-Modus und Sprachwechsel auf einen Blick. Ein Symbol erledigt die Arbeit von drei. Keine Abhängigkeiten, minimaler Ressourcenverbrauch, alle Daten lokal gespeichert.
+So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, desto höher die Systemauslastung; ein Linksklick öffnet die Zwischenablage-Historie mit Sofortsuche; ein Rechtsklick zeigt Ruhezustand-Verhinderung, Monitor-Modus und Sprachwechsel auf einen Blick. Ein Symbol erledigt die Arbeit von drei. Keine Abhängigkeiten, minimaler Ressourcenverbrauch, alle Daten lokal gespeichert.
 
 ---
 
@@ -18,7 +20,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
   - Klick zum Kopieren, `Option + Enter` zum Kopieren als reinen Text
   - Häufig verwendete Einträge mit Pin oben fixieren
   - Text- und Bildunterstützung (Bildspeicherung umschaltbar, JPEG-komprimiert)
-  - Anpassbare Aufbewahrung: 7 / 14 / 30 / 90 Tage, unbegrenzt oder beliebiger Zeitraum
+  - Anpassbare Aufbewahrung: 7 / 14 / 30 / 90 Tage, unbegrenzt oder ein eigener Wert von 1-365 Tagen
   - Alle Daten lokal gespeichert — vollständig offline, keine Datenerfassung
 
 - **Systemmonitor**
@@ -27,10 +29,10 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
   - Im kombinierten Modus wird automatisch die höhere CPU- oder Speicherbelastung zur Steuerung der Animation verwendet
   - Optionale Prozentanzeige in der Statusleiste
 
-- **Ruhestand-Verhinderung**
+- **Ruhezustand-Verhinderung**
   - Standardfarbe: normal — System darf in den Ruhezustand
   - Blau: System-Ruhezustand verhindern (Bildschirm kann sich noch ausschalten)
-  - Orange: Auch Bildschirm-Ausschalten verhindern
+  - Orange: Display-Ruhezustand verhindern
   - Direkt über das Rechtsklick-Menü umschalten — Katzenfarbe ändert sich in Echtzeit
 
 - **Weiteres**
@@ -48,7 +50,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
 
 **Option 1: DMG-Installationsprogramm**
 
-1. Gehen Sie zur [Releases](../../releases)-Seite dieses Repositorys und laden Sie das neueste `DashCat.dmg` herunter
+1. Gehen Sie zur [Releases](../../releases)-Seite dieses Repositorys und laden Sie das neueste `DashCat-<version>.dmg` herunter
 2. Öffnen Sie das DMG und ziehen Sie DashCat in Ihren Programme-Ordner
 3. Beim ersten Start zeigt macOS möglicherweise „App ist beschädigt" oder „Entwickler kann nicht verifiziert werden" — dies ist Gatekeeper, der eine unsignierte App blockiert; die App selbst ist in Ordnung. Führen Sie folgenden Befehl im Terminal aus, um die Quarantäne-Flagge zu entfernen:
    ```bash
@@ -56,16 +58,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
    ```
    Danach können Sie die App normal per Doppelklick starten. Alternativ: Rechtsklick → Öffnen → im Dialog auf Öffnen klicken.
 
-**Option 2: ZIP-Archiv**
-
-1. Laden Sie das neueste `DashCat.zip` von der [Releases](../../releases)-Seite herunter und entpacken Sie es
-2. Verschieben Sie `DashCat.app` in den Programme-Ordner
-3. Im Terminal ausführen:
-   ```bash
-   xattr -cr /Applications/DashCat.app
-   ```
-
-**Option 3: Aus dem Quellcode erstellen (kein Gatekeeper-Umgehung nötig)**
+**Option 2: Aus dem Quellcode erstellen (kein Gatekeeper-Umgehung nötig)**
 
 1. Dieses Repository klonen
 2. `DashCat.xcodeproj` in Xcode öffnen
@@ -80,7 +73,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
   - `Option + Enter` zum Kopieren als reinen Text
   - Häufig verwendete Einträge fixieren
 - **Rechtsklick** auf das Katzen-Symbol: Einstellungsmenü öffnen
-  - Monitor-Modus, Ruhestand-Verhinderungs-Modus umschalten
+  - Monitor-Modus, Ruhezustand-Verhinderungs-Modus umschalten
   - Zwischenablage-Historie verwalten (Bilder speichern, Aufbewahrungstage, Historie löschen)
   - Sprache wechseln, Prozentanzeige umschalten, Start bei Anmeldung
 
@@ -88,15 +81,15 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
 
 **Wo werden die Zwischenablage-Daten gespeichert?**
 
-`~/Library/Application Support/DashCat/` — `clipboard.db` für Texteinträge, `Images/` für Bilddateien. Beim Löschen der Historie werden beide Bereinigt.
+`~/Library/Application Support/DashCat/` — `clipboard.db` für Texteinträge, `Images/` für Bilddateien. Beim Löschen der Historie werden beide bereinigt.
 
 **Wie viel Speicherplatz beanspruchen Bilder?**
 
-Bilder werden als JPEG gespeichert (einige hundert KB pro Bild). Bildspeicherung ist standardmäßig deaktiviert. Wenn aktiviert, gilt ein Gesamtlimit von 500 MB — die ältesten Bilder werden automatisch gelöscht, wenn das Limit erreicht wird.
+Bilder werden als JPEG gespeichert (einige hundert KB pro Bild). Bildspeicherung ist standardmäßig deaktiviert. Wenn aktiviert, gilt ein Gesamtlimit von 500 MB — die ältesten nicht fixierten Bilder werden automatisch gelöscht, wenn das Limit erreicht wird.
 
 **Was bedeuten die Katzenfarben?**
 
-Standard → normales Ruheverhalten. **Blau** → System-Ruhestand wird verhindert. **Orange** → Bildschirm-Ausschalten wird ebenfalls verhindert. Umschalten über das Rechtsklick-Menü.
+Standard → normales Ruheverhalten. **Blau** → System-Ruhezustand wird verhindert. **Orange** → Display-Ruhezustand wird verhindert. Umschalten über das Rechtsklick-Menü.
 
 **Wird Intel Mac unterstützt?**
 
@@ -104,7 +97,7 @@ Nein. Nur arm64-Build, speziell für Apple Silicon entwickelt.
 
 **Wie unterscheidet sich DashCat von Maccy / CopyClip / Amphetamine?**
 
-DashCat vereint Zwischenablage-Verwaltung (wie Maccy), Systemmonitoring und Ruhestand-Verhinderung (wie Amphetamine / Caffeine) in einer einzigen, leichten Menüleisten-App — ein Symbol, ein Prozess, keine Abhängigkeiten. Reines AppKit für minimalen Speicherverbrauch.
+DashCat vereint Zwischenablage-Verwaltung (wie Maccy), Systemmonitoring und Ruhezustand-Verhinderung (wie Amphetamine / Caffeine) in einer einzigen, leichten Menüleisten-App — ein Symbol, ein Prozess, keine Abhängigkeiten. Reines AppKit für minimalen Speicherverbrauch.
 
 **Warum zeigt macOS beim ersten Start an, die App sei „beschädigt"?**
 

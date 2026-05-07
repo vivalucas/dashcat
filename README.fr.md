@@ -1,5 +1,7 @@
 # DashCat
 
+Une app légère pour la barre de menus macOS qui réunit l'historique du presse-papiers, la surveillance système et la prévention de veille dans un chat qui court.
+
 [中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Русский](README.ru.md)
 
 ---
@@ -18,7 +20,7 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
   - Cliquer pour copier, `Option + Entrée` pour copier en texte brut
   - Épingler les éléments fréquemment utilisés en haut
   - Support texte et image (stockage d'images activable, compression JPEG)
-  - Durée de conservation personnalisable : 7 / 14 / 30 / 90 jours, illimité, ou durée personnalisée
+  - Durée de conservation personnalisable : 7 / 14 / 30 / 90 jours, illimité, ou valeur personnalisée de 1 à 365 jours
   - Toutes les données stockées localement — entièrement hors ligne, aucune collecte de données
 
 - **Moniteur système**
@@ -30,7 +32,7 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
 - **Prévention de la mise en veille**
   - Couleur par défaut : normale — le système peut se mettre en veille
   - Bleu : empêcher la mise en veille du système (l'écran peut encore s'éteindre)
-  - Orange : empêcher également l'extinction de l'écran
+  - Orange : empêcher la mise en veille de l'écran
   - Basculer directement depuis le menu du clic droit — la couleur du chat change en temps réel
 
 - **Autres**
@@ -48,7 +50,7 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
 
 **Option 1 : Installateur DMG**
 
-1. Allez sur la page [Releases](../../releases) de ce dépôt et téléchargez le dernier `DashCat.dmg`
+1. Allez sur la page [Releases](../../releases) de ce dépôt et téléchargez le dernier `DashCat-<version>.dmg`
 2. Ouvrez le DMG et glissez DashCat dans le dossier Applications
 3. Au premier lancement, macOS peut afficher « l'application est endommagée » ou « impossible de vérifier le développeur » — c'est Gatekeeper qui bloque une application non signée ; l'application elle-même est intacte. Exécutez la commande suivante dans le Terminal pour supprimer le marqueur de quarantaine :
    ```bash
@@ -56,16 +58,7 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
    ```
    Ensuite, double-cliquez pour lancer normalement. Alternativement : clic droit → Ouvrir → cliquer sur Ouvrir dans la boîte de dialogue.
 
-**Option 2 : Archive ZIP**
-
-1. Téléchargez le dernier `DashCat.zip` depuis la page [Releases](../../releases) et décompressez-le
-2. Déplacez `DashCat.app` dans le dossier Applications
-3. Exécutez dans le Terminal :
-   ```bash
-   xattr -cr /Applications/DashCat.app
-   ```
-
-**Option 3 : Compiler depuis le code source (aucun contournement de Gatekeeper nécessaire)**
+**Option 2 : Compiler depuis le code source (aucun contournement de Gatekeeper nécessaire)**
 
 1. Clonez ce dépôt
 2. Ouvrez `DashCat.xcodeproj` dans Xcode
@@ -92,11 +85,11 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
 
 **Combien d'espace disque les images utilisent-elles ?**
 
-Les images sont stockées en JPEG (quelques centaines de Ko chacune). L'enregistrement des images est désactivé par défaut. Lorsqu'il est activé, une limite totale de 500 Mo s'applique — les images les plus anciennes sont automatiquement supprimées lorsque la limite est atteinte.
+Les images sont stockées en JPEG (quelques centaines de Ko chacune). L'enregistrement des images est désactivé par défaut. Lorsqu'il est activé, une limite totale de 500 Mo s'applique — les images non épinglées les plus anciennes sont automatiquement supprimées lorsque la limite est atteinte.
 
 **Que signifient les couleurs du chat ?**
 
-Par défaut → comportement de veille normal. **Bleu** → prévention de la mise en veille du système. **Orange** → prévention de l'extinction de l'écran. Basculer depuis le menu du clic droit.
+Par défaut → comportement de veille normal. **Bleu** → prévention de la mise en veille du système. **Orange** → prévention de la mise en veille de l'écran. Basculer depuis le menu du clic droit.
 
 **Les Mac Intel sont-ils supportés ?**
 
