@@ -74,7 +74,7 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
   - Fissa gli elementi usati frequentemente
 - **Clic destro** sull'icona del gatto: apri menu impostazioni
   - Cambia modalità monitor, modalità prevenzione sospensione
-  - Gestisci cronologia appunti (salva immagini, giorni di retenzione, cancella cronologia)
+  - Gestisci cronologia appunti (salva immagini, giorni di conservazione, cancella cronologia)
   - Cambia lingua, attiva/disattiva percentuale, configura avvio al login
 
 ## Domande Frequenti

@@ -37,7 +37,7 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
 
 - **Mais**
   - 11 idiomas: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
-  - Suporte para iniciar no login
+  - Suporte para iniciar ao fazer login
   - Eficiente: limite de animação de 12 fps, intervalo de amostragem de 5 s, pausa automática na suspensão do sistema
   - Zero dependências externas — AppKit + Swift puro
 
@@ -75,7 +75,7 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
 - **Clique direito** no ícone do gato: abrir menu de configurações
   - Alternar modo de monitoramento, modo de prevenção de suspensão
   - Gerenciar histórico da área de transferência (salvar imagens, dias de retenção, limpar histórico)
-  - Mudar idioma, ativar/desativar porcentagem, configurar início no login
+  - Mudar idioma, ativar/desativar porcentagem, configurar início ao fazer login
 
 ## Perguntas Frequentes
 
