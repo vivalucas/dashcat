@@ -2,7 +2,7 @@
 
 Лёгкое приложение для строки меню macOS: история буфера обмена, системный мониторинг и предотвращение сна в одном бегущем котике.
 
-[中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Русский](README.ru.md)
+[中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt-BR.md) | [Italiano](README.it.md) | [繁體中文](README.zh-TW.md) | [Русский](README.ru.md)]
 
 ---
 
@@ -36,7 +36,7 @@
   - Переключение напрямую из меню правого клика — цвет котика меняется в реальном времени
 
 - **Прочее**
-  - 7 языков: English, 中文, 日本語, 한국어, Deutsch, Français, Русский
+  - 11 языков: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
   - Поддержка запуска при входе в систему
   - Энергоэффективность: анимация ограничена 12 fps, интервал опроса 5 сек., автоматическая пауза при переходе системы в спящий режим
   - Нулевые внешние зависимости — чистый AppKit + Swift

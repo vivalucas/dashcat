@@ -2,7 +2,7 @@
 
 Eine leichte macOS-Menüleisten-App, die Zwischenablage-Historie, Systemmonitoring und Ruhezustand-Verhinderung in einer laufenden Katze vereint.
 
-[中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Русский](README.ru.md)
+[中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt-BR.md) | [Italiano](README.it.md) | [繁體中文](README.zh-TW.md) | [Русский](README.ru.md)]
 
 ---
 
@@ -36,7 +36,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
   - Direkt über das Rechtsklick-Menü umschalten — Katzenfarbe ändert sich in Echtzeit
 
 - **Weiteres**
-  - 7 Sprachen: English, 中文, 日本語, 한국어, Deutsch, Français, Русский
+  - 11 Sprachen: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
   - Start bei Anmeldung unterstützt
   - Energieeffizient: Animation begrenzt auf 12 fps, Abfrageintervall 5 Sek., automatische Pause bei System-Ruhezustand
   - Keine externen Abhängigkeiten — reines AppKit + Swift

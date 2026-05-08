@@ -2,7 +2,7 @@
 
 一个轻量的 macOS 菜单栏工具，把剪贴板历史、系统监控和防休眠合在一只会奔跑的小猫里。
 
-[English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Русский](README.ru.md)
+[English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt-BR.md) | [Italiano](README.it.md) | [繁體中文](README.zh-TW.md) | [Русский](README.ru.md)
 
 ---
 
@@ -36,7 +36,7 @@ DashCat 就是这么来的。一只小猫蹲在菜单栏，跑得快说明电脑
   - 右键菜单直接选择，猫咪颜色实时变化
 
 - **其他特性**
-  - 7 种语言界面：中文、English、日本語、한국어、Deutsch、Français、Русский
+  - 11 种语言界面：中文、English、日本語、한국어、Deutsch、Français、Español、Português、Italiano、繁體中文、Русский
   - 支持开机启动
   - 节能设计：动画上限 12fps，采样间隔 5 秒，系统休眠时自动暂停
   - 零外部依赖，纯 AppKit + Swift

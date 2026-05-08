@@ -2,7 +2,7 @@
 
 Une app légère pour la barre de menus macOS qui réunit l'historique du presse-papiers, la surveillance système et la prévention de veille dans un chat qui court.
 
-[中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Русский](README.ru.md)
+[中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt-BR.md) | [Italiano](README.it.md) | [繁體中文](README.zh-TW.md) | [Русский](README.ru.md)]
 
 ---
 
@@ -36,7 +36,7 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
   - Basculer directement depuis le menu du clic droit — la couleur du chat change en temps réel
 
 - **Autres**
-  - 7 langues : English, 中文, 日本語, 한국어, Deutsch, Français, Русский
+  - 11 langues : English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
   - Lancement à la connexion
   - Économe en énergie : animation limitée à 12 fps, intervalle d'échantillonnage de 5 s, pause automatique lors de la mise en veille du système
   - Zéro dépendance externe — AppKit pur + Swift

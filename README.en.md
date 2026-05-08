@@ -2,7 +2,7 @@
 
 A lightweight macOS menu bar app that combines clipboard history, system monitoring, and sleep prevention into one running cat.
 
-[中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Русский](README.ru.md)
+[中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt-BR.md) | [Italiano](README.it.md) | [繁體中文](README.zh-TW.md) | [Русский](README.ru.md)
 
 ---
 
@@ -36,7 +36,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - Switch directly from the right-click menu — cat color changes in real time
 
 - **More**
-  - 7 languages: English, 中文, 日本語, 한국어, Deutsch, Français, Русский
+  - 11 languages: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
   - Launch at login support
   - Energy-efficient: 12 fps animation cap, 5 s sampling interval, auto-pause on system sleep
   - Zero external dependencies — pure AppKit + Swift
