@@ -37,6 +37,7 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
 
 - **Autres**
   - 11 langues : English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
+  - Inverser la molette d'une souris externe tout en gardant le défilement naturel macOS du trackpad
   - Lancement à la connexion
   - Économe en énergie : animation limitée à 12 fps, intervalle d'échantillonnage de 5 s, pause automatique lors de la mise en veille du système
   - Zéro dépendance externe — AppKit pur + Swift
@@ -75,7 +76,7 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
 - **Clic droit** sur l'icône du chat : ouvrir le menu des paramètres
   - Basculer entre les modes de surveillance et de prévention de veille
   - Gérer l'historique du presse-papiers (enregistrer les images, durée de conservation, effacer l'historique)
-  - Changer la langue, afficher le pourcentage, lancer au démarrage
+  - Inverser la molette, changer la langue, afficher le pourcentage, lancer au démarrage
 
 ## FAQ
 
@@ -90,6 +91,10 @@ Les images sont stockées en JPEG (quelques centaines de Ko chacune). L'enregist
 **Que signifient les couleurs du chat ?**
 
 Par défaut → comportement de veille normal. **Bleu** → prévention de la mise en veille du système. **Orange** → prévention de la mise en veille de l'écran. Basculer depuis le menu du clic droit.
+
+**Pourquoi l'inversion de la molette nécessite-t-elle l'autorisation Accessibilité ?**
+
+DashCat doit identifier les événements de molette dans le flux d'événements système et inverser leur direction, macOS exige donc l'autorisation Accessibilité. Sans elle, l'historique du presse-papiers, le moniteur système et la prévention de veille continuent de fonctionner ; le menu du clic droit affiche une indication et un raccourci vers les Réglages Système.
 
 **Les Mac Intel sont-ils supportés ?**
 

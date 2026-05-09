@@ -138,6 +138,9 @@ enum Language: String, CaseIterable {
         "unpin":        ["zh":"取消固定",   "zh-TW":"取消釘選", "en":"Unpin",           "ja":"ピン解除",             "ko":"고정 해제",         "de":"Lösen",                       "fr":"Détacher",               "es":"Desfijar",               "pt-BR":"Desafixar",           "it":"Rimuovi fissaggio",      "ru":"Открепить"],
         "delete":       ["zh":"删除",       "zh-TW":"刪除",     "en":"Delete",          "ja":"削除",                 "ko":"삭제",              "de":"Löschen",                     "fr":"Supprimer",              "es":"Eliminar",               "pt-BR":"Excluir",             "it":"Elimina",                "ru":"Удалить"],
         "customDaysPrompt":["zh":"输入天数 (1-365)：","zh-TW":"輸入天數 (1-365)：","en":"Enter number of days (1-365):","ja":"日数を入力 (1-365)：","ko":"일수 입력 (1-365)：","de":"Anzahl der Tage eingeben (1-365):","fr":"Entrez le nombre de jours (1-365) :","es":"Ingrese número de días (1-365):","pt-BR":"Digite o número de dias (1-365):","it":"Inserisci il numero di giorni (1-365):","ru":"Введите количество дней (1-365):"],
+        "reverseMouseScroll":["zh":"↕ 反转鼠标滚轮","zh-TW":"↕ 反轉滑鼠滾輪","en":"↕ Reverse Mouse Wheel","ja":"↕ マウスホイールを反転","ko":"↕ 마우스 휠 반전","de":"↕ Mausrad umkehren","fr":"↕ Inverser la molette","es":"↕ Invertir rueda del mouse","pt-BR":"↕ Inverter roda do mouse","it":"↕ Inverti rotella mouse","ru":"↕ Инвертировать колесо мыши"],
+        "accessibilityNeeded":["zh":"需要辅助功能权限","zh-TW":"需要輔助使用權限","en":"Accessibility Permission Required","ja":"アクセシビリティ権限が必要","ko":"손쉬운 사용 권한 필요","de":"Bedienungshilfen-Berechtigung erforderlich","fr":"Autorisation Accessibilité requise","es":"Se requiere permiso de Accesibilidad","pt-BR":"Permissão de Acessibilidade necessária","it":"Permesso Accessibilità richiesto","ru":"Требуется разрешение Универсального доступа"],
+        "openAccessibility":["zh":"前往授权\u{2026}","zh-TW":"前往授權\u{2026}","en":"Open System Settings\u{2026}","ja":"システム設定を開く\u{2026}","ko":"시스템 설정 열기\u{2026}","de":"Systemeinstellungen öffnen\u{2026}","fr":"Ouvrir les Réglages Système\u{2026}","es":"Abrir Ajustes del Sistema\u{2026}","pt-BR":"Abrir Ajustes do Sistema\u{2026}","it":"Apri Impostazioni di Sistema\u{2026}","ru":"Открыть Системные настройки\u{2026}"],
         "ok":           ["zh":"确定",       "zh-TW":"確定",     "en":"OK",              "ja":"OK",                   "ko":"확인",              "de":"OK",                          "fr":"OK",                     "es":"OK",                     "pt-BR":"OK",                  "it":"OK",                     "ru":"OK"],
         "cancel":       ["zh":"取消",       "zh-TW":"取消",     "en":"Cancel",          "ja":"キャンセル",           "ko":"취소",              "de":"Abbrechen",                   "fr":"Annuler",                "es":"Cancelar",               "pt-BR":"Cancelar",            "it":"Annulla",                "ru":"Отмена"],
         "clearHistory": ["zh":"清除历史",   "zh-TW":"清除歷史", "en":"Clear History",    "ja":"履歴をクリア",         "ko":"기록 지우기",   "de":"Verlauf löschen",             "fr":"Effacer l'historique",   "es":"Borrar historial",       "pt-BR":"Limpar histórico",    "it":"Cancella cronologia",    "ru":"Очистить историю"],
@@ -258,6 +261,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var clearHistoryItem: NSMenuItem!
     private var languageMenuItem: NSMenuItem!
     private var languageItems: [NSMenuItem] = []
+    private var reverseMouseScrollItem: NSMenuItem!
+    private var accessibilityHintItem: NSMenuItem!
+    private var openAccessibilityItem: NSMenuItem!
     private var launchAtLoginItem: NSMenuItem!
     private var helpMenuItem: NSMenuItem!
     private var checkUpdatesItem: NSMenuItem!
@@ -302,6 +308,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         // Start clipboard monitoring (cleanupExpired runs inside ClipboardManager.init)
         ClipboardManager.shared.startPolling()
+        if ScrollManager.shared.mouseReversed {
+            ScrollManager.shared.start()
+        }
 
         restoreState()
     }
@@ -312,6 +321,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         clipboardPanel = nil
         stopRunning()
         ClipboardManager.shared.stopPolling()
+        ScrollManager.shared.stop()
         if sleepAssertionID != 0 { IOPMAssertionRelease(sleepAssertionID) }
     }
 
@@ -444,6 +454,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
 
+        // Mouse wheel scrolling
+        reverseMouseScrollItem = NSMenuItem(title: "", action: #selector(toggleReverseMouseScroll(_:)), keyEquivalent: "")
+        menu.addItem(reverseMouseScrollItem)
+
+        accessibilityHintItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        accessibilityHintItem.isEnabled = false
+        menu.addItem(accessibilityHintItem)
+
+        openAccessibilityItem = NSMenuItem(title: "", action: #selector(openAccessibilitySettings), keyEquivalent: "")
+        menu.addItem(openAccessibilityItem)
+
+        menu.addItem(.separator())
+
         // Launch at Login
         launchAtLoginItem = NSMenuItem(title: "", action: #selector(toggleLaunchAtLogin(_:)), keyEquivalent: "")
         launchAtLoginItem.state = UserDefaults.standard.bool(forKey: "DashCatLaunchAtLogin") ? .on : .off
@@ -471,6 +494,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(quitItem)
 
         applyLanguage()
+        refreshScrollState()
     }
 
     private func makeHeader() -> NSMenuItem {
@@ -514,6 +538,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         clearHistoryItem.title  = l.str("clearHistory")
         // Language menu title stays fixed so users can always find it
+        reverseMouseScrollItem.title = l.str("reverseMouseScroll")
+        accessibilityHintItem.title  = l.str("accessibilityNeeded")
+        openAccessibilityItem.title  = l.str("openAccessibility")
         launchAtLoginItem.title = l.str("launchLogin")
         helpMenuItem.title      = l.str("help")
         checkUpdatesItem.title  = l.str("checkUpdates")
@@ -648,6 +675,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         clipboardPanel?.reloadData()
     }
 
+    @objc private func toggleReverseMouseScroll(_ sender: NSMenuItem) {
+        let newValue = sender.state == .off
+        ScrollManager.shared.mouseReversed = newValue
+        if newValue {
+            ScrollManager.shared.start()
+        } else {
+            ScrollManager.shared.stop()
+        }
+        refreshScrollState()
+    }
+
+    @objc private func openAccessibilitySettings() {
+        let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!
+        NSWorkspace.shared.open(url)
+    }
+
     @objc private func selectLanguage(_ sender: NSMenuItem) {
         guard let lang = sender.representedObject as? Language else { return }
         language = lang
@@ -675,6 +718,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let isEnabled = SMAppService.mainApp.status == .enabled
         launchAtLoginItem.state = isEnabled ? .on : .off
         UserDefaults.standard.set(isEnabled, forKey: "DashCatLaunchAtLogin")
+    }
+
+    private func refreshScrollState() {
+        if ScrollManager.shared.mouseReversed && ScrollManager.shared.isTrusted {
+            ScrollManager.shared.start()
+        }
+        reverseMouseScrollItem.state = ScrollManager.shared.mouseReversed ? .on : .off
+        let needsPermission = ScrollManager.shared.mouseReversed && !ScrollManager.shared.isTrusted
+        accessibilityHintItem.isHidden = !needsPermission
+        openAccessibilityItem.isHidden = !needsPermission
     }
 
     @objc private func terminateApp(_ sender: Any?) { NSApp.terminate(nil) }
@@ -937,6 +990,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 extension AppDelegate: NSMenuDelegate {
     func menuWillOpen(_ menu: NSMenu) {
         refreshLaunchAtLoginState()
+        refreshScrollState()
     }
 
     func menuDidClose(_ menu: NSMenu) {

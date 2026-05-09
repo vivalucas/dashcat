@@ -37,6 +37,7 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
 
 - **Mais**
   - 11 idiomas: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
+  - Inverter a roda de um mouse externo mantendo a rolagem natural do macOS no trackpad
   - Suporte para iniciar ao fazer login
   - Eficiente: limite de animação de 12 fps, intervalo de amostragem de 5 s, pausa automática na suspensão do sistema
   - Zero dependências externas — AppKit + Swift puro
@@ -75,7 +76,7 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
 - **Clique direito** no ícone do gato: abrir menu de configurações
   - Alternar modo de monitoramento, modo de prevenção de suspensão
   - Gerenciar histórico da área de transferência (salvar imagens, dias de retenção, limpar histórico)
-  - Mudar idioma, ativar/desativar porcentagem, configurar início ao fazer login
+  - Inverter roda do mouse, mudar idioma, ativar/desativar porcentagem, configurar início ao fazer login
 
 ## Perguntas Frequentes
 
@@ -90,6 +91,10 @@ As imagens são armazenadas como JPEG (algumas centenas de KB cada). O salvament
 **O que significam as cores do gato?**
 
 Padrão → comportamento normal de suspensão. **Azul** → impedindo suspensão do sistema. **Laranja** → impedindo suspensão da tela. Alterne pelo menu de contexto.
+
+**Por que inverter a roda do mouse exige permissão de Acessibilidade?**
+
+O DashCat precisa identificar eventos da roda do mouse no fluxo de eventos do sistema e inverter sua direção, por isso o macOS exige permissão de Acessibilidade. Sem ela, o histórico da área de transferência, o monitoramento do sistema e a prevenção de suspensão continuam funcionando; o menu de contexto mostra um aviso e um atalho para os Ajustes do Sistema.
 
 **Suporta Macs com Intel?**
 

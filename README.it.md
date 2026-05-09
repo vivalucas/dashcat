@@ -37,6 +37,7 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
 
 - **Altro**
   - 11 lingue: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
+  - Inverti la rotella di un mouse esterno mantenendo lo scorrimento naturale macOS del trackpad
   - Supporto per avvio al login
   - Efficiente: limite animazione di 12 fps, intervallo campionamento di 5 s, pausa automatica in sospensione sistema
   - Zero dipendenze esterne — AppKit + Swift puro
@@ -75,7 +76,7 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
 - **Clic destro** sull'icona del gatto: apri menu impostazioni
   - Cambia modalità monitor, modalità prevenzione sospensione
   - Gestisci cronologia appunti (salva immagini, giorni di conservazione, cancella cronologia)
-  - Cambia lingua, attiva/disattiva percentuale, configura avvio al login
+  - Inverti rotella mouse, cambia lingua, attiva/disattiva percentuale, configura avvio al login
 
 ## Domande Frequenti
 
@@ -90,6 +91,10 @@ Le immagini sono salvate come JPEG (qualche centinaio di KB ciascuna). Il salvat
 **Cosa significano i colori del gatto?**
 
 Predefinito → comportamento normale di sospensione. **Blu** → impedendo sospensione del sistema. **Arancione** → impedendo sospensione dello schermo. Cambia dal menu contestuale.
+
+**Perché invertire la rotella del mouse richiede il permesso Accessibilità?**
+
+DashCat deve identificare gli eventi della rotella del mouse nel flusso eventi del sistema e invertirne la direzione, quindi macOS richiede il permesso Accessibilità. Senza questo permesso, cronologia appunti, monitor sistema e prevenzione sospensione continuano a funzionare; il menu contestuale mostra un avviso e un collegamento alle Impostazioni di Sistema.
 
 **Supporta Mac Intel?**
 

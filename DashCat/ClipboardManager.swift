@@ -345,7 +345,7 @@ final class ClipboardManager {
         sqlite3_exec(db, "VACUUM", nil, nil, nil)
     }
 
-    private func thumbnailPath(for path: String) -> String? {
+    func thumbnailPath(for path: String) -> String? {
         let url = URL(fileURLWithPath: path)
         guard url.pathExtension.lowercased() == "jpg" else { return nil }
         let stem = url.deletingPathExtension().lastPathComponent

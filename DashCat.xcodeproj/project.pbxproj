@@ -13,6 +13,7 @@
 		DC00000100000001000004 /* SystemMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00000100000002000004 /* SystemMonitor.swift */; };
 		DC00000100000001000005 /* ClipboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00000100000002000005 /* ClipboardManager.swift */; };
 		DC00000100000001000006 /* ClipboardPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00000100000002000006 /* ClipboardPanel.swift */; };
+		DC00000100000001000007 /* ScrollManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00000100000002000009 /* ScrollManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		DC00000100000002000006 /* ClipboardPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardPanel.swift; sourceTree = "<group>"; };
 		DC00000100000002000007 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC00000100000002000008 /* DashCat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DashCat.entitlements; sourceTree = "<group>"; };
+		DC00000100000002000009 /* ScrollManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollManager.swift; sourceTree = "<group>"; };
 		DC00000100000003000001 /* DashCat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DashCat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -62,6 +64,7 @@
 				DC00000100000002000004 /* SystemMonitor.swift */,
 				DC00000100000002000005 /* ClipboardManager.swift */,
 				DC00000100000002000006 /* ClipboardPanel.swift */,
+				DC00000100000002000009 /* ScrollManager.swift */,
 				DC00000100000002000003 /* Assets.xcassets */,
 				DC00000100000002000007 /* Info.plist */,
 				DC00000100000002000008 /* DashCat.entitlements */,
@@ -142,6 +145,7 @@
 				DC00000100000001000002 /* AppDelegate.swift in Sources */,
 				DC00000100000001000005 /* ClipboardManager.swift in Sources */,
 				DC00000100000001000006 /* ClipboardPanel.swift in Sources */,
+				DC00000100000001000007 /* ScrollManager.swift in Sources */,
 				DC00000100000001000001 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,7 +283,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.0.2;
+				CURRENT_PROJECT_VERSION = 1.1.0;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -290,7 +294,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dashcat.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -306,7 +310,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.0.2;
+				CURRENT_PROJECT_VERSION = 1.1.0;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -317,7 +321,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dashcat.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

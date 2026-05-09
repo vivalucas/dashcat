@@ -37,6 +37,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
 
 - **Weiteres**
   - 11 Sprachen: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
+  - Richtung externer Mausräder umkehren, während das Trackpad macOS Natural Scrolling beibehält
   - Start bei Anmeldung unterstützt
   - Energieeffizient: Animation begrenzt auf 12 fps, Abfrageintervall 5 Sek., automatische Pause bei System-Ruhezustand
   - Keine externen Abhängigkeiten — reines AppKit + Swift
@@ -75,7 +76,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
 - **Rechtsklick** auf das Katzen-Symbol: Einstellungsmenü öffnen
   - Monitor-Modus, Ruhezustand-Verhinderungs-Modus umschalten
   - Zwischenablage-Historie verwalten (Bilder speichern, Aufbewahrungstage, Historie löschen)
-  - Sprache wechseln, Prozentanzeige umschalten, Start bei Anmeldung
+  - Mausrad umkehren, Sprache wechseln, Prozentanzeige umschalten, Start bei Anmeldung
 
 ## Häufig gestellte Fragen
 
@@ -90,6 +91,10 @@ Bilder werden als JPEG gespeichert (einige hundert KB pro Bild). Bildspeicherung
 **Was bedeuten die Katzenfarben?**
 
 Standard → normales Ruheverhalten. **Blau** → System-Ruhezustand wird verhindert. **Orange** → Display-Ruhezustand wird verhindert. Umschalten über das Rechtsklick-Menü.
+
+**Warum benötigt das Umkehren des Mausrads Bedienungshilfen-Berechtigung?**
+
+DashCat muss Mausrad-Ereignisse im Systemereignisstrom erkennen und deren Richtung umkehren, daher verlangt macOS die Bedienungshilfen-Berechtigung. Ohne sie funktionieren Zwischenablage, Systemmonitor und Ruhezustand-Verhinderung weiterhin; das Rechtsklick-Menü zeigt einen Hinweis und eine Verknüpfung zu den Systemeinstellungen.
 
 **Wird Intel Mac unterstützt?**
 

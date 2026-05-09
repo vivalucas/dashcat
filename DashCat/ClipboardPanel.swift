@@ -16,7 +16,11 @@ final class ClipboardPanel: NSPanel {
     private var searchTimer: Timer?
     private var hasAppeared = false
     private var isSelecting = false
-    private var iconCache: [String: NSImage] = [:]
+    private let iconCache: NSCache<NSString, NSImage> = {
+        let cache = NSCache<NSString, NSImage>()
+        cache.countLimit = 100
+        return cache
+    }()
 
     var onSelect: ((ClipboardItem) -> Void)?
     weak var statusItem: NSStatusItem?
@@ -51,6 +55,12 @@ final class ClipboardPanel: NSPanel {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+
+    override func close() {
+        searchTimer?.invalidate()
+        searchTimer = nil
+        super.close()
     }
 
     private var isResigningKey = false
@@ -315,12 +325,13 @@ extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
 
         // App icon (cached)
         if let bundleId = item.sourceApp.isEmpty ? nil : item.sourceApp {
-            if let cached = iconCache[bundleId] {
+            let cacheKey = bundleId as NSString
+            if let cached = iconCache.object(forKey: cacheKey) {
                 iconView?.image = cached
             } else if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleId) {
                 let icon = NSWorkspace.shared.icon(forFile: appURL.path)
                 icon.size = NSSize(width: 16, height: 16)
-                iconCache[bundleId] = icon
+                iconCache.setObject(icon, forKey: cacheKey)
                 iconView?.image = icon
             } else {
                 iconView?.image = nil
@@ -334,9 +345,8 @@ extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
             label?.stringValue = localized("image")
             label?.textColor = .secondaryLabelColor
             // Show thumbnail
-            if let imgPath = item.imagePath {
-                let url = URL(fileURLWithPath: imgPath)
-                let thumbPath = url.deletingPathExtension().path + "_thumb.jpg"
+            if let imgPath = item.imagePath,
+               let thumbPath = ClipboardManager.shared.thumbnailPath(for: imgPath) {
                 if let image = NSImage(contentsOfFile: thumbPath) {
                     iconView?.image = image
                     iconView?.image?.size = NSSize(width: 20, height: 20)

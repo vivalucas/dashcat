@@ -37,6 +37,7 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
 
 - **Más**
   - 11 idiomas: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
+  - Invertir la rueda de un mouse externo manteniendo el desplazamiento natural de macOS en el trackpad
   - Soporte para abrir al iniciar sesión
   - Eficiente: límite de animación de 12 fps, intervalo de muestreo de 5 s, pausa automática en suspensión del sistema
   - Cero dependencias externas — AppKit + Swift puro
@@ -75,7 +76,7 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
 - **Clic derecho** en el icono del gato: abrir menú de configuración
   - Cambiar modo de monitoreo, modo de prevención de suspensión
   - Gestionar historial del portapapeles (guardar imágenes, días de retención, borrar historial)
-  - Cambiar idioma, activar/desactivar porcentaje, configurar inicio al iniciar sesión
+  - Invertir rueda del mouse, cambiar idioma, activar/desactivar porcentaje, configurar inicio al iniciar sesión
 
 ## Preguntas Frecuentes
 
@@ -90,6 +91,10 @@ Las imágenes se almacenan como JPEG (unos cientos de KB cada una). El guardado 
 **¿Qué significan los colores del gato?**
 
 Predeterminado → comportamiento normal de suspensión. **Azul** → evitando suspensión del sistema. **Naranja** → evitando suspensión de pantalla. Cambia desde el menú contextual.
+
+**¿Por qué invertir la rueda del mouse requiere permiso de Accesibilidad?**
+
+DashCat necesita identificar eventos de rueda del mouse en el flujo de eventos del sistema e invertir su dirección, por lo que macOS requiere permiso de Accesibilidad. Sin él, el historial del portapapeles, el monitoreo del sistema y la prevención de suspensión siguen funcionando; el menú contextual muestra un aviso y un acceso a Ajustes del Sistema.
 
 **¿Soporta Macs con Intel?**
 

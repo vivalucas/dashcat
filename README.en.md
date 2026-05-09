@@ -37,6 +37,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 
 - **More**
   - 11 languages: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
+  - Reverse external mouse wheel direction while keeping the trackpad on macOS natural scrolling
   - Launch at login support
   - Energy-efficient: 12 fps animation cap, 5 s sampling interval, auto-pause on system sleep
   - Zero external dependencies — pure AppKit + Swift
@@ -75,7 +76,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 - **Right-click** the cat icon: open settings menu
   - Switch monitor mode, sleep prevention mode
   - Manage clipboard history (save images, retention days, clear history)
-  - Change language, toggle percentage display, set launch at login
+  - Reverse mouse wheel, change language, toggle percentage display, set launch at login
 
 ## FAQ
 
@@ -90,6 +91,10 @@ Images are stored as JPEG (a few hundred KB each). Image saving is off by defaul
 **What do the cat colors mean?**
 
 Default → normal sleep behavior. **Blue** → preventing system sleep. **Orange** → preventing display sleep. Toggle from the right-click menu.
+
+**Why does reversing the mouse wheel require Accessibility permission?**
+
+DashCat needs to identify mouse wheel events in the system event stream and flip their direction, so macOS requires Accessibility permission. Without it, clipboard history, system monitoring, and sleep prevention still work; the right-click menu shows a hint and a shortcut to System Settings.
 
 **Does it support Intel Macs?**
 
