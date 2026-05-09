@@ -1,14 +1,14 @@
 # DashCat
 
-A lightweight macOS menu bar app that combines clipboard history, system monitoring, and sleep prevention into one running cat.
+A lightweight macOS menu bar app that combines clipboard history, system monitoring, sleep prevention, and mouse wheel reversal into one running cat.
 
 [中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt-BR.md) | [Italiano](README.it.md) | [繁體中文](README.zh-TW.md) | [Русский](README.ru.md)
 
 ---
 
-I'd been running three menu bar tools on macOS: one for system load, one for clipboard history (Maccy), one for sleep prevention (Caffeine). Three icons, three background processes — felt like a waste. So I built one from scratch, keeping only the essentials: system monitoring, clipboard management, and sleep prevention. The monitor is optimized for Apple Silicon, the clipboard manager is streamlined and efficient, and sleep prevention is built right in. Just what you need, nothing more.
+I'd been running several menu bar tools on macOS: one for system load, one for clipboard history (Maccy), one for sleep prevention (Caffeine), plus another fix for external mouse wheel direction. Multiple icons, multiple background processes — felt like a waste. So I built one from scratch, keeping only the essentials: system monitoring, clipboard management, sleep prevention, and mouse wheel reversal. The monitor is optimized for Apple Silicon, the clipboard manager is streamlined and efficient, and sleep prevention plus wheel reversal are built right in. Just what you need, nothing more.
 
-That's how DashCat came to be. A cat sitting in the menu bar — the faster it runs, the higher the load; left-click for clipboard history with instant search; right-click for sleep prevention, monitor mode, and language switching. One icon does the work of three. Zero dependencies, minimal resource usage, all data stored locally.
+That's how DashCat came to be. A cat sitting in the menu bar — the faster it runs, the higher the load; left-click for clipboard history with instant search; right-click for sleep prevention, mouse wheel direction, monitor mode, and language switching. One icon handles several everyday tools. Zero dependencies, minimal resource usage, all data stored locally.
 
 ---
 

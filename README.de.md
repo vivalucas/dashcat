@@ -1,14 +1,14 @@
 # DashCat
 
-Eine leichte macOS-Menüleisten-App, die Zwischenablage-Historie, Systemmonitoring und Ruhezustand-Verhinderung in einer laufenden Katze vereint.
+Eine leichte macOS-Menüleisten-App, die Zwischenablage-Historie, Systemmonitoring, Ruhezustand-Verhinderung und Mausrad-Umkehr in einer laufenden Katze vereint.
 
 [中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt-BR.md) | [Italiano](README.it.md) | [繁體中文](README.zh-TW.md) | [Русский](README.ru.md)
 
 ---
 
-Ich hatte drei Menüleisten-Tools auf macOS laufen: eines für die Systemauslastung, eines für die Zwischenablage (Maccy), eines zur Ruhezustand-Verhinderung (Caffeine). Drei Symbole, drei Hintergrundprozesse — das fühlte sich irgendwann verschwenderisch an. Also habe ich alles von Grund auf neu gebaut und nur das Wesentliche behalten: Systemmonitoring, Zwischenablage-Verwaltung und Ruhezustand-Verhinderung. Der Monitor ist für Apple Silicon optimiert, die Zwischenablage-Verwaltung ist schlank und effizient, und die Ruhezustand-Verhinderung ist direkt eingebaut. Nichts Überflüssiges.
+Ich hatte mehrere Menüleisten-Tools auf macOS laufen: eines für die Systemauslastung, eines für die Zwischenablage (Maccy), eines zur Ruhezustand-Verhinderung (Caffeine) und noch eine Lösung für die Richtung externer Mausräder. Mehrere Symbole, mehrere Hintergrundprozesse — das fühlte sich irgendwann verschwenderisch an. Also habe ich alles von Grund auf neu gebaut und nur das Wesentliche behalten: Systemmonitoring, Zwischenablage-Verwaltung, Ruhezustand-Verhinderung und Mausrad-Umkehr. Der Monitor ist für Apple Silicon optimiert, die Zwischenablage-Verwaltung ist schlank und effizient, Ruhezustand-Verhinderung und Mausrad-Umkehr sind direkt eingebaut. Nichts Überflüssiges.
 
-So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, desto höher die Systemauslastung; ein Linksklick öffnet die Zwischenablage-Historie mit Sofortsuche; ein Rechtsklick zeigt Ruhezustand-Verhinderung, Monitor-Modus und Sprachwechsel auf einen Blick. Ein Symbol erledigt die Arbeit von drei. Keine Abhängigkeiten, minimaler Ressourcenverbrauch, alle Daten lokal gespeichert.
+So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, desto höher die Systemauslastung; ein Linksklick öffnet die Zwischenablage-Historie mit Sofortsuche; ein Rechtsklick zeigt Ruhezustand-Verhinderung, Mausrad-Richtung, Monitor-Modus und Sprachwechsel auf einen Blick. Ein Symbol erledigt mehrere Alltagsaufgaben. Keine Abhängigkeiten, minimaler Ressourcenverbrauch, alle Daten lokal gespeichert.
 
 ---
 

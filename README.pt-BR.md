@@ -1,14 +1,14 @@
 # DashCat
 
-Um aplicativo leve para a barra de menus do macOS que combina histórico da área de transferência, monitoramento do sistema e prevenção de suspensão em um gato que corre.
+Um aplicativo leve para a barra de menus do macOS que combina histórico da área de transferência, monitoramento do sistema, prevenção de suspensão e inversão da roda do mouse em um gato que corre.
 
 [中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt-BR.md) | [Italiano](README.it.md) | [繁體中文](README.zh-TW.md) | [Русский](README.ru.md)
 
 ---
 
-Eu tinha três ferramentas rodando na barra de menus do macOS: uma para carga do sistema, outra para histórico da área de transferência (Maccy) e outra para prevenir suspensão (Caffeine). Três ícones, três processos em segundo plano — parecia um desperdício. Então criei uma do zero, mantendo apenas o essencial: monitoramento do sistema, gerenciamento da área de transferência e prevenção de suspensão. O monitor é otimizado para Apple Silicon, o gerenciador da área de transferência é enxuto e eficiente, e a prevenção de suspensão está integrada. Justo o necessário, nada mais.
+Eu tinha várias ferramentas rodando na barra de menus do macOS: uma para carga do sistema, outra para histórico da área de transferência (Maccy), outra para prevenir suspensão (Caffeine) e mais uma solução para a direção da roda de um mouse externo. Vários ícones, vários processos em segundo plano — parecia um desperdício. Então criei uma do zero, mantendo apenas o essencial: monitoramento do sistema, gerenciamento da área de transferência, prevenção de suspensão e inversão da roda do mouse. O monitor é otimizado para Apple Silicon, o gerenciador da área de transferência é enxuto e eficiente, e a prevenção de suspensão junto com a inversão da roda estão integradas. Justo o necessário, nada mais.
 
-Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele corre, maior é a carga; clique esquerdo para histórico da área de transferência com busca instantânea; clique direito para prevenção de suspensão, modo de monitoramento e troca de idioma. Um ícone faz o trabalho de três. Zero dependências, uso mínimo de recursos, todos os dados armazenados localmente.
+Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele corre, maior é a carga; clique esquerdo para histórico da área de transferência com busca instantânea; clique direito para prevenção de suspensão, direção da roda do mouse, modo de monitoramento e troca de idioma. Um ícone cobre várias ferramentas do dia a dia. Zero dependências, uso mínimo de recursos, todos os dados armazenados localmente.
 
 ---
 

@@ -1,14 +1,14 @@
 # DashCat
 
-Un'app leggera per la barra dei menu di macOS che combina cronologia degli appunti, monitoraggio del sistema e prevenzione sospensione in un gatto che corre.
+Un'app leggera per la barra dei menu di macOS che combina cronologia degli appunti, monitoraggio del sistema, prevenzione sospensione e inversione della rotella del mouse in un gatto che corre.
 
 [中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt-BR.md) | [Italiano](README.it.md) | [繁體中文](README.zh-TW.md) | [Русский](README.ru.md)
 
 ---
 
-Avevo tre strumenti che giravano nella barra dei menu di macOS: uno per il carico del sistema, uno per la cronologia degli appunti (Maccy), uno per prevenire la sospensione (Caffeine). Tre icone, tre processi in background — mi sembrava uno spreco. Così ne ho creato uno da zero, mantenendo solo l'essenziale: monitoraggio del sistema, gestione degli appunti e prevenzione sospensione. Il monitor è ottimizzato per Apple Silicon, il gestore degli appunti è snello ed efficiente, e la prevenzione sospensione è integrata. Proprio ciò che serve, niente di più.
+Avevo diversi strumenti che giravano nella barra dei menu di macOS: uno per il carico del sistema, uno per la cronologia degli appunti (Maccy), uno per prevenire la sospensione (Caffeine) e un'altra soluzione per la direzione della rotella di un mouse esterno. Più icone, più processi in background — mi sembrava uno spreco. Così ne ho creato uno da zero, mantenendo solo l'essenziale: monitoraggio del sistema, gestione degli appunti, prevenzione sospensione e inversione della rotella del mouse. Il monitor è ottimizzato per Apple Silicon, il gestore degli appunti è snello ed efficiente, e la prevenzione sospensione insieme all'inversione della rotella sono integrate. Proprio ciò che serve, niente di più.
 
-Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, più alto è il carico; clic sinistro per la cronologia degli appunti con ricerca istantanea; clic destro per prevenzione sospensione, modalità monitor e cambio lingua. Un'icona fa il lavoro di tre. Zero dipendenze, uso minimo di risorse, tutti i dati salvati localmente.
+Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, più alto è il carico; clic sinistro per la cronologia degli appunti con ricerca istantanea; clic destro per prevenzione sospensione, direzione della rotella del mouse, modalità monitor e cambio lingua. Un'icona copre diversi strumenti quotidiani. Zero dipendenze, uso minimo di risorse, tutti i dati salvati localmente.
 
 ---
 

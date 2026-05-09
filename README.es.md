@@ -1,14 +1,14 @@
 # DashCat
 
-Una aplicación ligera para la barra de menús de macOS que combina el historial del portapapeles, monitoreo del sistema y prevención de suspensión en un gato que corre.
+Una aplicación ligera para la barra de menús de macOS que combina historial del portapapeles, monitoreo del sistema, prevención de suspensión e inversión de la rueda del mouse en un gato que corre.
 
 [中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt-BR.md) | [Italiano](README.it.md) | [繁體中文](README.zh-TW.md) | [Русский](README.ru.md)
 
 ---
 
-Tenía tres herramientas funcionando en la barra de menús de macOS: una para la carga del sistema, otra para el historial del portapapeles (Maccy) y otra para evitar la suspensión (Caffeine). Tres iconos, tres procesos en segundo plano, me parecía un desperdicio. Así que construí una desde cero, manteniendo solo lo esencial: monitoreo del sistema, gestión del portapapeles y prevención de suspensión. El monitor está optimizado para Apple Silicon, el gestor del portapapeles es ágil y eficiente, y la prevención de suspensión está integrada. Justo lo necesario, nada más.
+Tenía varias herramientas funcionando en la barra de menús de macOS: una para la carga del sistema, otra para el historial del portapapeles (Maccy), otra para evitar la suspensión (Caffeine) y otra solución para la dirección de la rueda de un mouse externo. Varios iconos, varios procesos en segundo plano, me parecía un desperdicio. Así que construí una desde cero, manteniendo solo lo esencial: monitoreo del sistema, gestión del portapapeles, prevención de suspensión e inversión de la rueda del mouse. El monitor está optimizado para Apple Silicon, el gestor del portapapeles es ágil y eficiente, y la prevención de suspensión junto con la inversión de la rueda están integradas. Justo lo necesario, nada más.
 
-Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, mayor es la carga; clic izquierdo para ver el historial del portapapeles con búsqueda instantánea; clic derecho para la prevención de suspensión, modo de monitoreo y cambio de idioma. Un icono hace el trabajo de tres. Cero dependencias, uso mínimo de recursos, todos los datos almacenados localmente.
+Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, mayor es la carga; clic izquierdo para ver el historial del portapapeles con búsqueda instantánea; clic derecho para la prevención de suspensión, dirección de la rueda del mouse, modo de monitoreo y cambio de idioma. Un icono cubre varias herramientas cotidianas. Cero dependencias, uso mínimo de recursos, todos los datos almacenados localmente.
 
 ---
 

@@ -1,14 +1,14 @@
 # DashCat
 
-Une app légère pour la barre de menus macOS qui réunit l'historique du presse-papiers, la surveillance système et la prévention de veille dans un chat qui court.
+Une app légère pour la barre de menus macOS qui réunit l'historique du presse-papiers, la surveillance système, la prévention de veille et l'inversion de molette dans un chat qui court.
 
 [中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt-BR.md) | [Italiano](README.it.md) | [繁體中文](README.zh-TW.md) | [Русский](README.ru.md)
 
 ---
 
-J'avais trois outils dans la barre de menus macOS : un pour la charge système, un pour le presse-papiers (Maccy), un pour empêcher la mise en veille (Caffeine). Trois icônes, trois processus en arrière-plan — ça semblait du gaspillage. Alors j'ai tout recréé de zéro, en gardant l'essentiel : surveillance système, gestion du presse-papiers et prévention de veille. Le moniteur est optimisé pour Apple Silicon, le presse-papiers est épuré et efficace, la prévention de veille est intégrée. Juste ce qu'il faut, rien de plus.
+J'avais plusieurs outils dans la barre de menus macOS : un pour la charge système, un pour le presse-papiers (Maccy), un pour empêcher la mise en veille (Caffeine), et encore un réglage pour la direction de la molette d'une souris externe. Plusieurs icônes, plusieurs processus en arrière-plan — ça semblait du gaspillage. Alors j'ai tout recréé de zéro, en gardant l'essentiel : surveillance système, gestion du presse-papiers, prévention de veille et inversion de molette. Le moniteur est optimisé pour Apple Silicon, le presse-papiers est épuré et efficace, la prévention de veille et l'inversion de molette sont intégrées. Juste ce qu'il faut, rien de plus.
 
-C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court vite, plus la charge système est élevée ; un clic gauche ouvre l'historique du presse-papiers avec recherche instantanée ; un clic droit affiche la prévention de veille, le mode de surveillance et le changement de langue en un clin d'œil. Une seule icône fait le travail de trois. Zéro dépendance, ressource minimale, toutes les données stockées localement.
+C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court vite, plus la charge système est élevée ; un clic gauche ouvre l'historique du presse-papiers avec recherche instantanée ; un clic droit affiche la prévention de veille, la direction de la molette, le mode de surveillance et le changement de langue en un clin d'œil. Une seule icône remplace plusieurs outils du quotidien. Zéro dépendance, ressource minimale, toutes les données stockées localement.
 
 ---
 
