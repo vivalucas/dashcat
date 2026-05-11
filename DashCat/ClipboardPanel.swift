@@ -6,10 +6,21 @@ private func localized(_ key: String) -> String {
     return lang.str(key)
 }
 
+private final class ClipboardTableView: NSTableView {
+    weak var clipboardMenuProvider: ClipboardPanel?
+
+    override func menu(for event: NSEvent) -> NSMenu? {
+        let point = convert(event.locationInWindow, from: nil)
+        let clickedRow = row(at: point)
+        guard clickedRow >= 0 else { return nil }
+        return clipboardMenuProvider?.contextMenu(forRow: clickedRow)
+    }
+}
+
 final class ClipboardPanel: NSPanel {
     private let searchField = NSSearchField()
     private let scrollView = NSScrollView()
-    private let tableView = NSTableView()
+    private let tableView = ClipboardTableView()
     private var items: [ClipboardItem] = []
     private var searchQuery = ""
     private let maxHeight: CGFloat = 500
@@ -35,6 +46,8 @@ final class ClipboardPanel: NSPanel {
         level = .statusBar
         titlebarAppearsTransparent = true
         titleVisibility = .hidden
+        isOpaque = false
+        backgroundColor = .clear
         isMovableByWindowBackground = false
         hidesOnDeactivate = false
         animationBehavior = .utilityWindow
@@ -124,11 +137,11 @@ final class ClipboardPanel: NSPanel {
 
     private func setupVisualEffect() {
         let visualEffect = NSVisualEffectView()
-        visualEffect.material = .hudWindow
+        visualEffect.material = .menu
         visualEffect.state = .active
         visualEffect.blendingMode = .behindWindow
         visualEffect.wantsLayer = true
-        visualEffect.layer?.cornerRadius = 10
+        visualEffect.layer?.cornerRadius = 8
         contentView = visualEffect
     }
 
@@ -167,6 +180,7 @@ final class ClipboardPanel: NSPanel {
         tableView.backgroundColor = .clear
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.clipboardMenuProvider = self
 
         scrollView.documentView = tableView
         scrollView.hasVerticalScroller = true
@@ -262,6 +276,25 @@ final class ClipboardPanel: NSPanel {
     func refreshLocale() {
         searchField.placeholderString = localized("search")
         if isVisible { reloadData() }
+    }
+
+    func contextMenu(forRow row: Int) -> NSMenu? {
+        guard row >= 0, row < items.count else { return nil }
+        let item = items[row]
+        let menu = NSMenu()
+
+        let pinTitle = item.isPinned ? localized("unpin") : localized("pin")
+        let pinItem = NSMenuItem(title: pinTitle, action: #selector(togglePinForItem(_:)), keyEquivalent: "")
+        pinItem.target = self
+        pinItem.representedObject = item.id
+        menu.addItem(pinItem)
+
+        let deleteItem = NSMenuItem(title: localized("delete"), action: #selector(deleteItemAtIndex(_:)), keyEquivalent: "")
+        deleteItem.target = self
+        deleteItem.representedObject = item.id
+        menu.addItem(deleteItem)
+
+        return menu
     }
 }
 
@@ -392,23 +425,6 @@ extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
 
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         true
-    }
-
-    func tableView(_ tableView: NSTableView, menuForEvent event: NSEvent, atRow row: Int) -> NSMenu? {
-        guard row >= 0, row < items.count else { return nil }
-        let item = items[row]
-        let menu = NSMenu()
-
-        let pinTitle = item.isPinned ? localized("unpin") : localized("pin")
-        let pinItem = NSMenuItem(title: pinTitle, action: #selector(togglePinForItem(_:)), keyEquivalent: "")
-        pinItem.representedObject = item.id
-        menu.addItem(pinItem)
-
-        let deleteItem = NSMenuItem(title: localized("delete"), action: #selector(deleteItemAtIndex(_:)), keyEquivalent: "")
-        deleteItem.representedObject = item.id
-        menu.addItem(deleteItem)
-
-        return menu
     }
 
     @objc private func togglePinForItem(_ sender: NSMenuItem) {

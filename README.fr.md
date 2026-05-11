@@ -18,16 +18,17 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
   - Clic gauche sur l'icône du chat pour ouvrir le panneau d'historique du presse-papiers
   - Filtrage en temps réel dans la barre de recherche
   - Cliquer pour copier, `Option + Entrée` pour copier en texte brut
-  - Épingler les éléments fréquemment utilisés en haut
+  - Clic droit sur un élément pour l'épingler en haut
   - Support texte et image (stockage d'images activable, compression JPEG)
   - Durée de conservation personnalisable : 7 / 14 / 30 / 90 jours, illimité, ou valeur personnalisée de 1 à 365 jours
   - Toutes les données stockées localement — entièrement hors ligne, aucune collecte de données
 
 - **Moniteur système**
-  - Trois modes : Combiné, CPU, Mémoire
+  - Quatre modes : Combiné, CPU, Mémoire, CPU + mémoire
   - La vitesse d'animation du chat reflète la charge système en temps réel — plus il court vite, plus la charge est élevée
   - En mode combiné, la ressource la plus sollicitée (CPU ou mémoire) pilote l'animation
-  - Affichage du pourcentage dans la barre d'état (optionnel)
+  - Le mode CPU + mémoire affiche des valeurs C/M compactes sur deux lignes
+  - Modes d'affichage : pourcentage et animation, animation uniquement, ou pourcentage uniquement
 
 - **Prévention de la mise en veille**
   - Couleur par défaut : normale — le système peut se mettre en veille
@@ -72,11 +73,11 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
   - Saisir dans la barre de recherche pour filtrer
   - Cliquer sur un élément pour le copier
   - `Option + Entrée` pour copier en texte brut
-  - Épingler les éléments fréquemment utilisés
+  - Clic droit sur un élément pour l'épingler ou le détacher
 - **Clic droit** sur l'icône du chat : ouvrir le menu des paramètres
   - Basculer entre les modes de surveillance et de prévention de veille
   - Gérer l'historique du presse-papiers (enregistrer les images, durée de conservation, effacer l'historique)
-  - Inverser la molette, changer la langue, afficher le pourcentage, lancer au démarrage
+  - Inverser la molette, changer la langue, changer le mode d'affichage, lancer au démarrage
 
 ## FAQ
 

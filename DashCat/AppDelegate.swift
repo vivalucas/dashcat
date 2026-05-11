@@ -5,15 +5,17 @@ import ServiceManagement
 // MARK: - MonitorMode
 
 enum MonitorMode: String, CaseIterable {
-    case combined = "Combined"
-    case cpu      = "CPU"
-    case memory   = "Memory"
+    case combined     = "Combined"
+    case cpu          = "CPU"
+    case memory       = "Memory"
+    case cpuAndMemory = "CPU + Memory"
 
     var locKey: String {
         switch self {
-        case .combined: return "combined"
-        case .cpu:      return "cpu"
-        case .memory:   return "memory"
+        case .combined:     return "combined"
+        case .cpu:          return "cpu"
+        case .memory:       return "memory"
+        case .cpuAndMemory: return "cpuAndMemory"
         }
     }
 }
@@ -114,6 +116,7 @@ enum Language: String, CaseIterable {
         "combined":     ["zh":"综合",       "zh-TW":"綜合",     "en":"Combined",         "ja":"総合",                 "ko":"종합",          "de":"Kombiniert",                  "fr":"Combiné",                "es":"Combinado",              "pt-BR":"Combinado",           "it":"Combinato",              "ru":"Комбинированный"],
         "cpu":          ["zh":"CPU",        "zh-TW":"CPU",      "en":"CPU",              "ja":"CPU",                  "ko":"CPU",           "de":"CPU",                         "fr":"CPU",                    "es":"CPU",                    "pt-BR":"CPU",                 "it":"CPU",                    "ru":"CPU"],
         "memory":       ["zh":"内存",       "zh-TW":"記憶體",   "en":"Memory",           "ja":"メモリ",               "ko":"메모리",        "de":"Speicher",                    "fr":"Mémoire",                "es":"Memoria",                "pt-BR":"Memória",             "it":"Memoria",                "ru":"Память"],
+        "cpuAndMemory": ["zh":"CPU + 内存", "zh-TW":"CPU + 記憶體","en":"CPU + Memory",    "ja":"CPU + メモリ",         "ko":"CPU + 메모리",  "de":"CPU + Speicher",             "fr":"CPU + mémoire",          "es":"CPU + memoria",          "pt-BR":"CPU + memória",       "it":"CPU + memoria",          "ru":"CPU + память"],
         "sleep":        ["zh":"阻止休眠",   "zh-TW":"防止休眠", "en":"Sleep Prevention", "ja":"スリープ防止",         "ko":"절전 방지",     "de":"Ruhezustand verhindern",      "fr":"Prévention de veille",   "es":"Prevención de suspensión","pt-BR":"Prevenção de suspensão","it":"Prevenzione sospensione","ru":"Предотвращение сна"],
         "sleepOff":     ["zh":"关闭",       "zh-TW":"關閉",     "en":"Off",              "ja":"オフ",                 "ko":"끔",            "de":"Aus",                         "fr":"Désactivé",              "es":"Desactivado",            "pt-BR":"Desativado",          "it":"Disattivato",            "ru":"Выкл"],
         "sleepSystem":  ["zh":"阻止系统休眠","zh-TW":"防止系統休眠","en":"Prevent System Sleep","ja":"システムスリープを防止","ko":"시스템 절전 방지","de":"System-Ruhezustand verhindern","fr":"Empêcher la veille du système","es":"Evitar suspensión del sistema","pt-BR":"Evitar suspensão do sistema","it":"Impedisci sospensione sistema","ru":"Предотвратить сон системы"],
@@ -138,7 +141,7 @@ enum Language: String, CaseIterable {
         "unpin":        ["zh":"取消固定",   "zh-TW":"取消釘選", "en":"Unpin",           "ja":"ピン解除",             "ko":"고정 해제",         "de":"Lösen",                       "fr":"Détacher",               "es":"Desfijar",               "pt-BR":"Desafixar",           "it":"Rimuovi fissaggio",      "ru":"Открепить"],
         "delete":       ["zh":"删除",       "zh-TW":"刪除",     "en":"Delete",          "ja":"削除",                 "ko":"삭제",              "de":"Löschen",                     "fr":"Supprimer",              "es":"Eliminar",               "pt-BR":"Excluir",             "it":"Elimina",                "ru":"Удалить"],
         "customDaysPrompt":["zh":"输入天数 (1-365)：","zh-TW":"輸入天數 (1-365)：","en":"Enter number of days (1-365):","ja":"日数を入力 (1-365)：","ko":"일수 입력 (1-365)：","de":"Anzahl der Tage eingeben (1-365):","fr":"Entrez le nombre de jours (1-365) :","es":"Ingrese número de días (1-365):","pt-BR":"Digite o número de dias (1-365):","it":"Inserisci il numero di giorni (1-365):","ru":"Введите количество дней (1-365):"],
-        "reverseMouseScroll":["zh":"↕ 反转鼠标滚轮","zh-TW":"↕ 反轉滑鼠滾輪","en":"↕ Reverse Mouse Wheel","ja":"↕ マウスホイールを反転","ko":"↕ 마우스 휠 반전","de":"↕ Mausrad umkehren","fr":"↕ Inverser la molette","es":"↕ Invertir rueda del mouse","pt-BR":"↕ Inverter roda do mouse","it":"↕ Inverti rotella mouse","ru":"↕ Инвертировать колесо мыши"],
+        "reverseMouseScroll":["zh":"反转鼠标滚轮","zh-TW":"反轉滑鼠滾輪","en":"Reverse Mouse Wheel","ja":"マウスホイールを反転","ko":"마우스 휠 반전","de":"Mausrad umkehren","fr":"Inverser la molette","es":"Invertir rueda del mouse","pt-BR":"Inverter roda do mouse","it":"Inverti rotella mouse","ru":"Инвертировать колесо мыши"],
         "accessibilityNeeded":["zh":"需要辅助功能权限","zh-TW":"需要輔助使用權限","en":"Accessibility Permission Required","ja":"アクセシビリティ権限が必要","ko":"손쉬운 사용 권한 필요","de":"Bedienungshilfen-Berechtigung erforderlich","fr":"Autorisation Accessibilité requise","es":"Se requiere permiso de Accesibilidad","pt-BR":"Permissão de Acessibilidade necessária","it":"Permesso Accessibilità richiesto","ru":"Требуется разрешение Универсального доступа"],
         "openAccessibility":["zh":"前往授权\u{2026}","zh-TW":"前往授權\u{2026}","en":"Open System Settings\u{2026}","ja":"システム設定を開く\u{2026}","ko":"시스템 설정 열기\u{2026}","de":"Systemeinstellungen öffnen\u{2026}","fr":"Ouvrir les Réglages Système\u{2026}","es":"Abrir Ajustes del Sistema\u{2026}","pt-BR":"Abrir Ajustes do Sistema\u{2026}","it":"Apri Impostazioni di Sistema\u{2026}","ru":"Открыть Системные настройки\u{2026}"],
         "ok":           ["zh":"确定",       "zh-TW":"確定",     "en":"OK",              "ja":"OK",                   "ko":"확인",              "de":"OK",                          "fr":"OK",                     "es":"OK",                     "pt-BR":"OK",                  "it":"OK",                     "ru":"OK"],
@@ -236,6 +239,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var index = 0
     private let monitor = SystemMonitor()
     private var metric: MonitorInfo = SystemMonitor.default
+    private var dualMetric: (cpu: MonitorInfo, memory: MonitorInfo)?
     private var cpuTimer: Timer?
     private var runnerTimer: Timer?
     private var displayMode: DisplayMode = .both
@@ -304,6 +308,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         setupMenu()
         setupStatusItem()
         setupSleepWakeNotifications()
+        restoreState()
         startRunning()
 
         // Start clipboard monitoring (cleanupExpired runs inside ClipboardManager.init)
@@ -311,8 +316,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if ScrollManager.shared.mouseReversed {
             ScrollManager.shared.start()
         }
-
-        restoreState()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
@@ -482,7 +485,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         contactItem      = NSMenuItem(title: "", action: #selector(showContact),     keyEquivalent: "")
         helpSubmenu.addItem(checkUpdatesItem)
         helpSubmenu.addItem(viewGitHubItem)
-        helpSubmenu.addItem(.separator())
         helpSubmenu.addItem(contactItem)
         helpMenuItem.submenu = helpSubmenu
         menu.addItem(helpMenuItem)
@@ -554,6 +556,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func buttonClicked(_ sender: NSStatusBarButton) {
         guard let event = NSApp.currentEvent else { return }
         if event.type == .rightMouseUp {
+            clipboardPanel?.close()
             statusItem.menu = menu
             statusItem.button?.performClick(nil)
         } else {
@@ -771,6 +774,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func updateMetric() {
+        dualMetric = nil
         switch currentMode {
         case .cpu:
             metric = monitor.cpuUsage()
@@ -784,6 +788,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             } else {
                 metric = MonitorInfo(mem.value, "M" + mem.description)
             }
+        case .cpuAndMemory:
+            let cpu = monitor.cpuUsage()
+            let mem = monitor.memoryPressure()
+            dualMetric = (cpu, mem)
+            metric = MonitorInfo(max(cpu.value, mem.value), "")
         }
 
         let t = min(metric.value / 100.0, 1.0)
@@ -814,7 +823,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             statusItem.button?.attributedTitle = NSAttributedString()
             return
         }
-        if currentMode == .combined {
+        if currentMode == .cpuAndMemory {
+            let metrics = dualMetric ?? (cpu: SystemMonitor.default, memory: SystemMonitor.default)
+            statusItem.button?.title = ""
+            statusItem.button?.attributedTitle = makeDualMetricTitle(cpu: metrics.cpu, memory: metrics.memory)
+        } else if currentMode == .combined {
             statusItem.button?.title = ""
             statusItem.button?.attributedTitle = makeStackedTitle(metric.description)
         } else if let textColor = metricTextColor {
@@ -859,6 +872,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         result.append(NSAttributedString(string: value + "\n", attributes: valueAttributes))
         result.append(NSAttributedString(string: label, attributes: labelAttributes))
         return result
+    }
+
+    private func makeDualMetricTitle(cpu: MonitorInfo, memory: MonitorInfo) -> NSAttributedString {
+        let para = NSMutableParagraphStyle()
+        para.alignment = .center
+        para.lineSpacing = 0
+        var attributes: [NSAttributedString.Key: Any] = [
+            .font: NSFont.monospacedSystemFont(ofSize: 8, weight: .regular),
+            .paragraphStyle: para
+        ]
+        if let textColor = metricTextColor {
+            attributes[.foregroundColor] = textColor
+        }
+        return NSAttributedString(
+            string: String(format: "C%.0f\nM%.0f", cpu.value, memory.value),
+            attributes: attributes
+        )
     }
 
     // MARK: - Check for Updates

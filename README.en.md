@@ -18,16 +18,17 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - Left-click the cat icon to open a clipboard history panel
   - Real-time search filtering
   - Click to copy, `Option + Enter` to copy as plain text
-  - Pin frequently used items to the top
+  - Right-click an item to pin it to the top
   - Text and image support (JPEG compressed, toggleable image storage)
   - Customizable retention: 7 / 14 / 30 / 90 days, forever, or a custom 1-365 day value
   - All data stored locally — fully offline, no data collection
 
 - **System Monitor**
-  - Three modes: Combined, CPU, Memory
+  - Four modes: Combined, CPU, Memory, CPU + Memory
   - Cat animation speed reflects real-time system load — the faster it runs, the higher the pressure
   - Combined mode automatically picks the higher of CPU / memory to drive the animation
-  - Optional percentage display in the status bar
+  - CPU + Memory mode shows compact two-line C/M values
+  - Display modes: percentage & animation, animation only, or percentage only
 
 - **Sleep Prevention**
   - Default color: normal — system can sleep
@@ -72,11 +73,11 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - Type in the search box to filter
   - Click an item to copy it
   - `Option + Enter` to copy as plain text
-  - Pin frequently used items
+  - Right-click an item to pin or unpin it
 - **Right-click** the cat icon: open settings menu
   - Switch monitor mode, sleep prevention mode
   - Manage clipboard history (save images, retention days, clear history)
-  - Reverse mouse wheel, change language, toggle percentage display, set launch at login
+  - Reverse mouse wheel, change language, switch display mode, set launch at login
 
 ## FAQ
 

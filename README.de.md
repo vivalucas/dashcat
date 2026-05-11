@@ -18,16 +18,17 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
   - Linksklick auf das Katzen-Symbol öffnet das Zwischenablage-Panel
   - Echtzeit-Suchfilterung
   - Klick zum Kopieren, `Option + Enter` zum Kopieren als reinen Text
-  - Häufig verwendete Einträge mit Pin oben fixieren
+  - Einträge per Rechtsklick oben anheften
   - Text- und Bildunterstützung (Bildspeicherung umschaltbar, JPEG-komprimiert)
   - Anpassbare Aufbewahrung: 7 / 14 / 30 / 90 Tage, unbegrenzt oder ein eigener Wert von 1-365 Tagen
   - Alle Daten lokal gespeichert — vollständig offline, keine Datenerfassung
 
 - **Systemmonitor**
-  - Drei Modi: Kombiniert, CPU, Speicher
+  - Vier Modi: Kombiniert, CPU, Speicher, CPU + Speicher
   - Geschwindigkeit der Katzen-Animation spiegelt die Systemauslastung in Echtzeit wider — je schneller, desto höher die Auslastung
   - Im kombinierten Modus wird automatisch die höhere CPU- oder Speicherbelastung zur Steuerung der Animation verwendet
-  - Optionale Prozentanzeige in der Statusleiste
+  - CPU + Speicher zeigt kompakte zweizeilige C/M-Werte
+  - Anzeigemodi: Prozentwert & Animation, nur Animation oder nur Prozentwert
 
 - **Ruhezustand-Verhinderung**
   - Standardfarbe: normal — System darf in den Ruhezustand
@@ -72,11 +73,11 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
   - Im Suchfeld eingeben zum Filtern
   - Auf einen Eintrag klicken zum Kopieren
   - `Option + Enter` zum Kopieren als reinen Text
-  - Häufig verwendete Einträge fixieren
+  - Einträge per Rechtsklick anheften oder lösen
 - **Rechtsklick** auf das Katzen-Symbol: Einstellungsmenü öffnen
   - Monitor-Modus, Ruhezustand-Verhinderungs-Modus umschalten
   - Zwischenablage-Historie verwalten (Bilder speichern, Aufbewahrungstage, Historie löschen)
-  - Mausrad umkehren, Sprache wechseln, Prozentanzeige umschalten, Start bei Anmeldung
+  - Mausrad umkehren, Sprache wechseln, Anzeigemodus wechseln, Start bei Anmeldung
 
 ## Häufig gestellte Fragen
 

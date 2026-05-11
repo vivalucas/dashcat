@@ -357,6 +357,7 @@ final class ClipboardManager {
 
     func cleanupExpired() {
         guard db != nil else { return }
+        latestCache = nil
         let days = UserDefaults.standard.integer(forKey: "DashCatHistoryDays")
         let effectiveDays = days > 0 ? days : 30
         if effectiveDays >= 36500 { return } // "Forever" = ~100 years
@@ -418,6 +419,7 @@ final class ClipboardManager {
             }
         }
         guard totalSize > maxBytes else { return }
+        latestCache = nil
 
         // Batch-query all pinned image paths
         var pinnedPaths = Set<String>()

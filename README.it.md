@@ -18,16 +18,17 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
   - Clic sinistro sull'icona del gatto per aprire il pannello cronologia appunti
   - Filtraggio ricerca in tempo reale
   - Clic per copiare, `Option + Enter` per copiare come testo semplice
-  - Fissa gli elementi usati frequentemente in cima
+  - Clic destro su un elemento per fissarlo in cima
   - Supporto testo e immagini (immagini compresse in JPEG, salvataggio immagini opzionale)
   - Retenzione personalizzabile: 7 / 14 / 30 / 90 giorni, per sempre, o un valore personalizzato di 1-365 giorni
   - Tutti i dati salvati localmente — completamente offline, nessuna raccolta dati
 
 - **Monitor Sistema**
-  - Tre modalità: Combinato, CPU, Memoria
+  - Quattro modalità: Combinato, CPU, Memoria, CPU + memoria
   - La velocità dell'animazione del gatto riflette il carico del sistema in tempo reale — più veloce corre, più alta è la pressione
   - La modalità combinata sceglie automaticamente il valore più alto tra CPU e memoria per l'animazione
-  - Visualizzazione opzionale della percentuale nella barra di stato
+  - La modalità CPU + memoria mostra valori C/M compatti su due righe
+  - Modalità di visualizzazione: percentuale e animazione, solo animazione o solo percentuale
 
 - **Prevenzione Sospensione**
   - Colore predefinito: normale — il sistema può sospendersi
@@ -72,11 +73,11 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
   - Digita nella casella di ricerca per filtrare
   - Clic su un elemento per copiarlo
   - `Option + Enter` per copiare come testo semplice
-  - Fissa gli elementi usati frequentemente
+  - Clic destro su un elemento per fissarlo o rimuovere il fissaggio
 - **Clic destro** sull'icona del gatto: apri menu impostazioni
   - Cambia modalità monitor, modalità prevenzione sospensione
   - Gestisci cronologia appunti (salva immagini, giorni di conservazione, cancella cronologia)
-  - Inverti rotella mouse, cambia lingua, attiva/disattiva percentuale, configura avvio al login
+  - Inverti rotella mouse, cambia lingua, cambia modalità di visualizzazione, configura avvio al login
 
 ## Domande Frequenti
 

@@ -18,16 +18,17 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
   - Clique esquerdo no ícone do gato para abrir o painel de histórico da área de transferência
   - Filtragem de busca em tempo real
   - Clique para copiar, `Option + Enter` para copiar como texto simples
-  - Fixar itens usados frequentemente no topo
+  - Clique com o botão direito em um item para fixá-lo no topo
   - Suporte a texto e imagens (imagens comprimidas em JPEG, armazenamento de imagens opcional)
   - Retenção personalizável: 7 / 14 / 30 / 90 dias, para sempre, ou um valor personalizado de 1-365 dias
   - Todos os dados armazenados localmente — totalmente offline, sem coleta de dados
 
 - **Monitor do Sistema**
-  - Três modos: Combinado, CPU, Memória
+  - Quatro modos: Combinado, CPU, Memória, CPU + memória
   - A velocidade da animação do gato reflete a carga do sistema em tempo real — quanto mais rápido corre, maior a pressão
   - O modo combinado escolhe automaticamente o maior valor entre CPU e memória para a animação
-  - Exibição opcional da porcentagem na barra de status
+  - O modo CPU + memória mostra valores C/M compactos em duas linhas
+  - Modos de exibição: porcentagem e animação, apenas animação ou apenas porcentagem
 
 - **Prevenção de Suspensão**
   - Cor padrão: normal — o sistema pode suspender
@@ -72,11 +73,11 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
   - Digite na caixa de busca para filtrar
   - Clique em um item para copiá-lo
   - `Option + Enter` para copiar como texto simples
-  - Fixar itens usados frequentemente
+  - Clique com o botão direito em um item para fixar ou desafixar
 - **Clique direito** no ícone do gato: abrir menu de configurações
   - Alternar modo de monitoramento, modo de prevenção de suspensão
   - Gerenciar histórico da área de transferência (salvar imagens, dias de retenção, limpar histórico)
-  - Inverter roda do mouse, mudar idioma, ativar/desativar porcentagem, configurar início ao fazer login
+  - Inverter roda do mouse, mudar idioma, alternar modo de exibição, configurar início ao fazer login
 
 ## Perguntas Frequentes
 

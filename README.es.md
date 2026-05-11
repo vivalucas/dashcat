@@ -18,16 +18,17 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
   - Clic izquierdo en el icono del gato para abrir el panel de historial del portapapeles
   - Filtrado de búsqueda en tiempo real
   - Clic para copiar, `Option + Enter` para copiar como texto sin formato
-  - Fijar elementos de uso frecuente en la parte superior
+  - Clic derecho en un elemento para fijarlo arriba
   - Soporte para texto e imágenes (imágenes comprimidas en JPEG, almacenamiento de imágenes opcional)
   - Retención personalizable: 7 / 14 / 30 / 90 días, para siempre, o un valor personalizado de 1-365 días
   - Todos los datos almacenados localmente — totalmente offline, sin recopilación de datos
 
 - **Monitor del Sistema**
-  - Tres modos: Combinado, CPU, Memoria
+  - Cuatro modos: Combinado, CPU, Memoria, CPU + memoria
   - La velocidad de animación del gato refleja la carga del sistema en tiempo real — cuanto más rápido corre, mayor es la presión
   - El modo combinado elige automáticamente el mayor valor entre CPU y memoria para la animación
-  - Visualización opcional del porcentaje en la barra de estado
+  - El modo CPU + memoria muestra valores C/M compactos en dos líneas
+  - Modos de visualización: porcentaje y animación, solo animación o solo porcentaje
 
 - **Prevención de Suspensión**
   - Color predeterminado: normal — el sistema puede suspenderse
@@ -72,11 +73,11 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
   - Escribe en el cuadro de búsqueda para filtrar
   - Clic en un elemento para copiarlo
   - `Option + Enter` para copiar como texto sin formato
-  - Fijar elementos de uso frecuente
+  - Clic derecho en un elemento para fijarlo o desfijarlo
 - **Clic derecho** en el icono del gato: abrir menú de configuración
   - Cambiar modo de monitoreo, modo de prevención de suspensión
   - Gestionar historial del portapapeles (guardar imágenes, días de retención, borrar historial)
-  - Invertir rueda del mouse, cambiar idioma, activar/desactivar porcentaje, configurar inicio al iniciar sesión
+  - Invertir rueda del mouse, cambiar idioma, cambiar modo de visualización, configurar inicio al iniciar sesión
 
 ## Preguntas Frecuentes
 
