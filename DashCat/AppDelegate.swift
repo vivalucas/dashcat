@@ -804,26 +804,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func updateMetric() {
         dualMetric = nil
-        switch currentMode {
-        case .cpu:
-            metric = monitor.cpuUsage()
-        case .memory:
-            metric = monitor.memoryPressure()
-        case .combined:
-            let cpu = monitor.cpuUsage()
-            let mem = monitor.memoryPressure()
-            if cpu.value >= mem.value {
-                metric = MonitorInfo(cpu.value, "C" + cpu.description)
-            } else {
-                metric = MonitorInfo(mem.value, "M" + mem.description)
-            }
-        }
-
         if displayMode == .dualValues {
             let cpu = monitor.cpuUsage()
             let mem = monitor.memoryPressure()
             dualMetric = (cpu, mem)
             metric = MonitorInfo(max(cpu.value, mem.value), "")
+        } else {
+            switch currentMode {
+            case .cpu:
+                metric = monitor.cpuUsage()
+            case .memory:
+                metric = monitor.memoryPressure()
+            case .combined:
+                let cpu = monitor.cpuUsage()
+                let mem = monitor.memoryPressure()
+                if cpu.value >= mem.value {
+                    metric = MonitorInfo(cpu.value, "C" + cpu.description)
+                } else {
+                    metric = MonitorInfo(mem.value, "M" + mem.description)
+                }
+            }
         }
 
         runnerTimer?.invalidate()
@@ -957,13 +957,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         para.lineSpacing = 0
         var valueAttributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.monospacedSystemFont(ofSize: 9, weight: .regular),
-            .paragraphStyle: para,
-            .baselineOffset: -0.8
+            .paragraphStyle: para
         ]
         var labelAttributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.monospacedSystemFont(ofSize: 7, weight: .regular),
-            .paragraphStyle: para,
-            .baselineOffset: -0.8
+            .paragraphStyle: para
         ]
         if let textColor = metricTextColor {
             valueAttributes[.foregroundColor] = textColor
