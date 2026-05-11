@@ -27,7 +27,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - Four modes: Combined, CPU, Memory, CPU + Memory
   - Cat animation speed reflects real-time system load — the faster it runs, the higher the pressure
   - Combined mode automatically picks the higher of CPU / memory to drive the animation
-  - CPU + Memory mode shows compact two-line C/M values
+  - CPU + Memory mode shows compact two-line C/M percentages
   - Display modes: percentage & animation, animation only, or percentage only
 
 - **Sleep Prevention**

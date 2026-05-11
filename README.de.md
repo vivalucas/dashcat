@@ -27,7 +27,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
   - Vier Modi: Kombiniert, CPU, Speicher, CPU + Speicher
   - Geschwindigkeit der Katzen-Animation spiegelt die Systemauslastung in Echtzeit wider — je schneller, desto höher die Auslastung
   - Im kombinierten Modus wird automatisch die höhere CPU- oder Speicherbelastung zur Steuerung der Animation verwendet
-  - CPU + Speicher zeigt kompakte zweizeilige C/M-Werte
+  - CPU + Speicher zeigt kompakte zweizeilige C/M-Prozentwerte
   - Anzeigemodi: Prozentwert & Animation, nur Animation oder nur Prozentwert
 
 - **Ruhezustand-Verhinderung**

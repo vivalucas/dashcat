@@ -27,7 +27,7 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
   - Quattro modalità: Combinato, CPU, Memoria, CPU + memoria
   - La velocità dell'animazione del gatto riflette il carico del sistema in tempo reale — più veloce corre, più alta è la pressione
   - La modalità combinata sceglie automaticamente il valore più alto tra CPU e memoria per l'animazione
-  - La modalità CPU + memoria mostra valori C/M compatti su due righe
+  - La modalità CPU + memoria mostra percentuali C/M compatte su due righe
   - Modalità di visualizzazione: percentuale e animazione, solo animazione o solo percentuale
 
 - **Prevenzione Sospensione**

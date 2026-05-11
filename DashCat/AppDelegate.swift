@@ -879,7 +879,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             attributes[.foregroundColor] = textColor
         }
         return NSAttributedString(
-            string: String(format: "C%.0f\nM%.0f", cpu.value, memory.value),
+            string: String(format: "C%.0f%%\nM%.0f%%", cpu.value, memory.value),
             attributes: attributes
         )
     }

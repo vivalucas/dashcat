@@ -27,7 +27,7 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
   - Quatro modos: Combinado, CPU, Memória, CPU + memória
   - A velocidade da animação do gato reflete a carga do sistema em tempo real — quanto mais rápido corre, maior a pressão
   - O modo combinado escolhe automaticamente o maior valor entre CPU e memória para a animação
-  - O modo CPU + memória mostra valores C/M compactos em duas linhas
+  - O modo CPU + memória mostra porcentagens C/M compactas em duas linhas
   - Modos de exibição: porcentagem e animação, apenas animação ou apenas porcentagem
 
 - **Prevenção de Suspensão**
