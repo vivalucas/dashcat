@@ -938,6 +938,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func updateStatusItemLength() {
         guard let button = statusItem.button else { return }
+        if displayMode != .dualValues,
+           currentMode == .combined,
+           button.attributedTitle.length > 0 {
+            statusItem.length = NSStatusItem.variableLength
+            return
+        }
         let imageWidth = button.image?.size.width ?? 0
         let attributedWidth = button.attributedTitle.length > 0 ? button.attributedTitle.size().width : 0
         let plainWidth: CGFloat
