@@ -67,6 +67,7 @@ final class ClipboardPanel: NSPanel {
     }
 
     deinit {
+        searchTimer?.invalidate()
         NotificationCenter.default.removeObserver(self)
     }
 

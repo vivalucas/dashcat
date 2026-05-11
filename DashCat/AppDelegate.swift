@@ -592,20 +592,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         displayMode = mode
         displayModeItems.forEach { $0.state = ($0.representedObject as? DisplayMode) == mode ? .on : .off }
         UserDefaults.standard.set(mode.rawValue, forKey: "DashCatDisplayMode")
-        switch mode {
-        case .pctOnly:
-            statusItem.button?.image = nil
-            applyMetricDisplay()
-        case .animOnly:
-            statusItem.button?.title = ""
-            statusItem.button?.attributedTitle = NSAttributedString()
-            let frames = currentFrames
-            statusItem.button?.image = frames[index % frames.count]
-        case .both:
-            applyMetricDisplay()
-            let frames = currentFrames
-            statusItem.button?.image = frames[index % frames.count]
-        }
+        updateMetric()
     }
 
     @objc private func selectMode(_ sender: NSMenuItem) {
@@ -785,15 +772,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             metric = MonitorInfo(max(cpu.value, mem.value), "")
         }
 
+        runnerTimer?.invalidate()
+        runnerTimer = nil
+        guard displayMode != .pctOnly else {
+            statusItem.button?.image = nil
+            applyMetricDisplay()
+            return
+        }
+        applyMetricDisplay()
+        let frames = currentFrames
+        statusItem.button?.image = frames[index % frames.count]
+
         let t = min(metric.value / 100.0, 1.0)
         let fps = 1.0 + 11.0 * t
         let interval = 1.0 / fps
-        applyMetricDisplay()
-        runnerTimer?.invalidate()
-        guard displayMode != .pctOnly else {
-            runnerTimer = nil
-            return
-        }
         runnerTimer = Timer(timeInterval: interval, repeats: true) { [weak self] _ in
             self?.nextFrame()
         }
@@ -869,7 +861,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func makeDualMetricTitle(cpu: MonitorInfo, memory: MonitorInfo) -> NSAttributedString {
         let para = NSMutableParagraphStyle()
-        para.alignment = .center
+        para.alignment = .left
         para.lineSpacing = 0
         var attributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.monospacedSystemFont(ofSize: 8, weight: .regular),
@@ -878,8 +870,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if let textColor = metricTextColor {
             attributes[.foregroundColor] = textColor
         }
+        let cpuValue = min(100, max(0, Int(cpu.value.rounded())))
+        let memoryValue = min(100, max(0, Int(memory.value.rounded())))
         return NSAttributedString(
-            string: String(format: "C%.0f%%\nM%.0f%%", cpu.value, memory.value),
+            string: String(format: "C%3d%%\nM%3d%%", cpuValue, memoryValue),
             attributes: attributes
         )
     }
