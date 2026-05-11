@@ -191,6 +191,16 @@ enum Language: String, CaseIterable {
     }
 }
 
+// MARK: - Status Metric Layout
+
+private enum StatusMetricLayout {
+    static let singleFont = NSFont.monospacedSystemFont(ofSize: 11, weight: .regular)
+    static let singleBaselineOffset: CGFloat = -0.5
+    static let combinedValueFont = NSFont.monospacedSystemFont(ofSize: 9, weight: .regular)
+    static let combinedLabelFont = NSFont.monospacedSystemFont(ofSize: 7, weight: .regular)
+    static let dualFont = NSFont.monospacedSystemFont(ofSize: 8.5, weight: .regular)
+}
+
 // MARK: - Status Dual Metric View
 
 final class StatusDualMetricView: NSView {
@@ -199,7 +209,6 @@ final class StatusDualMetricView: NSView {
     var textColor: NSColor = .labelColor { didSet { needsDisplay = true } }
 
     private let horizontalPadding: CGFloat = 0
-    private let verticalOffset: CGFloat = 1.0
 
     override var isFlipped: Bool { true }
 
@@ -217,7 +226,7 @@ final class StatusDualMetricView: NSView {
         let textSize = text.size()
         let rect = NSRect(
             x: horizontalPadding,
-            y: (bounds.height - textSize.height) / 2 + verticalOffset,
+            y: (bounds.height - textSize.height) / 2,
             width: textSize.width,
             height: textSize.height
         )
@@ -233,7 +242,7 @@ final class StatusDualMetricView: NSView {
         return NSAttributedString(
             string: "C\(cpuValue)%\nM\(memoryValue)%",
             attributes: [
-                .font: NSFont.monospacedSystemFont(ofSize: 8.5, weight: .regular),
+                .font: StatusMetricLayout.dualFont,
                 .paragraphStyle: para,
                 .foregroundColor: textColor
             ]
@@ -711,7 +720,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let newValue = sender.state == .off
         ScrollManager.shared.mouseReversed = newValue
         if newValue {
-            ScrollManager.shared.start()
+            if ScrollManager.shared.isTrusted {
+                ScrollManager.shared.start()
+            } else {
+                ScrollManager.shared.requestTrustPrompt()
+            }
         } else {
             ScrollManager.shared.stop()
         }
@@ -875,15 +888,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         } else if let textColor = metricTextColor {
             statusItem.button?.title = ""
             statusItem.button?.attributedTitle = NSAttributedString(string: metric.description, attributes: [
-                .font: NSFont.monospacedSystemFont(ofSize: 11, weight: .regular),
-                .baselineOffset: -0.8,
+                .font: StatusMetricLayout.singleFont,
+                .baselineOffset: StatusMetricLayout.singleBaselineOffset,
                 .foregroundColor: textColor
             ])
         } else {
             statusItem.button?.title = ""
             statusItem.button?.attributedTitle = NSAttributedString(string: metric.description, attributes: [
-                .font: NSFont.monospacedSystemFont(ofSize: 11, weight: .regular),
-                .baselineOffset: -0.8
+                .font: StatusMetricLayout.singleFont,
+                .baselineOffset: StatusMetricLayout.singleBaselineOffset
             ])
         }
         updateStatusItemLength()
@@ -956,11 +969,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         para.alignment = .center
         para.lineSpacing = 0
         var valueAttributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.monospacedSystemFont(ofSize: 9, weight: .regular),
+            .font: StatusMetricLayout.combinedValueFont,
             .paragraphStyle: para
         ]
         var labelAttributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.monospacedSystemFont(ofSize: 7, weight: .regular),
+            .font: StatusMetricLayout.combinedLabelFont,
             .paragraphStyle: para
         ]
         if let textColor = metricTextColor {

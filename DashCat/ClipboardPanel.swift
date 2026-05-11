@@ -225,13 +225,14 @@ final class ClipboardPanel: NSPanel {
 
         guard let button = statusItem?.button, let buttonWindow = button.window else {
             guard let screen = NSScreen.main else { return }
+            let screenFrame = screen.visibleFrame
             let finalHeight = max(100, min(desiredHeight, screen.visibleFrame.height - 50))
             let currentFrame = frame
-            let newFrame = NSRect(x: currentFrame.origin.x,
-                                  y: currentFrame.origin.y + currentFrame.height - finalHeight,
-                                  width: currentFrame.width,
-                                  height: finalHeight)
-            setFrame(newFrame, display: true, animate: isVisible && !hasAppeared)
+            let rawY = currentFrame.origin.y + currentFrame.height - finalHeight
+            let clampedX = max(screenFrame.minX, min(currentFrame.origin.x, screenFrame.maxX - currentFrame.width))
+            let clampedY = max(screenFrame.minY, min(rawY, screenFrame.maxY - finalHeight))
+            setFrame(NSRect(x: clampedX, y: clampedY, width: currentFrame.width, height: finalHeight),
+                     display: true, animate: isVisible && !hasAppeared)
             return
         }
 
@@ -247,8 +248,9 @@ final class ClipboardPanel: NSPanel {
         let panelX = buttonCenterX - frame.width / 2
         let panelY = buttonFrame.minY - finalHeight - 4
         let clampedX = max(screenFrame.minX, min(panelX, screenFrame.maxX - frame.width))
+        let clampedY = max(screenFrame.minY, min(panelY, screenFrame.maxY - finalHeight))
 
-        setFrame(NSRect(x: clampedX, y: panelY, width: frame.width, height: finalHeight),
+        setFrame(NSRect(x: clampedX, y: clampedY, width: frame.width, height: finalHeight),
                  display: true, animate: isVisible && !hasAppeared)
     }
 

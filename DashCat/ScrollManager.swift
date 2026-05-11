@@ -29,6 +29,14 @@ final class ScrollManager {
     private init() {}
 
     @discardableResult
+    func requestTrustPrompt() -> Bool {
+        let options = [
+            kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true
+        ] as CFDictionary
+        return AXIsProcessTrustedWithOptions(options)
+    }
+
+    @discardableResult
     func start() -> Bool {
         guard eventTap == nil else { return true }
         guard isTrusted else { return false }
