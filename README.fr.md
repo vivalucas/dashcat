@@ -24,11 +24,11 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
   - Toutes les données stockées localement — entièrement hors ligne, aucune collecte de données
 
 - **Moniteur système**
-  - Quatre modes : Combiné, CPU, Mémoire, CPU + mémoire
+  - Trois modes de suivi : Combiné, CPU, Mémoire
   - La vitesse d'animation du chat reflète la charge système en temps réel — plus il court vite, plus la charge est élevée
   - En mode combiné, la ressource la plus sollicitée (CPU ou mémoire) pilote l'animation
-  - Le mode CPU + mémoire affiche des pourcentages C/M compacts sur deux lignes
-  - Modes d'affichage : pourcentage et animation, animation uniquement, ou pourcentage uniquement
+  - L'affichage Deux valeurs affiche les pourcentages C/M sur deux lignes compactes
+  - Modes d'affichage : pourcentage et animation, animation uniquement, pourcentage uniquement ou deux valeurs
 
 - **Prévention de la mise en veille**
   - Couleur par défaut : normale — le système peut se mettre en veille

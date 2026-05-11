@@ -24,11 +24,11 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
   - Tutti i dati salvati localmente — completamente offline, nessuna raccolta dati
 
 - **Monitor Sistema**
-  - Quattro modalità: Combinato, CPU, Memoria, CPU + memoria
+  - Tre modalità di monitoraggio: Combinato, CPU, Memoria
   - La velocità dell'animazione del gatto riflette il carico del sistema in tempo reale — più veloce corre, più alta è la pressione
   - La modalità combinata sceglie automaticamente il valore più alto tra CPU e memoria per l'animazione
-  - La modalità CPU + memoria mostra percentuali C/M compatte su due righe
-  - Modalità di visualizzazione: percentuale e animazione, solo animazione o solo percentuale
+  - La visualizzazione Due valori mostra percentuali C/M compatte su due righe
+  - Modalità di visualizzazione: percentuale e animazione, solo animazione, solo percentuale o due valori
 
 - **Prevenzione Sospensione**
   - Colore predefinito: normale — il sistema può sospendersi

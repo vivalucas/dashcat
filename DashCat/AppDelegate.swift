@@ -8,14 +8,12 @@ enum MonitorMode: String, CaseIterable {
     case combined     = "Combined"
     case cpu          = "CPU"
     case memory       = "Memory"
-    case cpuAndMemory = "CPU + Memory"
 
     var locKey: String {
         switch self {
         case .combined:     return "combined"
         case .cpu:          return "cpu"
         case .memory:       return "memory"
-        case .cpuAndMemory: return "cpuAndMemory"
         }
     }
 }
@@ -26,12 +24,14 @@ enum DisplayMode: String, CaseIterable {
     case both      = "both"
     case animOnly  = "animOnly"
     case pctOnly   = "pctOnly"
+    case dualValues = "dualValues"
 
     var locKey: String {
         switch self {
         case .both:     return "displayBoth"
         case .animOnly: return "displayAnimOnly"
         case .pctOnly:  return "displayPctOnly"
+        case .dualValues: return "displayDualValues"
         }
     }
 }
@@ -116,7 +116,6 @@ enum Language: String, CaseIterable {
         "combined":     ["zh":"综合",       "zh-TW":"綜合",     "en":"Combined",         "ja":"総合",                 "ko":"종합",          "de":"Kombiniert",                  "fr":"Combiné",                "es":"Combinado",              "pt-BR":"Combinado",           "it":"Combinato",              "ru":"Комбинированный"],
         "cpu":          ["zh":"CPU",        "zh-TW":"CPU",      "en":"CPU",              "ja":"CPU",                  "ko":"CPU",           "de":"CPU",                         "fr":"CPU",                    "es":"CPU",                    "pt-BR":"CPU",                 "it":"CPU",                    "ru":"CPU"],
         "memory":       ["zh":"内存",       "zh-TW":"記憶體",   "en":"Memory",           "ja":"メモリ",               "ko":"메모리",        "de":"Speicher",                    "fr":"Mémoire",                "es":"Memoria",                "pt-BR":"Memória",             "it":"Memoria",                "ru":"Память"],
-        "cpuAndMemory": ["zh":"CPU + 内存", "zh-TW":"CPU + 記憶體","en":"CPU + Memory",    "ja":"CPU + メモリ",         "ko":"CPU + 메모리",  "de":"CPU + Speicher",             "fr":"CPU + mémoire",          "es":"CPU + memoria",          "pt-BR":"CPU + memória",       "it":"CPU + memoria",          "ru":"CPU + память"],
         "sleep":        ["zh":"阻止休眠",   "zh-TW":"防止休眠", "en":"Sleep Prevention", "ja":"スリープ防止",         "ko":"절전 방지",     "de":"Ruhezustand verhindern",      "fr":"Prévention de veille",   "es":"Prevención de suspensión","pt-BR":"Prevenção de suspensão","it":"Prevenzione sospensione","ru":"Предотвращение сна"],
         "sleepOff":     ["zh":"关闭",       "zh-TW":"關閉",     "en":"Off",              "ja":"オフ",                 "ko":"끔",            "de":"Aus",                         "fr":"Désactivé",              "es":"Desactivado",            "pt-BR":"Desativado",          "it":"Disattivato",            "ru":"Выкл"],
         "sleepSystem":  ["zh":"阻止系统休眠","zh-TW":"防止系統休眠","en":"Prevent System Sleep","ja":"システムスリープを防止","ko":"시스템 절전 방지","de":"System-Ruhezustand verhindern","fr":"Empêcher la veille du système","es":"Evitar suspensión del sistema","pt-BR":"Evitar suspensão do sistema","it":"Impedisci sospensione sistema","ru":"Предотвратить сон системы"],
@@ -125,6 +124,7 @@ enum Language: String, CaseIterable {
         "displayBoth":   ["zh":"数值与动画","zh-TW":"數值與動畫","en":"Percentage & Animation","ja":"数値とアニメーション","ko":"백분율 및 애니메이션","de":"Prozentwert & Animation","fr":"Pourcentage & animation","es":"Porcentaje y animación","pt-BR":"Porcentagem e animação","it":"Percentuale e animazione","ru":"Процент и анимация"],
         "displayAnimOnly":["zh":"仅动画",   "zh-TW":"僅動畫",   "en":"Animation Only",    "ja":"アニメーションのみ",   "ko":"애니메이션만",   "de":"Nur Animation",               "fr":"Animation uniquement",   "es":"Solo animación",        "pt-BR":"Apenas animação",     "it":"Solo animazione",       "ru":"Только анимация"],
         "displayPctOnly":["zh":"仅数值",    "zh-TW":"僅數值",   "en":"Percentage Only",   "ja":"数値のみ",             "ko":"백분율만",       "de":"Nur Prozentwert",             "fr":"Pourcentage uniquement", "es":"Solo porcentaje",       "pt-BR":"Apenas porcentagem",  "it":"Solo percentuale",       "ru":"Только процент"],
+        "displayDualValues":["zh":"双数值", "zh-TW":"雙數值",   "en":"Dual Values",       "ja":"2つの数値",            "ko":"두 수치",        "de":"Zwei Werte",                  "fr":"Deux valeurs",           "es":"Dos valores",           "pt-BR":"Dois valores",        "it":"Due valori",             "ru":"Два значения"],
         "clipboard":    ["zh":"剪贴板",     "zh-TW":"剪貼簿",   "en":"Clipboard",        "ja":"クリップボード",       "ko":"클립보드",      "de":"Zwischenablage",              "fr":"Presse-papiers",         "es":"Portapapeles",           "pt-BR":"Área de Transferência","it":"Appunti",               "ru":"Буфер обмена"],
         "language":     ["zh":"语言",       "zh-TW":"語言",     "en":"Language",         "ja":"言語",                 "ko":"언어",          "de":"Sprache",                     "fr":"Langue",                 "es":"Idioma",                 "pt-BR":"Idioma",              "it":"Lingua",                 "ru":"Язык"],
         "saveImages":   ["zh":"保存图片",   "zh-TW":"儲存圖片", "en":"Save Images",      "ja":"画像を保存",           "ko":"이미지 저장",   "de":"Bilder speichern",            "fr":"Enregistrer les images", "es":"Guardar imágenes",       "pt-BR":"Salvar imagens",      "it":"Salva immagini",         "ru":"Сохранять изображения"],
@@ -191,6 +191,56 @@ enum Language: String, CaseIterable {
     }
 }
 
+// MARK: - Status Dual Metric View
+
+final class StatusDualMetricView: NSView {
+    var cpu: MonitorInfo = SystemMonitor.default { didSet { needsDisplay = true } }
+    var memory: MonitorInfo = SystemMonitor.default { didSet { needsDisplay = true } }
+    var textColor: NSColor = .labelColor { didSet { needsDisplay = true } }
+
+    private let horizontalPadding: CGFloat = 0
+    private let verticalOffset: CGFloat = 1.0
+
+    override var isFlipped: Bool { true }
+
+    override func hitTest(_ point: NSPoint) -> NSView? {
+        nil
+    }
+
+    var preferredWidth: CGFloat {
+        ceil(makeText().size().width + horizontalPadding * 2)
+    }
+
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        let text = makeText()
+        let textSize = text.size()
+        let rect = NSRect(
+            x: horizontalPadding,
+            y: (bounds.height - textSize.height) / 2 + verticalOffset,
+            width: textSize.width,
+            height: textSize.height
+        )
+        text.draw(with: rect, options: [.usesLineFragmentOrigin])
+    }
+
+    private func makeText() -> NSAttributedString {
+        let para = NSMutableParagraphStyle()
+        para.alignment = .left
+        para.lineSpacing = 0
+        let cpuValue = min(100, max(0, Int(cpu.value.rounded())))
+        let memoryValue = min(100, max(0, Int(memory.value.rounded())))
+        return NSAttributedString(
+            string: "C\(cpuValue)%\nM\(memoryValue)%",
+            attributes: [
+                .font: NSFont.monospacedSystemFont(ofSize: 8.5, weight: .regular),
+                .paragraphStyle: para,
+                .foregroundColor: textColor
+            ]
+        )
+    }
+}
+
 // MARK: - AppDelegate
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
@@ -246,6 +296,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var currentMode: MonitorMode = .combined
     private var caffeineMode: CaffeineMode = .off
     private var sleepAssertionID: IOPMAssertionID = 0
+    private var dualMetricView: StatusDualMetricView?
 
     // Clipboard panel
     private var clipboardPanel: ClipboardPanel?
@@ -345,6 +396,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.font = NSFont.monospacedSystemFont(ofSize: 11, weight: .regular)
         statusItem.button?.action = #selector(buttonClicked(_:))
         statusItem.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
+        updateStatusItemLength()
     }
 
     // MARK: - Menu Setup
@@ -575,7 +627,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             if ret != kIOReturnSuccess { sleepAssertionID = 0 }
         }
         caffeineItems.forEach { $0.state = ($0.representedObject as? CaffeineMode) == mode ? .on : .off }
-        if displayMode == .pctOnly {
+        if displayMode == .pctOnly || displayMode == .dualValues {
             statusItem.button?.image = nil
         } else {
             let frames = currentFrames
@@ -765,7 +817,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             } else {
                 metric = MonitorInfo(mem.value, "M" + mem.description)
             }
-        case .cpuAndMemory:
+        }
+
+        if displayMode == .dualValues {
             let cpu = monitor.cpuUsage()
             let mem = monitor.memoryPressure()
             dualMetric = (cpu, mem)
@@ -774,7 +828,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         runnerTimer?.invalidate()
         runnerTimer = nil
-        guard displayMode != .pctOnly else {
+        guard displayMode != .pctOnly && displayMode != .dualValues else {
             statusItem.button?.image = nil
             applyMetricDisplay()
             return
@@ -782,6 +836,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         applyMetricDisplay()
         let frames = currentFrames
         statusItem.button?.image = frames[index % frames.count]
+        updateStatusItemLength()
 
         let t = min(metric.value / 100.0, 1.0)
         let fps = 1.0 + 11.0 * t
@@ -803,28 +858,87 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Display
 
     private func applyMetricDisplay() {
+        if displayMode == .dualValues {
+            applyDualMetricDisplay()
+            return
+        }
+        removeDualMetricView()
         guard displayMode != .animOnly else {
             statusItem.button?.title = ""
             statusItem.button?.attributedTitle = NSAttributedString()
+            updateStatusItemLength()
             return
         }
-        if currentMode == .cpuAndMemory {
-            let metrics = dualMetric ?? (cpu: SystemMonitor.default, memory: SystemMonitor.default)
-            statusItem.button?.title = ""
-            statusItem.button?.attributedTitle = makeDualMetricTitle(cpu: metrics.cpu, memory: metrics.memory)
-        } else if currentMode == .combined {
+        if currentMode == .combined {
             statusItem.button?.title = ""
             statusItem.button?.attributedTitle = makeStackedTitle(metric.description)
         } else if let textColor = metricTextColor {
             statusItem.button?.title = ""
             statusItem.button?.attributedTitle = NSAttributedString(string: metric.description, attributes: [
                 .font: NSFont.monospacedSystemFont(ofSize: 11, weight: .regular),
+                .baselineOffset: -0.8,
                 .foregroundColor: textColor
             ])
         } else {
-            statusItem.button?.attributedTitle = NSAttributedString()
-            statusItem.button?.title = metric.description
+            statusItem.button?.title = ""
+            statusItem.button?.attributedTitle = NSAttributedString(string: metric.description, attributes: [
+                .font: NSFont.monospacedSystemFont(ofSize: 11, weight: .regular),
+                .baselineOffset: -0.8
+            ])
         }
+        updateStatusItemLength()
+    }
+
+    private func applyDualMetricDisplay() {
+        guard let button = statusItem.button else { return }
+        let metrics = dualMetric ?? (cpu: SystemMonitor.default, memory: SystemMonitor.default)
+        button.title = ""
+        button.attributedTitle = NSAttributedString()
+        button.image = nil
+
+        let view: StatusDualMetricView
+        if let existing = dualMetricView {
+            view = existing
+        } else {
+            view = StatusDualMetricView()
+            dualMetricView = view
+            button.addSubview(view)
+            view.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                view.leadingAnchor.constraint(equalTo: button.leadingAnchor),
+                view.trailingAnchor.constraint(equalTo: button.trailingAnchor),
+                view.topAnchor.constraint(equalTo: button.topAnchor),
+                view.bottomAnchor.constraint(equalTo: button.bottomAnchor)
+            ])
+        }
+
+        view.cpu = metrics.cpu
+        view.memory = metrics.memory
+        view.textColor = metricTextColor ?? .labelColor
+        statusItem.length = view.preferredWidth
+    }
+
+    private func removeDualMetricView() {
+        dualMetricView?.removeFromSuperview()
+        dualMetricView = nil
+    }
+
+    private func updateStatusItemLength() {
+        guard let button = statusItem.button else { return }
+        let imageWidth = button.image?.size.width ?? 0
+        let attributedWidth = button.attributedTitle.length > 0 ? button.attributedTitle.size().width : 0
+        let plainWidth: CGFloat
+        if attributedWidth > 0 {
+            plainWidth = 0
+        } else if !button.title.isEmpty {
+            plainWidth = (button.title as NSString).size(withAttributes: [.font: button.font ?? NSFont.systemFont(ofSize: 11)]).width
+        } else {
+            plainWidth = 0
+        }
+        let textWidth = max(attributedWidth, plainWidth)
+        let contentGap: CGFloat = 0
+        let sidePadding: CGFloat = textWidth > 0 ? 0 : 2
+        statusItem.length = ceil(imageWidth + textWidth + contentGap + sidePadding * 2)
     }
 
     private var metricTextColor: NSColor? {
@@ -843,11 +957,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         para.lineSpacing = 0
         var valueAttributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.monospacedSystemFont(ofSize: 9, weight: .regular),
-            .paragraphStyle: para
+            .paragraphStyle: para,
+            .baselineOffset: -0.8
         ]
         var labelAttributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.monospacedSystemFont(ofSize: 7, weight: .regular),
-            .paragraphStyle: para
+            .paragraphStyle: para,
+            .baselineOffset: -0.8
         ]
         if let textColor = metricTextColor {
             valueAttributes[.foregroundColor] = textColor
@@ -857,25 +973,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         result.append(NSAttributedString(string: value + "\n", attributes: valueAttributes))
         result.append(NSAttributedString(string: label, attributes: labelAttributes))
         return result
-    }
-
-    private func makeDualMetricTitle(cpu: MonitorInfo, memory: MonitorInfo) -> NSAttributedString {
-        let para = NSMutableParagraphStyle()
-        para.alignment = .left
-        para.lineSpacing = 0
-        var attributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.monospacedSystemFont(ofSize: 8, weight: .regular),
-            .paragraphStyle: para
-        ]
-        if let textColor = metricTextColor {
-            attributes[.foregroundColor] = textColor
-        }
-        let cpuValue = min(100, max(0, Int(cpu.value.rounded())))
-        let memoryValue = min(100, max(0, Int(memory.value.rounded())))
-        return NSAttributedString(
-            string: String(format: "C%3d%%\nM%3d%%", cpuValue, memoryValue),
-            attributes: attributes
-        )
     }
 
     // MARK: - Check for Updates
@@ -980,7 +1077,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         displayModeItems.forEach { $0.state = ($0.representedObject as? DisplayMode) == displayMode ? .on : .off }
         switch displayMode {
-        case .pctOnly:
+        case .pctOnly, .dualValues:
             statusItem.button?.image = nil
             applyMetricDisplay()
         case .animOnly:

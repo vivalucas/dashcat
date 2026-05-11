@@ -24,11 +24,11 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - All data stored locally — fully offline, no data collection
 
 - **System Monitor**
-  - Four modes: Combined, CPU, Memory, CPU + Memory
+  - Three monitor modes: Combined, CPU, Memory
   - Cat animation speed reflects real-time system load — the faster it runs, the higher the pressure
   - Combined mode automatically picks the higher of CPU / memory to drive the animation
-  - CPU + Memory mode shows compact two-line C/M percentages
-  - Display modes: percentage & animation, animation only, or percentage only
+  - Dual Values display shows compact two-line C/M percentages
+  - Display modes: percentage & animation, animation only, percentage only, or dual values
 
 - **Sleep Prevention**
   - Default color: normal — system can sleep
