@@ -301,8 +301,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Migrate from CatMeter if needed
-        migrateFromCatMeter()
         migrateDisplayMode()
 
         setupMenu()
@@ -326,14 +324,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         ClipboardManager.shared.stopPolling()
         ScrollManager.shared.stop()
         if sleepAssertionID != 0 { IOPMAssertionRelease(sleepAssertionID) }
-    }
-
-    private func migrateFromCatMeter() {
-        // Migrate CatMeter language setting if present
-        if UserDefaults.standard.string(forKey: "DashCatLanguage") == nil,
-           let catLang = UserDefaults.standard.string(forKey: "CatMeterLanguage") {
-            UserDefaults.standard.set(catLang, forKey: "DashCatLanguage")
-        }
     }
 
     private func migrateDisplayMode() {
@@ -800,6 +790,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let interval = 1.0 / fps
         applyMetricDisplay()
         runnerTimer?.invalidate()
+        guard displayMode != .pctOnly else {
+            runnerTimer = nil
+            return
+        }
         runnerTimer = Timer(timeInterval: interval, repeats: true) { [weak self] _ in
             self?.nextFrame()
         }
@@ -809,7 +803,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func nextFrame() {
-        guard displayMode != .pctOnly else { return }
         let frames = currentFrames
         index = (index + 1) % frames.count
         statusItem.button?.image = frames[index]

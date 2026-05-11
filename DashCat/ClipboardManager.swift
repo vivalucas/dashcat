@@ -126,8 +126,8 @@ final class ClipboardManager {
         // Try image (TIFF or PNG)
         if UserDefaults.standard.bool(forKey: "DashCatSaveImages") {
             let imageData = pb.data(forType: .tiff) ?? pb.data(forType: .png)
-            if let data = imageData, let image = NSImage(data: data) {
-                if let saved = saveImage(image) {
+            if let data = imageData, let bitmap = NSBitmapImageRep(data: data) {
+                if let saved = saveImage(bitmap) {
                     insert(content: nil, imagePath: saved, sourceApp: sourceApp)
                 }
             }
@@ -136,10 +136,7 @@ final class ClipboardManager {
 
     // MARK: - Image Storage
 
-    private func saveImage(_ image: NSImage?) -> String? {
-        guard let tiffData = image?.tiffRepresentation,
-              let bitmap = NSBitmapImageRep(data: tiffData) else { return nil }
-
+    private func saveImage(_ bitmap: NSBitmapImageRep) -> String? {
         let uuid = UUID().uuidString
         let maxSize: CGFloat = 500
 
@@ -407,15 +404,16 @@ final class ClipboardManager {
         let maxBytes: Int64 = 500 * 1024 * 1024 // 500 MB
         guard let files = try? FileManager.default.contentsOfDirectory(atPath: imagesDir) else { return }
 
-        // Collect only non-thumbnail jpg files with their sizes
+        // Collect only non-thumbnail jpg files with their sizes and dates
         var totalSize: Int64 = 0
-        var imageFiles: [(String, Int64)] = []
+        var imageFiles: [(file: String, size: Int64, modifiedAt: Date)] = []
         for file in files where file.hasSuffix(".jpg") && !file.hasSuffix("_thumb.jpg") {
             let path = (imagesDir as NSString).appendingPathComponent(file)
             if let attrs = try? FileManager.default.attributesOfItem(atPath: path),
                let size = attrs[.size] as? Int64 {
+                let modifiedAt = attrs[.modificationDate] as? Date ?? .distantPast
                 totalSize += size
-                imageFiles.append((file, size))
+                imageFiles.append((file: file, size: size, modifiedAt: modifiedAt))
             }
         }
         guard totalSize > maxBytes else { return }
@@ -435,15 +433,9 @@ final class ClipboardManager {
         }
 
         // Sort by modification date, delete oldest first
-        imageFiles.sort { a, b in
-            let pathA = (imagesDir as NSString).appendingPathComponent(a.0)
-            let pathB = (imagesDir as NSString).appendingPathComponent(b.0)
-            let dateA = (try? FileManager.default.attributesOfItem(atPath: pathA))?[.modificationDate] as? Date ?? .distantPast
-            let dateB = (try? FileManager.default.attributesOfItem(atPath: pathB))?[.modificationDate] as? Date ?? .distantPast
-            return dateA < dateB
-        }
+        imageFiles.sort { $0.modifiedAt < $1.modifiedAt }
 
-        for (file, size) in imageFiles {
+        for (file, size, _) in imageFiles {
             guard totalSize > maxBytes else { break }
             let path = (imagesDir as NSString).appendingPathComponent(file)
 
