@@ -143,6 +143,8 @@ enum Language: String, CaseIterable {
         "customDaysPrompt":["zh":"输入天数 (1-365)：","zh-TW":"輸入天數 (1-365)：","en":"Enter number of days (1-365):","ja":"日数を入力 (1-365)：","ko":"일수 입력 (1-365)：","de":"Anzahl der Tage eingeben (1-365):","fr":"Entrez le nombre de jours (1-365) :","es":"Ingrese número de días (1-365):","pt-BR":"Digite o número de dias (1-365):","it":"Inserisci il numero di giorni (1-365):","ru":"Введите количество дней (1-365):"],
         "reverseMouseScroll":["zh":"反转鼠标滚轮","zh-TW":"反轉滑鼠滾輪","en":"Reverse Mouse Wheel","ja":"マウスホイールを反転","ko":"마우스 휠 반전","de":"Mausrad umkehren","fr":"Inverser la molette","es":"Invertir rueda del mouse","pt-BR":"Inverter roda do mouse","it":"Inverti rotella mouse","ru":"Инвертировать колесо мыши"],
         "finderNewFile":["zh":"Finder 新建文件","zh-TW":"Finder 新建檔案","en":"Finder New File","ja":"Finderで新規ファイル","ko":"Finder 새 파일 만들기","de":"Neue Datei im Finder","fr":"Nouveau fichier dans Finder","es":"Nuevo archivo en Finder","pt-BR":"Novo arquivo no Finder","it":"Nuovo file nel Finder","ru":"Новый файл в Finder"],
+        "newFileServiceName":["zh":"新建文件","zh-TW":"新建檔案","en":"New File","ja":"新規ファイル","ko":"새 파일","de":"Neue Datei","fr":"Nouveau fichier","es":"Nuevo archivo","pt-BR":"Novo arquivo","it":"Nuovo file","ru":"Новый файл"],
+        "newFileDialogPrompt":["zh":"选择文件类型：","zh-TW":"選擇檔案類型：","en":"Choose file type:","ja":"ファイル形式を選択：","ko":"파일 형식 선택:","de":"Dateityp wählen:","fr":"Choisissez le type de fichier :","es":"Elige el tipo de archivo:","pt-BR":"Escolha o tipo de arquivo:","it":"Scegli il tipo di file:","ru":"Выберите тип файла:"],
         "newFileInstallFail":["zh":"无法更新 Finder 新建文件","zh-TW":"無法更新 Finder 新建檔案","en":"Could not update Finder New File","ja":"Finder新規ファイルを更新できませんでした","ko":"Finder 새 파일 만들기를 업데이트할 수 없습니다","de":"Neue Datei im Finder konnte nicht aktualisiert werden","fr":"Impossible de mettre à jour Nouveau fichier dans Finder","es":"No se pudo actualizar Nuevo archivo en Finder","pt-BR":"Não foi possível atualizar Novo arquivo no Finder","it":"Impossibile aggiornare Nuovo file nel Finder","ru":"Не удалось обновить Новый файл в Finder"],
         "newFileInstallFailMsg":["zh":"请确认 ~/Library/Services 可写后重试。","zh-TW":"請確認 ~/Library/Services 可寫入後再試。","en":"Please make sure ~/Library/Services is writable and try again.","ja":"~/Library/Services に書き込めることを確認してから、もう一度お試しください。","ko":"~/Library/Services에 쓸 수 있는지 확인한 후 다시 시도하세요.","de":"Bitte stellen Sie sicher, dass ~/Library/Services beschreibbar ist, und versuchen Sie es erneut.","fr":"Vérifiez que ~/Library/Services est accessible en écriture, puis réessayez.","es":"Asegúrate de que ~/Library/Services tenga permiso de escritura e inténtalo de nuevo.","pt-BR":"Verifique se ~/Library/Services permite gravação e tente novamente.","it":"Verifica che ~/Library/Services sia scrivibile e riprova.","ru":"Убедитесь, что ~/Library/Services доступен для записи, и повторите попытку."],
         "accessibilityNeeded":["zh":"需要辅助功能权限","zh-TW":"需要輔助使用權限","en":"Accessibility Permission Required","ja":"アクセシビリティ権限が必要","ko":"손쉬운 사용 권한 필요","de":"Bedienungshilfen-Berechtigung erforderlich","fr":"Autorisation Accessibilité requise","es":"Se requiere permiso de Accesibilidad","pt-BR":"Permissão de Acessibilidade necessária","it":"Permesso Accessibilità richiesto","ru":"Требуется разрешение Универсального доступа"],
@@ -371,6 +373,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         setupStatusItem()
         setupSleepWakeNotifications()
         restoreState()
+        WorkflowManager.shared.refreshLocalizationIfNeeded(language: language)
         startRunning()
 
         // Start clipboard monitoring (cleanupExpired runs inside ClipboardManager.init)
@@ -754,13 +757,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         UserDefaults.standard.set(lang.rawValue, forKey: "DashCatLanguage")
         languageItems.forEach { $0.state = ($0.representedObject as? Language) == lang ? .on : .off }
         applyLanguage()
-        if WorkflowManager.shared.isInstalled {
-            do {
-                try WorkflowManager.shared.install(language: language)
-            } catch {
-                NSLog("DashCat Finder New File localization update failed: \(error.localizedDescription)")
-            }
-        }
+        WorkflowManager.shared.refreshLocalizationIfNeeded(language: language)
         clipboardPanel?.refreshLocale()
     }
 
@@ -810,6 +807,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func refreshFinderNewFileState() {
+        WorkflowManager.shared.refreshLocalizationIfNeeded(language: language)
         finderNewFileItem.state = WorkflowManager.shared.isInstalled ? .on : .off
     }
 

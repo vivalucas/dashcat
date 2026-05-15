@@ -8,6 +8,7 @@ final class WorkflowManager {
     private let servicesDir = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent("Library/Services", isDirectory: true)
     private let workflowName = "DashCat New File.workflow"
+    private let installedLanguageKey = "DashCatFinderNewFileLanguage"
 
     var isInstalled: Bool {
         FileManager.default.fileExists(atPath: workflowURL.path)
@@ -21,18 +22,30 @@ final class WorkflowManager {
 
     func install(language: Language) throws {
         let text = WorkflowText(language: language)
+        let temporaryURL = temporaryWorkflowURL()
         do {
-            try? FileManager.default.removeItem(at: workflowURL)
-
-            let contentsDir = workflowURL.appendingPathComponent("Contents", isDirectory: true)
+            let contentsDir = temporaryURL.appendingPathComponent("Contents", isDirectory: true)
             try FileManager.default.createDirectory(at: contentsDir, withIntermediateDirectories: true)
 
             try writeWorkflowDocument(to: contentsDir.appendingPathComponent("document.wflow"), text: text)
             try writeInfoPlist(to: contentsDir.appendingPathComponent("Info.plist"), text: text)
+
+            if FileManager.default.fileExists(atPath: workflowURL.path) {
+                _ = try FileManager.default.replaceItemAt(
+                    workflowURL,
+                    withItemAt: temporaryURL,
+                    backupItemName: nil,
+                    options: []
+                )
+            } else {
+                try FileManager.default.moveItem(at: temporaryURL, to: workflowURL)
+            }
+
+            UserDefaults.standard.set(language.rawValue, forKey: installedLanguageKey)
             refreshServices()
         } catch {
-            try? FileManager.default.removeItem(at: workflowURL)
-            refreshServices()
+            try? FileManager.default.removeItem(at: temporaryURL)
+            UserDefaults.standard.removeObject(forKey: installedLanguageKey)
             throw error
         }
     }
@@ -41,7 +54,21 @@ final class WorkflowManager {
         if FileManager.default.fileExists(atPath: workflowURL.path) {
             try FileManager.default.removeItem(at: workflowURL)
         }
+        UserDefaults.standard.removeObject(forKey: installedLanguageKey)
         refreshServices()
+    }
+
+    func refreshLocalizationIfNeeded(language: Language) {
+        guard isInstalled else {
+            UserDefaults.standard.removeObject(forKey: installedLanguageKey)
+            return
+        }
+        guard UserDefaults.standard.string(forKey: installedLanguageKey) != language.rawValue else { return }
+        do {
+            try install(language: language)
+        } catch {
+            logger.error("Failed to refresh Finder New File localization: \(error.localizedDescription)")
+        }
     }
 
     private func writeWorkflowDocument(to url: URL, text: WorkflowText) throws {
@@ -143,6 +170,11 @@ final class WorkflowManager {
         }
     }
 
+    private func temporaryWorkflowURL() -> URL {
+        let name = ".DashCat New File-\(UUID().uuidString).workflow"
+        return servicesDir.appendingPathComponent(name, isDirectory: true)
+    }
+
     private func shellScript(text: WorkflowText) -> String {
         let title = appleScriptString(text.dialogTitle)
         let prompt = appleScriptString(text.dialogPrompt)
@@ -217,51 +249,8 @@ private struct WorkflowText {
     let dialogPrompt: String
 
     init(language: Language) {
-        switch language {
-        case .chinese:
-            serviceName = "新建文件"
-            dialogTitle = "新建文件"
-            dialogPrompt = "选择文件类型："
-        case .traditionalChinese:
-            serviceName = "新建檔案"
-            dialogTitle = "新建檔案"
-            dialogPrompt = "選擇檔案類型："
-        case .english:
-            serviceName = "New File"
-            dialogTitle = "New File"
-            dialogPrompt = "Choose file type:"
-        case .japanese:
-            serviceName = "新規ファイル"
-            dialogTitle = "新規ファイル"
-            dialogPrompt = "ファイル形式を選択："
-        case .korean:
-            serviceName = "새 파일"
-            dialogTitle = "새 파일"
-            dialogPrompt = "파일 형식 선택:"
-        case .german:
-            serviceName = "Neue Datei"
-            dialogTitle = "Neue Datei"
-            dialogPrompt = "Dateityp wählen:"
-        case .french:
-            serviceName = "Nouveau fichier"
-            dialogTitle = "Nouveau fichier"
-            dialogPrompt = "Choisissez le type de fichier :"
-        case .spanish:
-            serviceName = "Nuevo archivo"
-            dialogTitle = "Nuevo archivo"
-            dialogPrompt = "Elige el tipo de archivo:"
-        case .portugueseBrazil:
-            serviceName = "Novo arquivo"
-            dialogTitle = "Novo arquivo"
-            dialogPrompt = "Escolha o tipo de arquivo:"
-        case .italian:
-            serviceName = "Nuovo file"
-            dialogTitle = "Nuovo file"
-            dialogPrompt = "Scegli il tipo di file:"
-        case .russian:
-            serviceName = "Новый файл"
-            dialogTitle = "Новый файл"
-            dialogPrompt = "Выберите тип файла:"
-        }
+        serviceName = language.str("newFileServiceName")
+        dialogTitle = language.str("newFileServiceName")
+        dialogPrompt = language.str("newFileDialogPrompt")
     }
 }
