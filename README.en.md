@@ -1,12 +1,12 @@
 # DashCat
 
-A lightweight macOS menu bar app that combines clipboard history, system monitoring, sleep prevention, and mouse wheel reversal into one running cat.
+A lightweight macOS menu bar app that combines clipboard history, system monitoring, sleep prevention, mouse wheel reversal, and Finder new-file creation into one running cat.
 
 [中文](README.md) | [English](README.en.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Español](README.es.md) | [Português](README.pt-BR.md) | [Italiano](README.it.md) | [繁體中文](README.zh-TW.md) | [Русский](README.ru.md)
 
 ---
 
-I'd been running several menu bar tools on macOS: one for system load, one for clipboard history (Maccy), one for sleep prevention (Caffeine), plus another fix for external mouse wheel direction. Multiple icons, multiple background processes — felt like a waste. So I built one from scratch, keeping only the essentials: system monitoring, clipboard management, sleep prevention, and mouse wheel reversal. The monitor is optimized for Apple Silicon, the clipboard manager is streamlined and efficient, and sleep prevention plus wheel reversal are built right in. Just what you need, nothing more.
+I'd been running several menu bar tools on macOS: one for system load, one for clipboard history (Maccy), one for sleep prevention (Caffeine), plus fixes for external mouse wheel direction and Finder new-file creation. Multiple icons, multiple background processes — felt like a waste. So I built one from scratch, keeping only the essentials: system monitoring, clipboard management, sleep prevention, mouse wheel reversal, and Finder new-file creation. The monitor is optimized for Apple Silicon, the clipboard manager is streamlined and efficient, sleep prevention plus wheel reversal are built right in, and Finder new-file creation is handled through a lightweight Quick Action. Just what you need, nothing more.
 
 That's how DashCat came to be. A cat sitting in the menu bar — the faster it runs, the higher the load; left-click for clipboard history with instant search; right-click for sleep prevention, mouse wheel direction, monitor mode, and language switching. One icon handles several everyday tools. Zero dependencies, minimal resource usage, all data stored locally.
 
@@ -35,6 +35,13 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - Blue: prevent system idle sleep (display can still turn off)
   - Orange: prevent display sleep
   - Switch directly from the right-click menu — cat color changes in real time
+
+- **Finder New File**
+  - Toggle a Finder Quick Action from the right-click menu
+  - Create a blank file from Finder via right-click → Quick Actions → New File
+  - When a folder is selected, creates inside it; when a file is selected, creates next to it
+  - Supports two minimal types: `TXT` and `Markdown`
+  - Runs only when the Quick Action is triggered, adding no DashCat background overhead
 
 - **More**
   - 11 languages: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
@@ -77,7 +84,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 - **Right-click** the cat icon: open settings menu
   - Switch monitor mode, sleep prevention mode
   - Manage clipboard history (save images, retention days, clear history)
-  - Reverse mouse wheel, change language, switch display mode, set launch at login
+  - Reverse mouse wheel, enable Finder New File, change language, switch display mode, set launch at login
 
 ## FAQ
 
@@ -96,6 +103,14 @@ Default → normal sleep behavior. **Blue** → preventing system sleep. **Orang
 **Why does reversing the mouse wheel require Accessibility permission?**
 
 DashCat needs to identify mouse wheel events in the system event stream and flip their direction, so macOS requires Accessibility permission. Without it, clipboard history, system monitoring, and sleep prevention still work; the right-click menu shows a hint and a shortcut to System Settings.
+
+**Does Finder New File consume background resources?**
+
+No. When enabled, DashCat writes a user-level Quick Action into `~/Library/Services/`. It is not a background process and does not consume CPU or memory while idle. macOS runs it only when you choose Finder → right-click → Quick Actions → New File. Turning the switch off removes the Quick Action.
+
+**Why is Finder New File not a top-level right-click menu item?**
+
+This is a macOS limitation for non-Finder Sync Extension approaches. DashCat uses an unsigned-friendly Quick Action, so the entry lives under Finder's Quick Actions menu; in most cases you need to select a file or folder first, then right-click.
 
 **Does it support Intel Macs?**
 
