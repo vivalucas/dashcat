@@ -332,14 +332,21 @@ final class ClipboardManager {
     func clearAll() {
         guard db != nil else { return }
         latestCache = nil
-        // Delete image files first, then database records
+
+        guard sqlite3_exec(db, "DELETE FROM clipboard_history", nil, nil, nil) == SQLITE_OK else {
+            logger.error("Failed to clear clipboard history")
+            return
+        }
+
+        if sqlite3_exec(db, "VACUUM", nil, nil, nil) != SQLITE_OK {
+            logger.error("Failed to vacuum clipboard database after clearing history")
+        }
+
         if let files = try? FileManager.default.contentsOfDirectory(atPath: imagesDir) {
             for file in files {
                 try? FileManager.default.removeItem(atPath: (imagesDir as NSString).appendingPathComponent(file))
             }
         }
-        sqlite3_exec(db, "DELETE FROM clipboard_history", nil, nil, nil)
-        sqlite3_exec(db, "VACUUM", nil, nil, nil)
     }
 
     func thumbnailPath(for path: String) -> String? {
@@ -367,7 +374,10 @@ final class ClipboardManager {
         guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else { return }
         defer { sqlite3_finalize(stmt) }
         sqlite3_bind_double(stmt, 1, cutoff)
-        sqlite3_step(stmt)
+        if sqlite3_step(stmt) != SQLITE_DONE {
+            logger.error("Failed to clean expired clipboard records")
+            return
+        }
 
         // Clean orphaned images
         cleanupOrphanedImages()
