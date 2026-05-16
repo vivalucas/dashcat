@@ -18,6 +18,8 @@
 	<string>NSApplication</string>
 	<key>LSUIElement</key>
 	<true/>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>DashCat needs to read the current Finder folder when creating a new file from the menu bar.</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>ITSAppUsesNonExemptEncryption</key>

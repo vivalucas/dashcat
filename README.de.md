@@ -39,6 +39,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
 - **Weiteres**
   - 11 Sprachen: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
   - Richtung externer Mausräder umkehren, während das Trackpad macOS Natural Scrolling beibehält
+  - TXT- oder Markdown-Datei im aktuellen Finder-Ordner erstellen, mit Zielpfad vor dem Erstellen und optionaler Ordnerauswahl
   - Start bei Anmeldung unterstützt
   - Energieeffizient: Animation begrenzt auf 12 fps, Abfrageintervall 5 Sek., automatische Pause bei System-Ruhezustand
   - Keine externen Abhängigkeiten — reines AppKit + Swift
@@ -77,7 +78,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
 - **Rechtsklick** auf das Katzen-Symbol: Einstellungsmenü öffnen
   - Monitor-Modus, Ruhezustand-Verhinderungs-Modus umschalten
   - Zwischenablage-Historie verwalten (Bilder speichern, Aufbewahrungstage, Historie löschen)
-  - Mausrad umkehren, Sprache wechseln, Anzeigemodus wechseln, Start bei Anmeldung
+  - Datei im aktuellen Finder-Ordner erstellen, Mausrad umkehren, Sprache wechseln, Anzeigemodus wechseln, Start bei Anmeldung
 
 ## Häufig gestellte Fragen
 
@@ -96,6 +97,10 @@ Standard → normales Ruheverhalten. **Blau** → System-Ruhezustand wird verhin
 **Warum benötigt das Umkehren des Mausrads Bedienungshilfen-Berechtigung?**
 
 DashCat muss Mausrad-Ereignisse im Systemereignisstrom erkennen und deren Richtung umkehren, daher verlangt macOS die Bedienungshilfen-Berechtigung. Ohne sie funktionieren Zwischenablage, Systemmonitor und Ruhezustand-Verhinderung weiterhin; das Rechtsklick-Menü zeigt einen Hinweis und eine Verknüpfung zu den Systemeinstellungen.
+
+**Warum fragt das Erstellen einer Finder-Datei nach der Steuerung von Finder?**
+
+DashCat liest den aktuellen Finder-Ordner nur, wenn Sie „Neue Datei im aktuellen Finder-Ordner“ wählen. macOS kann dafür eine Automatisierungsberechtigung anzeigen; DashCat überwacht Finder nicht im Hintergrund. Der Befehl liegt im DashCat-Menü und wird nicht in das Kontextmenü einer leeren Finder-Fläche eingefügt.
 
 **Wird Intel Mac unterstützt?**
 

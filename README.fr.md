@@ -39,6 +39,7 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
 - **Autres**
   - 11 langues : English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
   - Inverser la molette d'une souris externe tout en gardant le défilement naturel macOS du trackpad
+  - Créer un fichier TXT ou Markdown dans le dossier Finder actuel, avec affichage du chemin cible et choix possible d'un autre dossier
   - Lancement à la connexion
   - Économe en énergie : animation limitée à 12 fps, intervalle d'échantillonnage de 5 s, pause automatique lors de la mise en veille du système
   - Zéro dépendance externe — AppKit pur + Swift
@@ -77,7 +78,7 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
 - **Clic droit** sur l'icône du chat : ouvrir le menu des paramètres
   - Basculer entre les modes de surveillance et de prévention de veille
   - Gérer l'historique du presse-papiers (enregistrer les images, durée de conservation, effacer l'historique)
-  - Inverser la molette, changer la langue, changer le mode d'affichage, lancer au démarrage
+  - Créer un fichier dans le dossier Finder actuel, inverser la molette, changer la langue, changer le mode d'affichage, lancer au démarrage
 
 ## FAQ
 
@@ -96,6 +97,10 @@ Par défaut → comportement de veille normal. **Bleu** → prévention de la mi
 **Pourquoi l'inversion de la molette nécessite-t-elle l'autorisation Accessibilité ?**
 
 DashCat doit identifier les événements de molette dans le flux d'événements système et inverser leur direction, macOS exige donc l'autorisation Accessibilité. Sans elle, l'historique du presse-papiers, le moniteur système et la prévention de veille continuent de fonctionner ; le menu du clic droit affiche une indication et un raccourci vers les Réglages Système.
+
+**Pourquoi la création d'un fichier Finder demande-t-elle à contrôler Finder ?**
+
+DashCat lit le dossier Finder actuel uniquement lorsque vous choisissez « Nouveau fichier dans le dossier Finder actuel ». macOS peut afficher une demande d'autorisation d'automatisation pour obtenir ce chemin ; DashCat ne surveille pas Finder en arrière-plan. La commande se trouve dans le menu de DashCat et n'est pas injectée dans le menu contextuel d'une zone vide du Finder.
 
 **Les Mac Intel sont-ils supportés ?**
 

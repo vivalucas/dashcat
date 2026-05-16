@@ -142,6 +142,13 @@ enum Language: String, CaseIterable {
         "delete":       ["zh":"删除",       "zh-TW":"刪除",     "en":"Delete",          "ja":"削除",                 "ko":"삭제",              "de":"Löschen",                     "fr":"Supprimer",              "es":"Eliminar",               "pt-BR":"Excluir",             "it":"Elimina",                "ru":"Удалить"],
         "customDaysPrompt":["zh":"输入天数 (1-365)：","zh-TW":"輸入天數 (1-365)：","en":"Enter number of days (1-365):","ja":"日数を入力 (1-365)：","ko":"일수 입력 (1-365)：","de":"Anzahl der Tage eingeben (1-365):","fr":"Entrez le nombre de jours (1-365) :","es":"Ingrese número de días (1-365):","pt-BR":"Digite o número de dias (1-365):","it":"Inserisci il numero di giorni (1-365):","ru":"Введите количество дней (1-365):"],
         "reverseMouseScroll":["zh":"反转鼠标滚轮","zh-TW":"反轉滑鼠滾輪","en":"Reverse Mouse Wheel","ja":"マウスホイールを反転","ko":"마우스 휠 반전","de":"Mausrad umkehren","fr":"Inverser la molette","es":"Invertir rueda del mouse","pt-BR":"Inverter roda do mouse","it":"Inverti rotella mouse","ru":"Инвертировать колесо мыши"],
+        "newFileInFinder":["zh":"在当前 Finder 文件夹中新建文件","zh-TW":"在目前 Finder 檔案夾中新建檔案","en":"New File in Current Finder Folder","ja":"現在のFinderフォルダに新規ファイル","ko":"현재 Finder 폴더에 새 파일","de":"Neue Datei im aktuellen Finder-Ordner","fr":"Nouveau fichier dans le dossier Finder actuel","es":"Nuevo archivo en la carpeta actual de Finder","pt-BR":"Novo arquivo na pasta atual do Finder","it":"Nuovo file nella cartella Finder attuale","ru":"Новый файл в текущей папке Finder"],
+        "newFileTypePrompt":["zh":"选择要创建的文件类型：","zh-TW":"選擇要建立的檔案類型：","en":"Choose the file type to create:","ja":"作成するファイル形式を選択してください：","ko":"만들 파일 형식을 선택하세요:","de":"Wählen Sie den Dateityp aus:","fr":"Choisissez le type de fichier à créer :","es":"Elige el tipo de archivo que quieres crear:","pt-BR":"Escolha o tipo de arquivo para criar:","it":"Scegli il tipo di file da creare:","ru":"Выберите тип создаваемого файла:"],
+        "newFileTarget":["zh":"目标文件夹：","zh-TW":"目標檔案夾：","en":"Target folder:","ja":"作成先フォルダ：","ko":"대상 폴더:","de":"Zielordner:","fr":"Dossier cible :","es":"Carpeta de destino:","pt-BR":"Pasta de destino:","it":"Cartella di destinazione:","ru":"Целевая папка:"],
+        "chooseFolder":["zh":"选择其他文件夹\u{2026}","zh-TW":"選擇其他檔案夾\u{2026}","en":"Choose Other Folder\u{2026}","ja":"別のフォルダを選択\u{2026}","ko":"다른 폴더 선택\u{2026}","de":"Anderen Ordner wählen\u{2026}","fr":"Choisir un autre dossier\u{2026}","es":"Elegir otra carpeta\u{2026}","pt-BR":"Escolher outra pasta\u{2026}","it":"Scegli altra cartella\u{2026}","ru":"Выбрать другую папку\u{2026}"],
+        "create":       ["zh":"创建",       "zh-TW":"建立",     "en":"Create",          "ja":"作成",                 "ko":"만들기",            "de":"Erstellen",                   "fr":"Créer",                  "es":"Crear",                  "pt-BR":"Criar",               "it":"Crea",                   "ru":"Создать"],
+        "newFileCreateFail":["zh":"无法新建文件","zh-TW":"無法新建檔案","en":"Could Not Create File","ja":"ファイルを作成できませんでした","ko":"파일을 만들 수 없습니다","de":"Datei konnte nicht erstellt werden","fr":"Impossible de créer le fichier","es":"No se pudo crear el archivo","pt-BR":"Não foi possível criar o arquivo","it":"Impossibile creare il file","ru":"Не удалось создать файл"],
+        "newFileCreateFailMsg":["zh":"请确认 Finder 当前文件夹可写，并允许 DashCat 控制 Finder。","zh-TW":"請確認目前 Finder 檔案夾可寫入，並允許 DashCat 控制 Finder。","en":"Make sure the current Finder folder is writable and DashCat is allowed to control Finder.","ja":"現在のFinderフォルダに書き込めることと、DashCatによるFinderの制御が許可されていることを確認してください。","ko":"현재 Finder 폴더에 쓸 수 있고 DashCat이 Finder를 제어할 수 있는지 확인하세요.","de":"Stellen Sie sicher, dass der aktuelle Finder-Ordner beschreibbar ist und DashCat Finder steuern darf.","fr":"Vérifiez que le dossier Finder actuel est accessible en écriture et que DashCat est autorisé à contrôler Finder.","es":"Asegúrate de que la carpeta actual de Finder permita escritura y que DashCat pueda controlar Finder.","pt-BR":"Verifique se a pasta atual do Finder permite gravação e se o DashCat pode controlar o Finder.","it":"Verifica che la cartella Finder attuale sia scrivibile e che DashCat possa controllare Finder.","ru":"Убедитесь, что текущая папка Finder доступна для записи и DashCat разрешено управлять Finder."],
         "accessibilityNeeded":["zh":"需要辅助功能权限","zh-TW":"需要輔助使用權限","en":"Accessibility Permission Required","ja":"アクセシビリティ権限が必要","ko":"손쉬운 사용 권한 필요","de":"Bedienungshilfen-Berechtigung erforderlich","fr":"Autorisation Accessibilité requise","es":"Se requiere permiso de Accesibilidad","pt-BR":"Permissão de Acessibilidade necessária","it":"Permesso Accessibilità richiesto","ru":"Требуется разрешение Универсального доступа"],
         "openAccessibility":["zh":"前往授权\u{2026}","zh-TW":"前往授權\u{2026}","en":"Open System Settings\u{2026}","ja":"システム設定を開く\u{2026}","ko":"시스템 설정 열기\u{2026}","de":"Systemeinstellungen öffnen\u{2026}","fr":"Ouvrir les Réglages Système\u{2026}","es":"Abrir Ajustes del Sistema\u{2026}","pt-BR":"Abrir Ajustes do Sistema\u{2026}","it":"Apri Impostazioni di Sistema\u{2026}","ru":"Открыть Системные настройки\u{2026}"],
         "ok":           ["zh":"确定",       "zh-TW":"確定",     "en":"OK",              "ja":"OK",                   "ko":"확인",              "de":"OK",                          "fr":"OK",                     "es":"OK",                     "pt-BR":"OK",                  "it":"OK",                     "ru":"OK"],
@@ -328,6 +335,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var reverseMouseScrollItem: NSMenuItem!
     private var accessibilityHintItem: NSMenuItem!
     private var openAccessibilityItem: NSMenuItem!
+    private var newFileInFinderItem: NSMenuItem!
     private var launchAtLoginItem: NSMenuItem!
     private var helpMenuItem: NSMenuItem!
     private var checkUpdatesItem: NSMenuItem!
@@ -362,6 +370,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         migrateDisplayMode()
+        cleanupLegacyFinderWorkflow()
 
         setupMenu()
         setupStatusItem()
@@ -396,6 +405,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                                       forKey: newKey)
             UserDefaults.standard.removeObject(forKey: oldKey)
         }
+    }
+
+    private func cleanupLegacyFinderWorkflow() {
+        let workflowURL = FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent("Library/Services/DashCat New File.workflow", isDirectory: true)
+        if FileManager.default.fileExists(atPath: workflowURL.path) {
+            try? FileManager.default.removeItem(at: workflowURL)
+            refreshServices()
+        }
+        UserDefaults.standard.removeObject(forKey: "DashCatFinderNewFileLanguage")
     }
 
     private func setupStatusItem() {
@@ -521,6 +540,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
 
+        // Finder current folder tools
+        newFileInFinderItem = NSMenuItem(title: "", action: #selector(createNewFileInFinder(_:)), keyEquivalent: "")
+        menu.addItem(newFileInFinderItem)
+
+        menu.addItem(.separator())
+
         // Launch at Login
         launchAtLoginItem = NSMenuItem(title: "", action: #selector(toggleLaunchAtLogin(_:)), keyEquivalent: "")
         launchAtLoginItem.state = UserDefaults.standard.bool(forKey: "DashCatLaunchAtLogin") ? .on : .off
@@ -594,6 +619,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         reverseMouseScrollItem.title = l.str("reverseMouseScroll")
         accessibilityHintItem.title  = l.str("accessibilityNeeded")
         openAccessibilityItem.title  = l.str("openAccessibility")
+        newFileInFinderItem.title = l.str("newFileInFinder")
         launchAtLoginItem.title = l.str("launchLogin")
         helpMenuItem.title      = l.str("help")
         checkUpdatesItem.title  = l.str("checkUpdates")
@@ -734,6 +760,100 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func openAccessibilitySettings() {
         let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!
         NSWorkspace.shared.open(url)
+    }
+
+    @objc private func createNewFileInFinder(_ sender: NSMenuItem) {
+        do {
+            let defaultFolderURL = try currentFinderFolderURL()
+            guard let request = promptForNewFile(defaultFolderURL: defaultFolderURL) else { return }
+            let fileURL = try createEmptyFile(in: request.folderURL, fileExtension: request.fileExtension)
+            NSWorkspace.shared.activateFileViewerSelecting([fileURL])
+        } catch {
+            NSLog("DashCat Finder new file failed: \(error.localizedDescription)")
+            presentAlert(title: language.str("newFileCreateFail"),
+                         message: language.str("newFileCreateFailMsg"))
+        }
+    }
+
+    private func promptForNewFile(defaultFolderURL: URL) -> (folderURL: URL, fileExtension: String)? {
+        let alert = NSAlert()
+        alert.messageText = language.str("newFileInFinder")
+        alert.addButton(withTitle: language.str("create"))
+        alert.addButton(withTitle: language.str("cancel"))
+
+        var selectedFolderURL = defaultFolderURL
+        let accessory = NewFileAccessoryView(
+            language: language,
+            folderURL: selectedFolderURL,
+            chooseFolder: { [weak self] currentFolder in
+                guard let self else { return nil }
+                return self.chooseFolder(startingAt: currentFolder)
+            },
+            folderChanged: { selectedFolderURL = $0 }
+        )
+        alert.accessoryView = accessory
+
+        activateAppForModal()
+        guard alert.runModal() == .alertFirstButtonReturn else { return nil }
+        return (selectedFolderURL, accessory.selectedFileExtension)
+    }
+
+    private func chooseFolder(startingAt folderURL: URL) -> URL? {
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.allowsMultipleSelection = false
+        panel.directoryURL = folderURL
+        panel.prompt = language.str("chooseFolder")
+        return panel.runModal() == .OK ? panel.url : nil
+    }
+
+    private func currentFinderFolderURL() throws -> URL {
+        let script = """
+        tell application "Finder"
+            if (count of Finder windows) > 0 then
+                set targetFolder to target of front Finder window as alias
+            else
+                set targetFolder to path to desktop folder
+            end if
+            return POSIX path of targetFolder
+        end tell
+        """
+
+        var errorInfo: NSDictionary?
+        guard let output = NSAppleScript(source: script)?.executeAndReturnError(&errorInfo).stringValue,
+              !output.isEmpty else {
+            throw NSError(domain: "DashCat.NewFile", code: 1, userInfo: errorInfo as? [String: Any])
+        }
+        return URL(fileURLWithPath: output, isDirectory: true)
+    }
+
+    private func createEmptyFile(in folderURL: URL, fileExtension ext: String) throws -> URL {
+        var isDirectory: ObjCBool = false
+        guard FileManager.default.fileExists(atPath: folderURL.path, isDirectory: &isDirectory),
+              isDirectory.boolValue else {
+            throw NSError(domain: "DashCat.NewFile", code: 2)
+        }
+
+        var index = 1
+        while true {
+            let suffix = index == 1 ? "" : " \(index)"
+            let fileURL = folderURL.appendingPathComponent("Untitled\(suffix).\(ext)")
+            if !FileManager.default.fileExists(atPath: fileURL.path) {
+                guard FileManager.default.createFile(atPath: fileURL.path, contents: Data()) else {
+                    throw NSError(domain: "DashCat.NewFile", code: 3)
+                }
+                return fileURL
+            }
+            index += 1
+        }
+    }
+
+    private func refreshServices() {
+        let task = Process()
+        task.executableURL = URL(fileURLWithPath: "/System/Library/CoreServices/pbs")
+        task.arguments = ["-update"]
+        try? task.run()
     }
 
     @objc private func selectLanguage(_ sender: NSMenuItem) {
@@ -1126,5 +1246,92 @@ extension AppDelegate: NSMenuDelegate {
 
     func menuDidClose(_ menu: NSMenu) {
         statusItem.menu = nil
+    }
+}
+
+private final class NewFileAccessoryView: NSView {
+    private let language: Language
+    private var folderURL: URL
+    private let chooseFolder: (URL) -> URL?
+    private let folderChanged: (URL) -> Void
+    private let pathField = NSTextField(labelWithString: "")
+    private let txtButton = NSButton(radioButtonWithTitle: "TXT", target: nil, action: nil)
+    private let markdownButton = NSButton(radioButtonWithTitle: "Markdown", target: nil, action: nil)
+
+    var selectedFileExtension: String {
+        markdownButton.state == .on ? "md" : "txt"
+    }
+
+    init(language: Language,
+         folderURL: URL,
+         chooseFolder: @escaping (URL) -> URL?,
+         folderChanged: @escaping (URL) -> Void) {
+        self.language = language
+        self.folderURL = folderURL
+        self.chooseFolder = chooseFolder
+        self.folderChanged = folderChanged
+        super.init(frame: NSRect(x: 0, y: 0, width: 520, height: 108))
+        build()
+        updatePath()
+    }
+
+    required init?(coder: NSCoder) {
+        nil
+    }
+
+    private func build() {
+        let typeLabel = NSTextField(labelWithString: language.str("newFileTypePrompt"))
+        typeLabel.frame = NSRect(x: 0, y: 84, width: 520, height: 18)
+
+        txtButton.frame = NSRect(x: 0, y: 58, width: 90, height: 22)
+        markdownButton.frame = NSRect(x: 92, y: 58, width: 130, height: 22)
+        txtButton.target = self
+        txtButton.action = #selector(selectFileType(_:))
+        markdownButton.target = self
+        markdownButton.action = #selector(selectFileType(_:))
+        txtButton.state = .on
+
+        let folderLabel = NSTextField(labelWithString: language.str("newFileTarget"))
+        folderLabel.frame = NSRect(x: 0, y: 32, width: 520, height: 18)
+
+        pathField.frame = NSRect(x: 0, y: 8, width: 330, height: 18)
+        pathField.lineBreakMode = .byTruncatingMiddle
+
+        let chooseButton = NSButton(title: language.str("chooseFolder"), target: self, action: #selector(chooseOtherFolder))
+        chooseButton.frame = NSRect(x: 342, y: 0, width: 178, height: 30)
+        chooseButton.bezelStyle = .rounded
+
+        addSubview(typeLabel)
+        addSubview(txtButton)
+        addSubview(markdownButton)
+        addSubview(folderLabel)
+        addSubview(pathField)
+        addSubview(chooseButton)
+    }
+
+    @objc private func selectFileType(_ sender: NSButton) {
+        txtButton.state = sender === txtButton ? .on : .off
+        markdownButton.state = sender === markdownButton ? .on : .off
+    }
+
+    @objc private func chooseOtherFolder() {
+        guard let url = chooseFolder(folderURL) else { return }
+        folderURL = url
+        folderChanged(url)
+        updatePath()
+    }
+
+    private func updatePath() {
+        pathField.stringValue = displayPath(for: folderURL)
+        pathField.toolTip = folderURL.path
+    }
+
+    private func displayPath(for url: URL) -> String {
+        let homePath = FileManager.default.homeDirectoryForCurrentUser.path
+        if url.path == homePath { return "~" }
+        if url.path.hasPrefix(homePath + "/") {
+            return "~" + String(url.path.dropFirst(homePath.count))
+        }
+        return url.path
     }
 }

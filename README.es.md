@@ -39,6 +39,7 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
 - **Más**
   - 11 idiomas: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
   - Invertir la rueda de un mouse externo manteniendo el desplazamiento natural de macOS en el trackpad
+  - Crear un archivo TXT o Markdown en la carpeta actual de Finder, mostrando la ruta antes de crear y con opción de elegir otra carpeta
   - Soporte para abrir al iniciar sesión
   - Eficiente: límite de animación de 12 fps, intervalo de muestreo de 5 s, pausa automática en suspensión del sistema
   - Cero dependencias externas — AppKit + Swift puro
@@ -77,7 +78,7 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
 - **Clic derecho** en el icono del gato: abrir menú de configuración
   - Cambiar modo de monitoreo, modo de prevención de suspensión
   - Gestionar historial del portapapeles (guardar imágenes, días de retención, borrar historial)
-  - Invertir rueda del mouse, cambiar idioma, cambiar modo de visualización, configurar inicio al iniciar sesión
+  - Crear un archivo en la carpeta actual de Finder, invertir rueda del mouse, cambiar idioma, cambiar modo de visualización, configurar inicio al iniciar sesión
 
 ## Preguntas Frecuentes
 
@@ -96,6 +97,10 @@ Predeterminado → comportamiento normal de suspensión. **Azul** → evitando s
 **¿Por qué invertir la rueda del mouse requiere permiso de Accesibilidad?**
 
 DashCat necesita identificar eventos de rueda del mouse en el flujo de eventos del sistema e invertir su dirección, por lo que macOS requiere permiso de Accesibilidad. Sin él, el historial del portapapeles, el monitoreo del sistema y la prevención de suspensión siguen funcionando; el menú contextual muestra un aviso y un acceso a Ajustes del Sistema.
+
+**¿Por qué crear un archivo en Finder pide controlar Finder?**
+
+DashCat solo lee la carpeta actual de Finder cuando eliges “Nuevo archivo en la carpeta actual de Finder”. macOS puede mostrar un permiso de automatización para obtener esa ruta; DashCat no supervisa Finder en segundo plano. El comando está en el menú de DashCat y no se inserta en el menú contextual de un área vacía de Finder.
 
 **¿Soporta Macs con Intel?**
 
