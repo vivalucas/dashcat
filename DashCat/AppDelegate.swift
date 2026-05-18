@@ -409,8 +409,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var index = 0
     private let monitor = SystemMonitor()
-    private let statusSummaryMonitor = SystemMonitor()
+
     private var metric: MonitorInfo = SystemMonitor.default
+    private var cachedCPU: MonitorInfo = SystemMonitor.default
+    private var cachedMemory: MonitorInfo = SystemMonitor.default
     private var dualMetric: (cpu: MonitorInfo, memory: MonitorInfo)?
     private var cpuTimer: Timer?
     private var runnerTimer: Timer?
@@ -604,20 +606,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
 
-        // Battery
-        batteryHeader = makeHeader()
-        menu.addItem(batteryHeader)
-
-        showBatteryItem = NSMenuItem(title: "", action: #selector(toggleBatteryPercentage(_:)), keyEquivalent: "")
-        showBatteryItem.indentationLevel = 1
-        menu.addItem(showBatteryItem)
-
-        hideBatteryOnPowerItem = NSMenuItem(title: "", action: #selector(toggleHideBatteryWhenCharging(_:)), keyEquivalent: "")
-        hideBatteryOnPowerItem.indentationLevel = 1
-        menu.addItem(hideBatteryOnPowerItem)
-
-        menu.addItem(.separator())
-
         // Sleep prevention
         sleepHeader = makeHeader()
         menu.addItem(sleepHeader)
@@ -629,6 +617,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             menu.addItem(item)
         }
         caffeineItems.first?.state = .on
+
+        menu.addItem(.separator())
+
+        // Battery
+        batteryHeader = makeHeader()
+        menu.addItem(batteryHeader)
+
+        showBatteryItem = NSMenuItem(title: "", action: #selector(toggleBatteryPercentage(_:)), keyEquivalent: "")
+        showBatteryItem.indentationLevel = 1
+        menu.addItem(showBatteryItem)
+
+        hideBatteryOnPowerItem = NSMenuItem(title: "", action: #selector(toggleHideBatteryWhenCharging(_:)), keyEquivalent: "")
+        hideBatteryOnPowerItem.indentationLevel = 1
+        menu.addItem(hideBatteryOnPowerItem)
 
         menu.addItem(.separator())
 
@@ -731,12 +733,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func updateStatusSummary() {
         guard statusSummaryItem != nil else { return }
-        let cpu = statusSummaryMonitor.cpuUsage()
-        let memory = statusSummaryMonitor.memoryPressure()
         statusSummaryItem.title = String(
             format: language.str("statusSummary"),
-            "\(Int(cpu.value.rounded()))%",
-            "\(Int(memory.value.rounded()))%"
+            "\(Int(cachedCPU.value.rounded()))%",
+            "\(Int(cachedMemory.value.rounded()))%"
         )
     }
 
@@ -1324,23 +1324,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func updateMetric() {
+        let cpu = monitor.cpuUsage()
+        let mem = monitor.memoryPressure()
+        cachedCPU = cpu
+        cachedMemory = mem
         dualMetric = nil
         if currentMode == .cpuMemory {
-            let cpu = monitor.cpuUsage()
-            let mem = monitor.memoryPressure()
             dualMetric = (cpu, mem)
             metric = MonitorInfo(max(cpu.value, mem.value), "")
         } else {
             switch currentMode {
             case .cpu:
-                metric = monitor.cpuUsage()
+                metric = cpu
             case .memory:
-                metric = monitor.memoryPressure()
+                metric = mem
             case .cpuMemory:
                 break
             case .combined:
-                let cpu = monitor.cpuUsage()
-                let mem = monitor.memoryPressure()
                 if cpu.value >= mem.value {
                     metric = MonitorInfo(cpu.value, "C" + cpu.description)
                 } else {
