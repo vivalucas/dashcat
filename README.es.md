@@ -24,11 +24,17 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
   - Todos los datos almacenados localmente — totalmente offline, sin recopilación de datos
 
 - **Monitor del Sistema**
-  - Tres modos de monitorización: Combinado, CPU, Memoria
+  - Cuatro modos de monitorización: Combinado, CPU, Memoria, Valores de CPU y memoria
   - La velocidad de animación del gato refleja la carga del sistema en tiempo real — cuanto más rápido corre, mayor es la presión
   - El modo combinado elige automáticamente el mayor valor entre CPU y memoria para la animación
-  - La vista Dos valores muestra porcentajes C/M compactos en dos líneas
-  - Modos de visualización: porcentaje y animación, solo animación, solo porcentaje o dos valores
+  - Valores de CPU y memoria muestra porcentajes C/M compactos en dos líneas, sin animación
+  - Mostrar animación y Mostrar valor se pueden alternar por separado; al menos uno permanece activado
+
+- **Batería compacta**
+  - Indicador opcional de batería independiente en la barra de menús, separado del gato
+  - Muestra un número estrecho sin signo de porcentaje, con un relleno verde sutil para barras de menús llenas
+  - Puede ocultarse automáticamente al conectar corriente, sin dejar espacio en la barra
+  - Usa información de energía del sistema con actualización de baja frecuencia, sin animación y con carga mínima
 
 - **Prevención de Suspensión**
   - Color predeterminado: normal — el sistema puede suspenderse
@@ -78,7 +84,8 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
 - **Clic derecho** en el icono del gato: abrir menú de configuración
   - Cambiar modo de monitoreo, modo de prevención de suspensión
   - Gestionar historial del portapapeles (guardar imágenes, días de retención, borrar historial)
-  - Crear un archivo en la carpeta actual de Finder, invertir rueda del mouse, cambiar idioma, cambiar modo de visualización, configurar inicio al iniciar sesión
+  - Activar la batería compacta y ocultarla al conectar corriente
+  - Crear un archivo en la carpeta actual de Finder, invertir rueda del mouse, cambiar idioma, activar animación/valor, configurar inicio al iniciar sesión
 
 ## Preguntas Frecuentes
 

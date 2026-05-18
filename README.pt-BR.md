@@ -24,11 +24,17 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
   - Todos os dados armazenados localmente — totalmente offline, sem coleta de dados
 
 - **Monitor do Sistema**
-  - Três modos de monitoramento: Combinado, CPU, Memória
+  - Quatro modos de monitoramento: Combinado, CPU, Memória, Valores de CPU e memória
   - A velocidade da animação do gato reflete a carga do sistema em tempo real — quanto mais rápido corre, maior a pressão
   - O modo combinado escolhe automaticamente o maior valor entre CPU e memória para a animação
-  - A exibição Dois valores mostra porcentagens C/M compactas em duas linhas
-  - Modos de exibição: porcentagem e animação, apenas animação, apenas porcentagem ou dois valores
+  - Valores de CPU e memória mostra porcentagens C/M compactas em duas linhas, sem animação
+  - Mostrar animação e Mostrar valor podem ser alternados separadamente; pelo menos um permanece ativo
+
+- **Bateria compacta**
+  - Indicador de bateria opcional e independente na barra de menus, separado do gato
+  - Mostra um número estreito sem símbolo de porcentagem, com preenchimento verde sutil para barras de menu cheias
+  - Pode ocultar automaticamente quando conectado à energia, sem deixar espaço na barra de menus
+  - Usa informações de energia do sistema com atualização de baixa frequência, sem animação e com mínimo overhead
 
 - **Prevenção de Suspensão**
   - Cor padrão: normal — o sistema pode suspender
@@ -78,7 +84,8 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
 - **Clique direito** no ícone do gato: abrir menu de configurações
   - Alternar modo de monitoramento, modo de prevenção de suspensão
   - Gerenciar histórico da área de transferência (salvar imagens, dias de retenção, limpar histórico)
-  - Criar um arquivo na pasta atual do Finder, inverter roda do mouse, mudar idioma, alternar modo de exibição, configurar início ao fazer login
+  - Ativar a bateria compacta e ocultá-la quando conectado à energia
+  - Criar um arquivo na pasta atual do Finder, inverter roda do mouse, mudar idioma, alternar animação/valor, configurar início ao fazer login
 
 ## Perguntas Frequentes
 

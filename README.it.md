@@ -24,11 +24,17 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
   - Tutti i dati salvati localmente — completamente offline, nessuna raccolta dati
 
 - **Monitor Sistema**
-  - Tre modalità di monitoraggio: Combinato, CPU, Memoria
+  - Quattro modalità di monitoraggio: Combinato, CPU, Memoria, Valori CPU e memoria
   - La velocità dell'animazione del gatto riflette il carico del sistema in tempo reale — più veloce corre, più alta è la pressione
   - La modalità combinata sceglie automaticamente il valore più alto tra CPU e memoria per l'animazione
-  - La visualizzazione Due valori mostra percentuali C/M compatte su due righe
-  - Modalità di visualizzazione: percentuale e animazione, solo animazione, solo percentuale o due valori
+  - Valori CPU e memoria mostra percentuali C/M compatte su due righe, senza animazione
+  - Mostra animazione e Mostra valore si possono attivare separatamente; almeno una opzione resta attiva
+
+- **Batteria compatta**
+  - Indicatore batteria opzionale e indipendente nella barra menu, separato dal gatto
+  - Mostra un numero stretto senza percentuale, con un leggero riempimento verde per barre menu affollate
+  - Può nascondersi automaticamente quando l’alimentazione è collegata, senza lasciare spazio nella barra
+  - Usa le informazioni di alimentazione del sistema con aggiornamento a bassa frequenza, senza animazioni e con carico minimo
 
 - **Prevenzione Sospensione**
   - Colore predefinito: normale — il sistema può sospendersi
@@ -78,7 +84,8 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
 - **Clic destro** sull'icona del gatto: apri menu impostazioni
   - Cambia modalità monitor, modalità prevenzione sospensione
   - Gestisci cronologia appunti (salva immagini, giorni di conservazione, cancella cronologia)
-  - Crea un file nella cartella Finder attuale, inverti rotella mouse, cambia lingua, cambia modalità di visualizzazione, configura avvio al login
+  - Attiva la batteria compatta e l’opzione per nasconderla con alimentazione collegata
+  - Crea un file nella cartella Finder attuale, inverti rotella mouse, cambia lingua, mostra animazione/valore, configura avvio al login
 
 ## Domande Frequenti
 

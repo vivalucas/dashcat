@@ -24,11 +24,17 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
   - Toutes les données stockées localement — entièrement hors ligne, aucune collecte de données
 
 - **Moniteur système**
-  - Trois modes de suivi : Combiné, CPU, Mémoire
+  - Quatre modes de suivi : Combiné, CPU, Mémoire, Valeurs CPU et mémoire
   - La vitesse d'animation du chat reflète la charge système en temps réel — plus il court vite, plus la charge est élevée
   - En mode combiné, la ressource la plus sollicitée (CPU ou mémoire) pilote l'animation
-  - L'affichage Deux valeurs affiche les pourcentages C/M sur deux lignes compactes
-  - Modes d'affichage : pourcentage et animation, animation uniquement, pourcentage uniquement ou deux valeurs
+  - Valeurs CPU et mémoire affiche les pourcentages C/M sur deux lignes compactes, sans animation
+  - Afficher l’animation et Afficher la valeur peuvent être activés séparément ; au moins une option reste active
+
+- **Batterie compacte**
+  - Indicateur de batterie optionnel et indépendant dans la barre de menus, séparé du chat
+  - Affiche un nombre étroit sans signe %, avec un remplissage vert discret pour les barres de menus chargées
+  - Peut se masquer automatiquement sur secteur, sans laisser d’espace dans la barre de menus
+  - Utilise les informations d’alimentation du système avec une actualisation basse fréquence, sans animation ni surcharge
 
 - **Prévention de la mise en veille**
   - Couleur par défaut : normale — le système peut se mettre en veille
@@ -78,7 +84,8 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
 - **Clic droit** sur l'icône du chat : ouvrir le menu des paramètres
   - Basculer entre les modes de surveillance et de prévention de veille
   - Gérer l'historique du presse-papiers (enregistrer les images, durée de conservation, effacer l'historique)
-  - Créer un fichier dans le dossier Finder actuel, inverser la molette, changer la langue, changer le mode d'affichage, lancer au démarrage
+  - Activer la batterie compacte et son masquage sur secteur
+  - Créer un fichier dans le dossier Finder actuel, inverser la molette, changer la langue, afficher l’animation/la valeur, lancer au démarrage
 
 ## FAQ
 

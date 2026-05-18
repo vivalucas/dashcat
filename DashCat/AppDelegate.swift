@@ -1,5 +1,6 @@
 import Cocoa
 import IOKit.pwr_mgt
+import IOKit.ps
 import ServiceManagement
 
 // MARK: - MonitorMode
@@ -8,12 +9,14 @@ enum MonitorMode: String, CaseIterable {
     case combined     = "Combined"
     case cpu          = "CPU"
     case memory       = "Memory"
+    case cpuMemory    = "cpuMemory"
 
     var locKey: String {
         switch self {
         case .combined:     return "combined"
         case .cpu:          return "cpu"
         case .memory:       return "memory"
+        case .cpuMemory:    return "cpuMemoryValues"
         }
     }
 }
@@ -24,15 +27,21 @@ enum DisplayMode: String, CaseIterable {
     case both      = "both"
     case animOnly  = "animOnly"
     case pctOnly   = "pctOnly"
-    case dualValues = "dualValues"
 
     var locKey: String {
         switch self {
         case .both:     return "displayBoth"
         case .animOnly: return "displayAnimOnly"
         case .pctOnly:  return "displayPctOnly"
-        case .dualValues: return "displayDualValues"
         }
+    }
+
+    var showsAnimation: Bool {
+        self != .pctOnly
+    }
+
+    var showsNumber: Bool {
+        self != .animOnly
     }
 }
 
@@ -116,15 +125,17 @@ enum Language: String, CaseIterable {
         "combined":     ["zh":"综合",       "zh-TW":"綜合",     "en":"Combined",         "ja":"総合",                 "ko":"종합",          "de":"Kombiniert",                  "fr":"Combiné",                "es":"Combinado",              "pt-BR":"Combinado",           "it":"Combinato",              "ru":"Комбинированный"],
         "cpu":          ["zh":"CPU",        "zh-TW":"CPU",      "en":"CPU",              "ja":"CPU",                  "ko":"CPU",           "de":"CPU",                         "fr":"CPU",                    "es":"CPU",                    "pt-BR":"CPU",                 "it":"CPU",                    "ru":"CPU"],
         "memory":       ["zh":"内存",       "zh-TW":"記憶體",   "en":"Memory",           "ja":"メモリ",               "ko":"메모리",        "de":"Speicher",                    "fr":"Mémoire",                "es":"Memoria",                "pt-BR":"Memória",             "it":"Memoria",                "ru":"Память"],
+        "cpuMemoryValues":["zh":"CPU 与内存数值","zh-TW":"CPU 與記憶體數值","en":"CPU & Memory Values","ja":"CPU・メモリ数値","ko":"CPU 및 메모리 수치","de":"CPU- & Speicherwerte","fr":"Valeurs CPU et mémoire","es":"Valores de CPU y memoria","pt-BR":"Valores de CPU e memória","it":"Valori CPU e memoria","ru":"Значения CPU и памяти"],
         "sleep":        ["zh":"阻止休眠",   "zh-TW":"防止休眠", "en":"Sleep Prevention", "ja":"スリープ防止",         "ko":"절전 방지",     "de":"Ruhezustand verhindern",      "fr":"Prévention de veille",   "es":"Prevención de suspensión","pt-BR":"Prevenção de suspensão","it":"Prevenzione sospensione","ru":"Предотвращение сна"],
         "sleepOff":     ["zh":"关闭",       "zh-TW":"關閉",     "en":"Off",              "ja":"オフ",                 "ko":"끔",            "de":"Aus",                         "fr":"Désactivé",              "es":"Desactivado",            "pt-BR":"Desativado",          "it":"Disattivato",            "ru":"Выкл"],
         "sleepSystem":  ["zh":"阻止系统休眠","zh-TW":"防止系統休眠","en":"Prevent System Sleep","ja":"システムスリープを防止","ko":"시스템 절전 방지","de":"System-Ruhezustand verhindern","fr":"Empêcher la veille du système","es":"Evitar suspensión del sistema","pt-BR":"Evitar suspensão do sistema","it":"Impedisci sospensione sistema","ru":"Предотвратить сон системы"],
         "sleepDisplay": ["zh":"阻止屏幕休眠","zh-TW":"防止螢幕休眠","en":"Prevent Display Sleep","ja":"ディスプレイスリープを防止","ko":"화면 절전 방지","de":"Display-Ruhezustand verhindern","fr":"Empêcher la veille de l'écran","es":"Evitar suspensión de pantalla","pt-BR":"Evitar suspensão da tela","it":"Impedisci sospensione schermo","ru":"Предотвратить сон экрана"],
-        "display":       ["zh":"显示",      "zh-TW":"顯示",    "en":"Display",           "ja":"表示",                "ko":"표시",           "de":"Anzeige",                     "fr":"Affichage",              "es":"Visualización",          "pt-BR":"Exibição",            "it":"Visualizzazione",       "ru":"Отображение"],
-        "displayBoth":   ["zh":"数值与动画","zh-TW":"數值與動畫","en":"Percentage & Animation","ja":"数値とアニメーション","ko":"백분율 및 애니메이션","de":"Prozentwert & Animation","fr":"Pourcentage & animation","es":"Porcentaje y animación","pt-BR":"Porcentagem e animação","it":"Percentuale e animazione","ru":"Процент и анимация"],
-        "displayAnimOnly":["zh":"仅动画",   "zh-TW":"僅動畫",   "en":"Animation Only",    "ja":"アニメーションのみ",   "ko":"애니메이션만",   "de":"Nur Animation",               "fr":"Animation uniquement",   "es":"Solo animación",        "pt-BR":"Apenas animação",     "it":"Solo animazione",       "ru":"Только анимация"],
-        "displayPctOnly":["zh":"仅数值",    "zh-TW":"僅數值",   "en":"Percentage Only",   "ja":"数値のみ",             "ko":"백분율만",       "de":"Nur Prozentwert",             "fr":"Pourcentage uniquement", "es":"Solo porcentaje",       "pt-BR":"Apenas porcentagem",  "it":"Solo percentuale",       "ru":"Только процент"],
-        "displayDualValues":["zh":"双数值", "zh-TW":"雙數值",   "en":"Dual Values",       "ja":"2つの数値",            "ko":"두 수치",        "de":"Zwei Werte",                  "fr":"Deux valeurs",           "es":"Dos valores",           "pt-BR":"Dois valores",        "it":"Due valori",             "ru":"Два значения"],
+        "showAnimation":["zh":"显示动画",   "zh-TW":"顯示動畫", "en":"Show Animation",    "ja":"アニメーションを表示", "ko":"애니메이션 표시","de":"Animation anzeigen",           "fr":"Afficher l’animation",   "es":"Mostrar animación",      "pt-BR":"Mostrar animação",     "it":"Mostra animazione",      "ru":"Показывать анимацию"],
+        "showNumber":   ["zh":"显示数值",   "zh-TW":"顯示數值", "en":"Show Number",       "ja":"数値を表示",           "ko":"수치 표시",      "de":"Wert anzeigen",               "fr":"Afficher la valeur",     "es":"Mostrar valor",          "pt-BR":"Mostrar valor",        "it":"Mostra valore",          "ru":"Показывать значение"],
+        "battery":      ["zh":"电量",       "zh-TW":"電量",     "en":"Battery",          "ja":"バッテリー",           "ko":"배터리",        "de":"Batterie",                    "fr":"Batterie",               "es":"Batería",                "pt-BR":"Bateria",             "it":"Batteria",              "ru":"Батарея"],
+        "showCompactBattery":["zh":"显示极简电量","zh-TW":"顯示極簡電量","en":"Show Compact Battery","ja":"コンパクトなバッテリー表示","ko":"간결한 배터리 표시","de":"Kompakte Batterie anzeigen","fr":"Afficher la batterie compacte","es":"Mostrar batería compacta","pt-BR":"Mostrar bateria compacta","it":"Mostra batteria compatta","ru":"Показывать компактную батарею"],
+        "hideBatteryPluggedIn":["zh":"接电时隐藏","zh-TW":"接上電源時隱藏","en":"Hide When Plugged In","ja":"電源接続中は非表示","ko":"전원 연결 시 숨기기","de":"Bei Netzbetrieb ausblenden","fr":"Masquer sur secteur","es":"Ocultar al conectar corriente","pt-BR":"Ocultar quando conectado à energia","it":"Nascondi con alimentazione collegata","ru":"Скрывать при подключении питания"],
+        "batteryTooltip":["zh":"电量：%@%%","zh-TW":"電量：%@%%","en":"Battery: %@%%","ja":"バッテリー：%@%%","ko":"배터리: %@%%","de":"Batterie: %@%%","fr":"Batterie : %@%%","es":"Batería: %@%%","pt-BR":"Bateria: %@%%","it":"Batteria: %@%%","ru":"Батарея: %@%%"],
         "clipboard":    ["zh":"剪贴板",     "zh-TW":"剪貼簿",   "en":"Clipboard",        "ja":"クリップボード",       "ko":"클립보드",      "de":"Zwischenablage",              "fr":"Presse-papiers",         "es":"Portapapeles",           "pt-BR":"Área de Transferência","it":"Appunti",               "ru":"Буфер обмена"],
         "language":     ["zh":"语言",       "zh-TW":"語言",     "en":"Language",         "ja":"言語",                 "ko":"언어",          "de":"Sprache",                     "fr":"Langue",                 "es":"Idioma",                 "pt-BR":"Idioma",              "it":"Lingua",                 "ru":"Язык"],
         "saveImages":   ["zh":"保存图片",   "zh-TW":"儲存圖片", "en":"Save Images",      "ja":"画像を保存",           "ko":"이미지 저장",   "de":"Bilder speichern",            "fr":"Enregistrer les images", "es":"Guardar imágenes",       "pt-BR":"Salvar imagens",      "it":"Salva immagini",         "ru":"Сохранять изображения"],
@@ -257,6 +268,95 @@ final class StatusDualMetricView: NSView {
     }
 }
 
+// MARK: - Battery Status
+
+private struct BatteryInfo: Equatable {
+    let level: Int
+    let isPluggedIn: Bool
+    let isCharging: Bool
+}
+
+private final class BatteryStatusView: NSView {
+    private static let font = NSFont.monospacedDigitSystemFont(ofSize: 11, weight: .medium)
+    private static let horizontalPadding: CGFloat = 2
+    private static let verticalInset: CGFloat = 3.5
+
+    var battery: BatteryInfo = BatteryInfo(level: 0, isPluggedIn: false, isCharging: false) {
+        didSet { needsDisplay = true }
+    }
+
+    override var isFlipped: Bool { true }
+
+    override func hitTest(_ point: NSPoint) -> NSView? {
+        nil
+    }
+
+    var preferredWidth: CGFloat {
+        Self.preferredWidth(for: battery.level)
+    }
+
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        let text = "\(battery.level)"
+        let attributedText = NSAttributedString(string: text, attributes: [
+            .font: Self.font,
+            .foregroundColor: NSColor.labelColor
+        ])
+        let textSize = attributedText.size()
+        let badgeRect = NSRect(
+            x: 0.5,
+            y: Self.verticalInset,
+            width: max(0, bounds.width - 1),
+            height: max(0, bounds.height - Self.verticalInset * 2)
+        )
+
+        drawBatteryFill(in: badgeRect)
+
+        let textRect = NSRect(
+            x: (bounds.width - textSize.width) / 2,
+            y: (bounds.height - textSize.height) / 2 - 0.5,
+            width: textSize.width,
+            height: textSize.height
+        )
+        attributedText.draw(with: textRect, options: [.usesLineFragmentOrigin])
+    }
+
+    private func drawBatteryFill(in rect: NSRect) {
+        guard rect.width > 0, rect.height > 0 else { return }
+        let tint = tintColor
+        let radius = min(4, rect.height / 2)
+        let path = NSBezierPath(roundedRect: rect, xRadius: radius, yRadius: radius)
+
+        tint.withAlphaComponent(0.08).setFill()
+        path.fill()
+
+        let levelFraction = min(1, max(0, CGFloat(battery.level) / 100))
+        let fillRect = NSRect(
+            x: rect.minX,
+            y: rect.minY,
+            width: max(1, rect.width * levelFraction),
+            height: rect.height
+        )
+        NSGraphicsContext.saveGraphicsState()
+        path.addClip()
+        tint.withAlphaComponent(0.16).setFill()
+        fillRect.fill()
+        NSGraphicsContext.restoreGraphicsState()
+    }
+
+    private var tintColor: NSColor {
+        if battery.level <= 10 { return .systemRed }
+        if battery.level <= 20 { return .systemOrange }
+        return .systemGreen
+    }
+
+    static func preferredWidth(for level: Int) -> CGFloat {
+        let text = "\(level)" as NSString
+        let width = text.size(withAttributes: [.font: font]).width
+        return ceil(width + horizontalPadding * 2)
+    }
+}
+
 // MARK: - AppDelegate
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
@@ -308,11 +408,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var dualMetric: (cpu: MonitorInfo, memory: MonitorInfo)?
     private var cpuTimer: Timer?
     private var runnerTimer: Timer?
+    private var batteryTimer: Timer?
     private var displayMode: DisplayMode = .both
     private var currentMode: MonitorMode = .combined
     private var caffeineMode: CaffeineMode = .off
     private var sleepAssertionID: IOPMAssertionID = 0
     private var dualMetricView: StatusDualMetricView?
+    private var batteryStatusItem: NSStatusItem?
+    private var batteryStatusView: BatteryStatusView?
+    private var lastBatteryInfo: BatteryInfo?
+    private var powerSourceRunLoopSource: CFRunLoopSource?
+    private var showBatteryPercentage = false
+    private var hideBatteryWhenCharging = true
 
     // Clipboard panel
     private var clipboardPanel: ClipboardPanel?
@@ -320,8 +427,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // Menu item references
     private var monitorHeader: NSMenuItem!
     private var modeItems: [NSMenuItem] = []
-    private var displayMenu: NSMenuItem!
-    private var displayModeItems: [NSMenuItem] = []
+    private var showAnimationItem: NSMenuItem!
+    private var showNumberItem: NSMenuItem!
+    private var batteryHeader: NSMenuItem!
+    private var showBatteryPercentItem: NSMenuItem!
+    private var hideBatteryChargingItem: NSMenuItem!
     private var sleepHeader: NSMenuItem!
     private var caffeineItems: [NSMenuItem] = []
     private var clipboardHeader: NSMenuItem!
@@ -390,6 +500,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         clipboardPanel?.close()
         clipboardPanel = nil
         stopRunning()
+        stopPowerSourceMonitoring()
+        removeBatteryStatusItem()
         ClipboardManager.shared.stopPolling()
         ScrollManager.shared.stop()
         if sleepAssertionID != 0 { IOPMAssertionRelease(sleepAssertionID) }
@@ -397,6 +509,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func migrateDisplayMode() {
         let newKey = "DashCatDisplayMode"
+        if UserDefaults.standard.string(forKey: newKey) == "dualValues" {
+            UserDefaults.standard.set(MonitorMode.cpuMemory.rawValue, forKey: "DashCatMonitorMode")
+            UserDefaults.standard.set(DisplayMode.pctOnly.rawValue, forKey: newKey)
+            return
+        }
         guard UserDefaults.standard.string(forKey: newKey) == nil else { return }
         let oldKey = "DashCatShowPercentage"
         if UserDefaults.standard.object(forKey: oldKey) != nil {
@@ -444,20 +561,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         modeItems.first?.state = .on
 
-        // Display submenu (inside Monitor section)
         menu.addItem(.separator())
-        displayMenu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
-        let displaySubmenu = NSMenu()
-        for mode in DisplayMode.allCases {
-            let item = NSMenuItem(title: "", action: #selector(selectDisplayMode(_:)), keyEquivalent: "")
-            item.representedObject = mode
-            item.indentationLevel = 1
-            displayModeItems.append(item)
-            displaySubmenu.addItem(item)
-        }
-        displayMenu.submenu = displaySubmenu
-        displayMenu.indentationLevel = 1
-        menu.addItem(displayMenu)
+
+        showAnimationItem = NSMenuItem(title: "", action: #selector(toggleShowAnimation(_:)), keyEquivalent: "")
+        showAnimationItem.indentationLevel = 1
+        menu.addItem(showAnimationItem)
+
+        showNumberItem = NSMenuItem(title: "", action: #selector(toggleShowNumber(_:)), keyEquivalent: "")
+        showNumberItem.indentationLevel = 1
+        menu.addItem(showNumberItem)
+
+        menu.addItem(.separator())
+
+        // Battery section
+        batteryHeader = makeHeader()
+        menu.addItem(batteryHeader)
+
+        showBatteryPercentItem = NSMenuItem(title: "", action: #selector(toggleBatteryPercentage(_:)), keyEquivalent: "")
+        showBatteryPercentItem.indentationLevel = 1
+        menu.addItem(showBatteryPercentItem)
+
+        hideBatteryChargingItem = NSMenuItem(title: "", action: #selector(toggleHideBatteryWhenCharging(_:)), keyEquivalent: "")
+        hideBatteryChargingItem.indentationLevel = 1
+        menu.addItem(hideBatteryChargingItem)
 
         menu.addItem(.separator())
 
@@ -589,12 +715,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 item.title = l.str(mode.locKey)
             }
         }
-        displayMenu.title = l.str("display")
-        for item in displayModeItems {
-            if let mode = item.representedObject as? DisplayMode {
-                item.title = l.str(mode.locKey)
-            }
-        }
+        showAnimationItem.title = l.str("showAnimation")
+        showNumberItem.title = l.str("showNumber")
+        batteryHeader.title = l.str("battery")
+        showBatteryPercentItem.title = l.str("showCompactBattery")
+        hideBatteryChargingItem.title = l.str("hideBatteryPluggedIn")
         sleepHeader.title = l.str("sleep")
         for item in caffeineItems {
             if let mode = item.representedObject as? CaffeineMode {
@@ -662,7 +787,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             if ret != kIOReturnSuccess { sleepAssertionID = 0 }
         }
         caffeineItems.forEach { $0.state = ($0.representedObject as? CaffeineMode) == mode ? .on : .off }
-        if displayMode == .pctOnly || displayMode == .dualValues {
+        if displayMode == .pctOnly || currentMode == .cpuMemory {
             statusItem.button?.image = nil
         } else {
             let frames = currentFrames
@@ -674,18 +799,63 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Menu Actions
 
-    @objc private func selectDisplayMode(_ sender: NSMenuItem) {
-        guard let mode = sender.representedObject as? DisplayMode else { return }
-        displayMode = mode
-        displayModeItems.forEach { $0.state = ($0.representedObject as? DisplayMode) == mode ? .on : .off }
-        UserDefaults.standard.set(mode.rawValue, forKey: "DashCatDisplayMode")
+    @objc private func toggleShowAnimation(_ sender: NSMenuItem) {
+        guard currentMode != .cpuMemory else { return }
+        setDisplayFlags(showAnimation: !displayMode.showsAnimation,
+                        showNumber: displayMode.showsNumber)
+    }
+
+    @objc private func toggleShowNumber(_ sender: NSMenuItem) {
+        guard currentMode != .cpuMemory else { return }
+        setDisplayFlags(showAnimation: displayMode.showsAnimation,
+                        showNumber: !displayMode.showsNumber)
+    }
+
+    private func setDisplayFlags(showAnimation: Bool, showNumber: Bool) {
+        guard showAnimation || showNumber else {
+            refreshDisplayMenuState()
+            return
+        }
+        if showAnimation && showNumber {
+            displayMode = .both
+        } else if showAnimation {
+            displayMode = .animOnly
+        } else {
+            displayMode = .pctOnly
+        }
+        refreshDisplayMenuState()
+        UserDefaults.standard.set(displayMode.rawValue, forKey: "DashCatDisplayMode")
         updateMetric()
+    }
+
+    @objc private func toggleBatteryPercentage(_ sender: NSMenuItem) {
+        showBatteryPercentage.toggle()
+        UserDefaults.standard.set(showBatteryPercentage, forKey: "DashCatShowBatteryPercentage")
+        refreshBatteryMenuState()
+        if showBatteryPercentage {
+            setupPowerSourceMonitoring()
+        } else {
+            stopPowerSourceMonitoring()
+            updateBatteryStatus(force: true)
+        }
+    }
+
+    @objc private func toggleHideBatteryWhenCharging(_ sender: NSMenuItem) {
+        hideBatteryWhenCharging.toggle()
+        UserDefaults.standard.set(hideBatteryWhenCharging, forKey: "DashCatHideBatteryWhenCharging")
+        refreshBatteryMenuState()
+        updateBatteryStatus(force: true)
     }
 
     @objc private func selectMode(_ sender: NSMenuItem) {
         guard let mode = sender.representedObject as? MonitorMode else { return }
         currentMode = mode
         modeItems.forEach { $0.state = ($0.representedObject as? MonitorMode) == mode ? .on : .off }
+        if mode == .cpuMemory {
+            displayMode = .pctOnly
+            UserDefaults.standard.set(displayMode.rawValue, forKey: "DashCatDisplayMode")
+        }
+        refreshDisplayMenuState()
         UserDefaults.standard.set(mode.rawValue, forKey: "DashCatMonitorMode")
         updateMetric()
     }
@@ -862,6 +1032,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         UserDefaults.standard.set(lang.rawValue, forKey: "DashCatLanguage")
         languageItems.forEach { $0.state = ($0.representedObject as? Language) == lang ? .on : .off }
         applyLanguage()
+        updateBatteryStatus(force: true)
         clipboardPanel?.refreshLocale()
     }
 
@@ -895,12 +1066,174 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         openAccessibilityItem.isHidden = !needsPermission
     }
 
+    private func refreshBatteryMenuState() {
+        showBatteryPercentItem.state = showBatteryPercentage ? .on : .off
+        hideBatteryChargingItem.state = hideBatteryWhenCharging ? .on : .off
+        hideBatteryChargingItem.isEnabled = showBatteryPercentage
+    }
+
+    private func refreshDisplayMenuState() {
+        let isCpuMemory = currentMode == .cpuMemory
+        showAnimationItem.state = (!isCpuMemory && displayMode.showsAnimation) ? .on : .off
+        showNumberItem.state = (isCpuMemory || displayMode.showsNumber) ? .on : .off
+        showAnimationItem.isEnabled = !isCpuMemory
+        showNumberItem.isEnabled = !isCpuMemory
+    }
+
+    private func setupPowerSourceMonitoring() {
+        stopPowerSourceMonitoring()
+
+        let context = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
+        if let source = IOPSNotificationCreateRunLoopSource({ context in
+            guard let context else { return }
+            let appDelegate = Unmanaged<AppDelegate>.fromOpaque(context).takeUnretainedValue()
+            DispatchQueue.main.async {
+                appDelegate.updateBatteryStatus()
+            }
+        }, context)?.takeRetainedValue() {
+            powerSourceRunLoopSource = source
+            CFRunLoopAddSource(CFRunLoopGetMain(), source, .commonModes)
+        }
+
+        batteryTimer = Timer(timeInterval: 60.0, repeats: true) { [weak self] _ in
+            self?.updateBatteryStatus()
+        }
+        if let timer = batteryTimer {
+            RunLoop.main.add(timer, forMode: .common)
+        }
+        updateBatteryStatus(force: true)
+    }
+
+    private func stopPowerSourceMonitoring() {
+        batteryTimer?.invalidate()
+        batteryTimer = nil
+        if let source = powerSourceRunLoopSource {
+            CFRunLoopRemoveSource(CFRunLoopGetMain(), source, .commonModes)
+            powerSourceRunLoopSource = nil
+        }
+    }
+
+    private func updateBatteryStatus(force: Bool = false) {
+        guard showBatteryPercentage else {
+            lastBatteryInfo = nil
+            removeBatteryStatusItem()
+            return
+        }
+        guard let info = readBatteryInfo() else {
+            lastBatteryInfo = nil
+            removeBatteryStatusItem()
+            return
+        }
+
+        let shouldHide = hideBatteryWhenCharging && info.isPluggedIn
+        if shouldHide {
+            lastBatteryInfo = info
+            removeBatteryStatusItem()
+            return
+        }
+
+        if force || lastBatteryInfo != info || batteryStatusItem == nil {
+            applyBatteryInfo(info)
+        }
+        lastBatteryInfo = info
+    }
+
+    private func applyBatteryInfo(_ info: BatteryInfo) {
+        let view = ensureBatteryStatusView(for: info)
+        view.battery = info
+        batteryStatusItem?.length = view.preferredWidth
+        batteryStatusItem?.button?.toolTip = String(format: language.str("batteryTooltip"), "\(info.level)")
+    }
+
+    private func ensureBatteryStatusView(for info: BatteryInfo) -> BatteryStatusView {
+        if let view = batteryStatusView {
+            return view
+        }
+
+        let view = BatteryStatusView()
+        view.battery = info
+        batteryStatusView = view
+
+        let item = NSStatusBar.system.statusItem(withLength: view.preferredWidth)
+        item.behavior = []
+        batteryStatusItem = item
+
+        if let button = item.button {
+            button.addSubview(view)
+            view.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                view.leadingAnchor.constraint(equalTo: button.leadingAnchor),
+                view.trailingAnchor.constraint(equalTo: button.trailingAnchor),
+                view.topAnchor.constraint(equalTo: button.topAnchor),
+                view.bottomAnchor.constraint(equalTo: button.bottomAnchor)
+            ])
+        }
+
+        return view
+    }
+
+    private func removeBatteryStatusItem() {
+        if let item = batteryStatusItem {
+            NSStatusBar.system.removeStatusItem(item)
+        }
+        batteryStatusItem = nil
+        batteryStatusView = nil
+    }
+
+    private func readBatteryInfo() -> BatteryInfo? {
+        guard let info = IOPSCopyPowerSourcesInfo()?.takeRetainedValue(),
+              let sources = IOPSCopyPowerSourcesList(info)?.takeRetainedValue() as? [CFTypeRef] else {
+            return nil
+        }
+
+        for source in sources {
+            guard let description = IOPSGetPowerSourceDescription(info, source)?
+                .takeUnretainedValue() as? [String: Any] else {
+                continue
+            }
+            if let transport = description[kIOPSTransportTypeKey as String] as? String,
+               transport != kIOPSInternalType {
+                continue
+            }
+            guard let current = doubleValue(description[kIOPSCurrentCapacityKey as String]),
+                  let maximum = doubleValue(description[kIOPSMaxCapacityKey as String]),
+                  maximum > 0 else {
+                continue
+            }
+
+            let rawLevel = Int((current / maximum * 100).rounded())
+            let level = min(100, max(0, rawLevel))
+            let state = description[kIOPSPowerSourceStateKey as String] as? String
+            let isPluggedIn = state == kIOPSACPowerValue
+            let isCharging = boolValue(description[kIOPSIsChargingKey as String]) ?? isPluggedIn
+            return BatteryInfo(level: level, isPluggedIn: isPluggedIn, isCharging: isCharging)
+        }
+        return nil
+    }
+
+    private func doubleValue(_ value: Any?) -> Double? {
+        if let number = value as? NSNumber { return number.doubleValue }
+        if let value = value as? Double { return value }
+        if let value = value as? Int { return Double(value) }
+        return nil
+    }
+
+    private func boolValue(_ value: Any?) -> Bool? {
+        if let number = value as? NSNumber { return number.boolValue }
+        if let value = value as? Bool { return value }
+        return nil
+    }
+
     @objc private func terminateApp(_ sender: Any?) { NSApp.terminate(nil) }
     @objc private func receiveSleep() {
         stopRunning()
+        stopPowerSourceMonitoring()
         ClipboardManager.shared.stopPolling()
     }
     @objc private func receiveWakeUp() {
+        if showBatteryPercentage {
+            setupPowerSourceMonitoring()
+        }
         startRunning()
         ClipboardManager.shared.startPolling()
     }
@@ -937,7 +1270,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func updateMetric() {
         dualMetric = nil
-        if displayMode == .dualValues {
+        if currentMode == .cpuMemory {
             let cpu = monitor.cpuUsage()
             let mem = monitor.memoryPressure()
             dualMetric = (cpu, mem)
@@ -948,6 +1281,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 metric = monitor.cpuUsage()
             case .memory:
                 metric = monitor.memoryPressure()
+            case .cpuMemory:
+                break
             case .combined:
                 let cpu = monitor.cpuUsage()
                 let mem = monitor.memoryPressure()
@@ -961,7 +1296,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         runnerTimer?.invalidate()
         runnerTimer = nil
-        guard displayMode != .pctOnly && displayMode != .dualValues else {
+        guard displayMode != .pctOnly && currentMode != .cpuMemory else {
             statusItem.button?.image = nil
             applyMetricDisplay()
             return
@@ -991,7 +1326,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Display
 
     private func applyMetricDisplay() {
-        if displayMode == .dualValues {
+        if currentMode == .cpuMemory {
             applyDualMetricDisplay()
             return
         }
@@ -1058,7 +1393,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func updateStatusItemLength() {
         guard let button = statusItem.button else { return }
-        if displayMode != .dualValues,
+        if currentMode != .cpuMemory,
            currentMode == .combined,
            button.attributedTitle.length > 0 {
             statusItem.length = NSStatusItem.variableLength
@@ -1212,13 +1547,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
            let mode = DisplayMode(rawValue: modeStr) {
             displayMode = mode
         }
-        displayModeItems.forEach { $0.state = ($0.representedObject as? DisplayMode) == displayMode ? .on : .off }
+        refreshDisplayMenuState()
         switch displayMode {
-        case .pctOnly, .dualValues:
+        case .pctOnly:
             statusItem.button?.image = nil
             applyMetricDisplay()
         case .animOnly:
-            break // image already set in setupStatusItem
+            if currentMode == .cpuMemory { applyMetricDisplay() }
         case .both:
             applyMetricDisplay()
         }
@@ -1232,6 +1567,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             historyDaysItems.forEach { $0.state = .off }
             customDaysItem.title = "\(language.str("customDays")) (\(custom))"
         }
+        showBatteryPercentage = UserDefaults.standard.bool(forKey: "DashCatShowBatteryPercentage")
+        if UserDefaults.standard.object(forKey: "DashCatHideBatteryWhenCharging") == nil {
+            hideBatteryWhenCharging = true
+            UserDefaults.standard.set(true, forKey: "DashCatHideBatteryWhenCharging")
+        } else {
+            hideBatteryWhenCharging = UserDefaults.standard.bool(forKey: "DashCatHideBatteryWhenCharging")
+        }
+        refreshBatteryMenuState()
+        if showBatteryPercentage {
+            setupPowerSourceMonitoring()
+        } else {
+            updateBatteryStatus(force: true)
+        }
         refreshLaunchAtLoginState()
     }
 }
@@ -1242,6 +1590,7 @@ extension AppDelegate: NSMenuDelegate {
     func menuWillOpen(_ menu: NSMenu) {
         refreshLaunchAtLoginState()
         refreshScrollState()
+        refreshBatteryMenuState()
     }
 
     func menuDidClose(_ menu: NSMenu) {

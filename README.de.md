@@ -24,11 +24,17 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
   - Alle Daten lokal gespeichert — vollständig offline, keine Datenerfassung
 
 - **Systemmonitor**
-  - Drei Monitormodi: Kombiniert, CPU, Speicher
+  - Vier Monitormodi: Kombiniert, CPU, Speicher, CPU- & Speicherwerte
   - Geschwindigkeit der Katzen-Animation spiegelt die Systemauslastung in Echtzeit wider — je schneller, desto höher die Auslastung
   - Im kombinierten Modus wird automatisch die höhere CPU- oder Speicherbelastung zur Steuerung der Animation verwendet
-  - Zwei Werte zeigt kompakte zweizeilige C/M-Prozentwerte
-  - Anzeigemodi: Prozentwert & Animation, nur Animation, nur Prozentwert oder zwei Werte
+  - CPU- & Speicherwerte zeigt kompakte zweizeilige C/M-Prozentwerte ohne Animation
+  - Animation anzeigen und Wert anzeigen lassen sich unabhängig umschalten; mindestens eine Option bleibt aktiv
+
+- **Kompakte Batterieanzeige**
+  - Optionale eigenständige Batterieanzeige in der Menüleiste, getrennt vom Katzen-Icon
+  - Zeigt eine schmale Zahl ohne Prozentzeichen mit dezenter grüner Batteriefüllung für volle Menüleisten
+  - Kann bei Netzbetrieb automatisch ausgeblendet werden, ohne Platz in der Menüleiste zu belegen
+  - Nutzt System-Strominformationen mit niedriger Aktualisierungsfrequenz, ohne Animation und mit minimalem Aufwand
 
 - **Ruhezustand-Verhinderung**
   - Standardfarbe: normal — System darf in den Ruhezustand
@@ -78,7 +84,8 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
 - **Rechtsklick** auf das Katzen-Symbol: Einstellungsmenü öffnen
   - Monitor-Modus, Ruhezustand-Verhinderungs-Modus umschalten
   - Zwischenablage-Historie verwalten (Bilder speichern, Aufbewahrungstage, Historie löschen)
-  - Datei im aktuellen Finder-Ordner erstellen, Mausrad umkehren, Sprache wechseln, Anzeigemodus wechseln, Start bei Anmeldung
+  - Kompakte Batterieanzeige und Ausblenden bei Netzbetrieb umschalten
+  - Datei im aktuellen Finder-Ordner erstellen, Mausrad umkehren, Sprache wechseln, Animation/Wert anzeigen, Start bei Anmeldung
 
 ## Häufig gestellte Fragen
 
