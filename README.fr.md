@@ -24,11 +24,10 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
   - Toutes les données stockées localement — entièrement hors ligne, aucune collecte de données
 
 - **Moniteur système**
-  - Quatre modes de suivi : Combiné, CPU, Mémoire, Valeurs CPU et mémoire
+  - Le menu de clic droit est organisé autour de l'élément chat : Affichage (Chat + valeur, Chat seul, Valeur seule) et Métrique (Combiné, CPU, Mémoire, CPU + mémoire)
   - La vitesse d'animation du chat reflète la charge système en temps réel — plus il court vite, plus la charge est élevée
   - En mode combiné, la ressource la plus sollicitée (CPU ou mémoire) pilote l'animation
-  - Valeurs CPU et mémoire affiche les pourcentages C/M sur deux lignes compactes, sans animation
-  - Afficher l’animation et Afficher la valeur peuvent être activés séparément ; au moins une option reste active
+  - CPU + mémoire affiche les pourcentages C/M sur deux lignes compactes et utilise automatiquement Valeur seule
 
 - **Batterie compacte**
   - Indicateur de batterie optionnel et indépendant dans la barre de menus, séparé du chat
@@ -82,10 +81,10 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
   - `Option + Entrée` pour copier en texte brut
   - Clic droit sur un élément pour l'épingler ou le détacher
 - **Clic droit** sur l'icône du chat : ouvrir le menu des paramètres
-  - Basculer entre les modes de surveillance et de prévention de veille
+  - Configurer l'élément chat par affichage et métrique
   - Gérer l'historique du presse-papiers (enregistrer les images, durée de conservation, effacer l'historique)
-  - Activer la batterie compacte et son masquage sur secteur
-  - Créer un fichier dans le dossier Finder actuel, inverser la molette, changer la langue, afficher l’animation/la valeur, lancer au démarrage
+  - Activer l'élément batterie indépendant et son masquage sur secteur
+  - Créer un fichier dans le dossier Finder actuel, inverser la molette, changer la langue, lancer au démarrage
 
 ## FAQ
 

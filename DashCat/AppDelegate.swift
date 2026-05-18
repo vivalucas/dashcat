@@ -16,7 +16,7 @@ enum MonitorMode: String, CaseIterable {
         case .combined:     return "combined"
         case .cpu:          return "cpu"
         case .memory:       return "memory"
-        case .cpuMemory:    return "cpuMemoryValues"
+        case .cpuMemory:    return "cpuMemory"
         }
     }
 }
@@ -30,9 +30,9 @@ enum DisplayMode: String, CaseIterable {
 
     var locKey: String {
         switch self {
-        case .both:     return "displayBoth"
-        case .animOnly: return "displayAnimOnly"
-        case .pctOnly:  return "displayPctOnly"
+        case .both:     return "displayCatNumber"
+        case .animOnly: return "displayCatOnly"
+        case .pctOnly:  return "displayNumberOnly"
         }
     }
 
@@ -121,19 +121,25 @@ enum Language: String, CaseIterable {
     }
 
     private static let table: [String: [String: String]] = [
-        "monitor":      ["zh":"监控",       "zh-TW":"監控",     "en":"Monitor",          "ja":"モニター",             "ko":"모니터",        "de":"Monitor",                     "fr":"Moniteur",               "es":"Monitor",                "pt-BR":"Monitor",             "it":"Monitor",                "ru":"Монитор"],
+        "cat":          ["zh":"小猫",       "zh-TW":"貓咪",     "en":"Cat",              "ja":"猫",                   "ko":"고양이",        "de":"Katze",                       "fr":"Chat",                   "es":"Gato",                   "pt-BR":"Gato",                "it":"Gatto",                  "ru":"Котик"],
+        "display":      ["zh":"显示形态",   "zh-TW":"顯示形態", "en":"Display",          "ja":"表示",                 "ko":"표시 방식",     "de":"Anzeige",                     "fr":"Affichage",              "es":"Visualización",          "pt-BR":"Exibição",            "it":"Visualizzazione",        "ru":"Отображение"],
+        "metric":       ["zh":"指标",       "zh-TW":"指標",     "en":"Metric",           "ja":"指標",                 "ko":"지표",          "de":"Metrik",                      "fr":"Métrique",               "es":"Métrica",                "pt-BR":"Métrica",             "it":"Metrica",                "ru":"Метрика"],
+        "tools":        ["zh":"工具",       "zh-TW":"工具",     "en":"Tools",            "ja":"ツール",               "ko":"도구",          "de":"Werkzeuge",                   "fr":"Outils",                 "es":"Herramientas",           "pt-BR":"Ferramentas",         "it":"Strumenti",              "ru":"Инструменты"],
+        "general":      ["zh":"通用",       "zh-TW":"一般",     "en":"General",          "ja":"一般",                 "ko":"일반",          "de":"Allgemein",                   "fr":"Général",                "es":"General",                "pt-BR":"Geral",               "it":"Generale",               "ru":"Общее"],
+        "statusSummary":["zh":"CPU %@  内存 %@","zh-TW":"CPU %@  記憶體 %@","en":"CPU %@  Mem %@","ja":"CPU %@  メモリ %@","ko":"CPU %@  메모리 %@","de":"CPU %@  Speicher %@","fr":"CPU %@  Mémoire %@","es":"CPU %@  Mem %@","pt-BR":"CPU %@  Mem %@","it":"CPU %@  Mem %@","ru":"CPU %@  Память %@"],
         "combined":     ["zh":"综合",       "zh-TW":"綜合",     "en":"Combined",         "ja":"総合",                 "ko":"종합",          "de":"Kombiniert",                  "fr":"Combiné",                "es":"Combinado",              "pt-BR":"Combinado",           "it":"Combinato",              "ru":"Комбинированный"],
         "cpu":          ["zh":"CPU",        "zh-TW":"CPU",      "en":"CPU",              "ja":"CPU",                  "ko":"CPU",           "de":"CPU",                         "fr":"CPU",                    "es":"CPU",                    "pt-BR":"CPU",                 "it":"CPU",                    "ru":"CPU"],
         "memory":       ["zh":"内存",       "zh-TW":"記憶體",   "en":"Memory",           "ja":"メモリ",               "ko":"메모리",        "de":"Speicher",                    "fr":"Mémoire",                "es":"Memoria",                "pt-BR":"Memória",             "it":"Memoria",                "ru":"Память"],
-        "cpuMemoryValues":["zh":"CPU 与内存数值","zh-TW":"CPU 與記憶體數值","en":"CPU & Memory Values","ja":"CPU・メモリ数値","ko":"CPU 및 메모리 수치","de":"CPU- & Speicherwerte","fr":"Valeurs CPU et mémoire","es":"Valores de CPU y memoria","pt-BR":"Valores de CPU e memória","it":"Valori CPU e memoria","ru":"Значения CPU и памяти"],
+        "cpuMemory":    ["zh":"CPU + 内存", "zh-TW":"CPU + 記憶體","en":"CPU + Memory",    "ja":"CPU + メモリ",         "ko":"CPU + 메모리", "de":"CPU + Speicher",              "fr":"CPU + mémoire",          "es":"CPU + memoria",          "pt-BR":"CPU + memória",       "it":"CPU + memoria",          "ru":"CPU + память"],
+        "displayCatNumber":["zh":"猫 + 数值","zh-TW":"貓咪 + 數值","en":"Cat + Number","ja":"猫 + 数値","ko":"고양이 + 수치","de":"Katze + Wert","fr":"Chat + valeur","es":"Gato + valor","pt-BR":"Gato + valor","it":"Gatto + valore","ru":"Котик + значение"],
+        "displayCatOnly":["zh":"仅猫",       "zh-TW":"僅貓咪",   "en":"Cat Only",         "ja":"猫のみ",               "ko":"고양이만",      "de":"Nur Katze",                   "fr":"Chat seul",              "es":"Solo gato",              "pt-BR":"Apenas gato",         "it":"Solo gatto",             "ru":"Только котик"],
+        "displayNumberOnly":["zh":"仅数值", "zh-TW":"僅數值",   "en":"Number Only",      "ja":"数値のみ",             "ko":"수치만",        "de":"Nur Wert",                    "fr":"Valeur seule",           "es":"Solo valor",             "pt-BR":"Apenas valor",        "it":"Solo valore",            "ru":"Только значение"],
         "sleep":        ["zh":"阻止休眠",   "zh-TW":"防止休眠", "en":"Sleep Prevention", "ja":"スリープ防止",         "ko":"절전 방지",     "de":"Ruhezustand verhindern",      "fr":"Prévention de veille",   "es":"Prevención de suspensión","pt-BR":"Prevenção de suspensão","it":"Prevenzione sospensione","ru":"Предотвращение сна"],
         "sleepOff":     ["zh":"关闭",       "zh-TW":"關閉",     "en":"Off",              "ja":"オフ",                 "ko":"끔",            "de":"Aus",                         "fr":"Désactivé",              "es":"Desactivado",            "pt-BR":"Desativado",          "it":"Disattivato",            "ru":"Выкл"],
         "sleepSystem":  ["zh":"阻止系统休眠","zh-TW":"防止系統休眠","en":"Prevent System Sleep","ja":"システムスリープを防止","ko":"시스템 절전 방지","de":"System-Ruhezustand verhindern","fr":"Empêcher la veille du système","es":"Evitar suspensión del sistema","pt-BR":"Evitar suspensão do sistema","it":"Impedisci sospensione sistema","ru":"Предотвратить сон системы"],
         "sleepDisplay": ["zh":"阻止屏幕休眠","zh-TW":"防止螢幕休眠","en":"Prevent Display Sleep","ja":"ディスプレイスリープを防止","ko":"화면 절전 방지","de":"Display-Ruhezustand verhindern","fr":"Empêcher la veille de l'écran","es":"Evitar suspensión de pantalla","pt-BR":"Evitar suspensão da tela","it":"Impedisci sospensione schermo","ru":"Предотвратить сон экрана"],
-        "showAnimation":["zh":"显示动画",   "zh-TW":"顯示動畫", "en":"Show Animation",    "ja":"アニメーションを表示", "ko":"애니메이션 표시","de":"Animation anzeigen",           "fr":"Afficher l’animation",   "es":"Mostrar animación",      "pt-BR":"Mostrar animação",     "it":"Mostra animazione",      "ru":"Показывать анимацию"],
-        "showNumber":   ["zh":"显示数值",   "zh-TW":"顯示數值", "en":"Show Number",       "ja":"数値を表示",           "ko":"수치 표시",      "de":"Wert anzeigen",               "fr":"Afficher la valeur",     "es":"Mostrar valor",          "pt-BR":"Mostrar valor",        "it":"Mostra valore",          "ru":"Показывать значение"],
         "battery":      ["zh":"电量",       "zh-TW":"電量",     "en":"Battery",          "ja":"バッテリー",           "ko":"배터리",        "de":"Batterie",                    "fr":"Batterie",               "es":"Batería",                "pt-BR":"Bateria",             "it":"Batteria",              "ru":"Батарея"],
-        "showCompactBattery":["zh":"显示极简电量","zh-TW":"顯示極簡電量","en":"Show Compact Battery","ja":"コンパクトなバッテリー表示","ko":"간결한 배터리 표시","de":"Kompakte Batterie anzeigen","fr":"Afficher la batterie compacte","es":"Mostrar batería compacta","pt-BR":"Mostrar bateria compacta","it":"Mostra batteria compatta","ru":"Показывать компактную батарею"],
+        "showBatteryInMenuBar":["zh":"在菜单栏显示","zh-TW":"在選單列顯示","en":"Show in Menu Bar","ja":"メニューバーに表示","ko":"메뉴 막대에 표시","de":"In Menüleiste anzeigen","fr":"Afficher dans la barre de menus","es":"Mostrar en barra de menús","pt-BR":"Mostrar na barra de menus","it":"Mostra nella barra menu","ru":"Показывать в строке меню"],
         "hideBatteryPluggedIn":["zh":"接电时隐藏","zh-TW":"接上電源時隱藏","en":"Hide When Plugged In","ja":"電源接続中は非表示","ko":"전원 연결 시 숨기기","de":"Bei Netzbetrieb ausblenden","fr":"Masquer sur secteur","es":"Ocultar al conectar corriente","pt-BR":"Ocultar quando conectado à energia","it":"Nascondi con alimentazione collegata","ru":"Скрывать при подключении питания"],
         "batteryTooltip":["zh":"电量：%@%%","zh-TW":"電量：%@%%","en":"Battery: %@%%","ja":"バッテリー：%@%%","ko":"배터리: %@%%","de":"Batterie: %@%%","fr":"Batterie : %@%%","es":"Batería: %@%%","pt-BR":"Bateria: %@%%","it":"Batteria: %@%%","ru":"Батарея: %@%%"],
         "clipboard":    ["zh":"剪贴板",     "zh-TW":"剪貼簿",   "en":"Clipboard",        "ja":"クリップボード",       "ko":"클립보드",      "de":"Zwischenablage",              "fr":"Presse-papiers",         "es":"Portapapeles",           "pt-BR":"Área de Transferência","it":"Appunti",               "ru":"Буфер обмена"],
@@ -404,6 +410,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var index = 0
     private let monitor = SystemMonitor()
+    private let statusSummaryMonitor = SystemMonitor()
     private var metric: MonitorInfo = SystemMonitor.default
     private var dualMetric: (cpu: MonitorInfo, memory: MonitorInfo)?
     private var cpuTimer: Timer?
@@ -425,16 +432,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var clipboardPanel: ClipboardPanel?
 
     // Menu item references
-    private var monitorHeader: NSMenuItem!
+    private var statusSummaryItem: NSMenuItem!
+    private var catHeader: NSMenuItem!
+    private var displayHeader: NSMenuItem!
+    private var displayItems: [NSMenuItem] = []
+    private var metricHeader: NSMenuItem!
     private var modeItems: [NSMenuItem] = []
-    private var showAnimationItem: NSMenuItem!
-    private var showNumberItem: NSMenuItem!
     private var batteryHeader: NSMenuItem!
     private var showBatteryPercentItem: NSMenuItem!
     private var hideBatteryChargingItem: NSMenuItem!
-    private var sleepHeader: NSMenuItem!
+    private var toolsHeader: NSMenuItem!
+    private var sleepMenuItem: NSMenuItem!
     private var caffeineItems: [NSMenuItem] = []
-    private var clipboardHeader: NSMenuItem!
+    private var clipboardMenuItem: NSMenuItem!
     private var saveImagesItem: NSMenuItem!
     private var historyMenuItem: NSMenuItem!
     private var historyDaysItems: [NSMenuItem] = []
@@ -446,6 +456,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var accessibilityHintItem: NSMenuItem!
     private var openAccessibilityItem: NSMenuItem!
     private var newFileInFinderItem: NSMenuItem!
+    private var generalHeader: NSMenuItem!
     private var launchAtLoginItem: NSMenuItem!
     private var helpMenuItem: NSMenuItem!
     private var checkUpdatesItem: NSMenuItem!
@@ -549,27 +560,40 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func setupMenu() {
         menu.delegate = self
 
-        // Monitor section
-        monitorHeader = makeHeader()
-        menu.addItem(monitorHeader)
+        statusSummaryItem = makeHeader()
+        menu.addItem(statusSummaryItem)
+
+        menu.addItem(.separator())
+
+        // Cat section
+        catHeader = makeHeader()
+        menu.addItem(catHeader)
+
+        displayHeader = makeHeader()
+        displayHeader.indentationLevel = 1
+        menu.addItem(displayHeader)
+        for mode in DisplayMode.allCases {
+            let item = NSMenuItem(title: "", action: #selector(selectDisplayMode(_:)), keyEquivalent: "")
+            item.representedObject = mode
+            item.indentationLevel = 2
+            displayItems.append(item)
+            menu.addItem(item)
+        }
+        displayItems.first?.state = .on
+
+        menu.addItem(.separator())
+
+        metricHeader = makeHeader()
+        metricHeader.indentationLevel = 1
+        menu.addItem(metricHeader)
         for mode in MonitorMode.allCases {
             let item = NSMenuItem(title: "", action: #selector(selectMode(_:)), keyEquivalent: "")
             item.representedObject = mode
-            item.indentationLevel = 1
+            item.indentationLevel = 2
             modeItems.append(item)
             menu.addItem(item)
         }
         modeItems.first?.state = .on
-
-        menu.addItem(.separator())
-
-        showAnimationItem = NSMenuItem(title: "", action: #selector(toggleShowAnimation(_:)), keyEquivalent: "")
-        showAnimationItem.indentationLevel = 1
-        menu.addItem(showAnimationItem)
-
-        showNumberItem = NSMenuItem(title: "", action: #selector(toggleShowNumber(_:)), keyEquivalent: "")
-        showNumberItem.indentationLevel = 1
-        menu.addItem(showNumberItem)
 
         menu.addItem(.separator())
 
@@ -587,28 +611,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
 
-        // Sleep Prevention section
-        sleepHeader = makeHeader()
-        menu.addItem(sleepHeader)
+        // Tools section
+        toolsHeader = makeHeader()
+        menu.addItem(toolsHeader)
+
+        sleepMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        let sleepSubmenu = NSMenu()
         for mode in CaffeineMode.allCases {
             let item = NSMenuItem(title: "", action: #selector(selectCaffeineMode(_:)), keyEquivalent: "")
             item.representedObject = mode
-            item.indentationLevel = 1
             caffeineItems.append(item)
-            menu.addItem(item)
+            sleepSubmenu.addItem(item)
         }
         caffeineItems.first?.state = .on
+        sleepMenuItem.submenu = sleepSubmenu
+        sleepMenuItem.indentationLevel = 1
+        menu.addItem(sleepMenuItem)
 
-        menu.addItem(.separator())
-
-        // Clipboard section
-        clipboardHeader = makeHeader()
-        menu.addItem(clipboardHeader)
+        clipboardMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        let clipboardSubmenu = NSMenu()
 
         saveImagesItem = NSMenuItem(title: "", action: #selector(toggleSaveImages(_:)), keyEquivalent: "")
-        saveImagesItem.indentationLevel = 1
         saveImagesItem.state = UserDefaults.standard.bool(forKey: "DashCatSaveImages") ? .on : .off
-        menu.addItem(saveImagesItem)
+        clipboardSubmenu.addItem(saveImagesItem)
 
         // History days submenu
         historyMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
@@ -625,16 +650,41 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         customDaysItem = NSMenuItem(title: "", action: #selector(selectCustomDays(_:)), keyEquivalent: "")
         historySubmenu.addItem(customDaysItem)
         historyMenuItem.submenu = historySubmenu
-        historyMenuItem.indentationLevel = 1
-        menu.addItem(historyMenuItem)
+        clipboardSubmenu.addItem(historyMenuItem)
 
-        menu.addItem(.separator())
+        clipboardSubmenu.addItem(.separator())
 
         clearHistoryItem = NSMenuItem(title: "", action: #selector(clearClipboardHistory(_:)), keyEquivalent: "")
-        clearHistoryItem.indentationLevel = 1
-        menu.addItem(clearHistoryItem)
+        clipboardSubmenu.addItem(clearHistoryItem)
+
+        clipboardMenuItem.submenu = clipboardSubmenu
+        clipboardMenuItem.indentationLevel = 1
+        menu.addItem(clipboardMenuItem)
+
+        // Mouse wheel scrolling
+        reverseMouseScrollItem = NSMenuItem(title: "", action: #selector(toggleReverseMouseScroll(_:)), keyEquivalent: "")
+        reverseMouseScrollItem.indentationLevel = 1
+        menu.addItem(reverseMouseScrollItem)
+
+        accessibilityHintItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        accessibilityHintItem.isEnabled = false
+        accessibilityHintItem.indentationLevel = 1
+        menu.addItem(accessibilityHintItem)
+
+        openAccessibilityItem = NSMenuItem(title: "", action: #selector(openAccessibilitySettings), keyEquivalent: "")
+        openAccessibilityItem.indentationLevel = 1
+        menu.addItem(openAccessibilityItem)
+
+        // Finder current folder tools
+        newFileInFinderItem = NSMenuItem(title: "", action: #selector(createNewFileInFinder(_:)), keyEquivalent: "")
+        newFileInFinderItem.indentationLevel = 1
+        menu.addItem(newFileInFinderItem)
 
         menu.addItem(.separator())
+
+        // General section
+        generalHeader = makeHeader()
+        menu.addItem(generalHeader)
 
         // Language submenu — title stays fixed so users can always find it
         languageMenuItem = NSMenuItem(title: "Language", action: nil, keyEquivalent: "")
@@ -649,35 +699,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             langSubmenu.addItem(item)
         }
         languageMenuItem.submenu = langSubmenu
+        languageMenuItem.indentationLevel = 1
         menu.addItem(languageMenuItem)
 
-        menu.addItem(.separator())
-
-        // Mouse wheel scrolling
-        reverseMouseScrollItem = NSMenuItem(title: "", action: #selector(toggleReverseMouseScroll(_:)), keyEquivalent: "")
-        menu.addItem(reverseMouseScrollItem)
-
-        accessibilityHintItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
-        accessibilityHintItem.isEnabled = false
-        menu.addItem(accessibilityHintItem)
-
-        openAccessibilityItem = NSMenuItem(title: "", action: #selector(openAccessibilitySettings), keyEquivalent: "")
-        menu.addItem(openAccessibilityItem)
-
-        menu.addItem(.separator())
-
-        // Finder current folder tools
-        newFileInFinderItem = NSMenuItem(title: "", action: #selector(createNewFileInFinder(_:)), keyEquivalent: "")
-        menu.addItem(newFileInFinderItem)
-
-        menu.addItem(.separator())
-
-        // Launch at Login
         launchAtLoginItem = NSMenuItem(title: "", action: #selector(toggleLaunchAtLogin(_:)), keyEquivalent: "")
         launchAtLoginItem.state = UserDefaults.standard.bool(forKey: "DashCatLaunchAtLogin") ? .on : .off
+        launchAtLoginItem.indentationLevel = 1
         menu.addItem(launchAtLoginItem)
-
-        menu.addItem(.separator())
 
         // Help & Updates submenu
         helpMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
@@ -689,12 +717,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         helpSubmenu.addItem(viewGitHubItem)
         helpSubmenu.addItem(contactItem)
         helpMenuItem.submenu = helpSubmenu
+        helpMenuItem.indentationLevel = 1
         menu.addItem(helpMenuItem)
-
-        menu.addItem(.separator())
 
         // Quit
         quitItem = NSMenuItem(title: "", action: #selector(terminateApp(_:)), keyEquivalent: "q")
+        quitItem.indentationLevel = 1
         menu.addItem(quitItem)
 
         applyLanguage()
@@ -707,26 +735,43 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         return item
     }
 
+    private func updateStatusSummary() {
+        guard statusSummaryItem != nil else { return }
+        let cpu = statusSummaryMonitor.cpuUsage()
+        let memory = statusSummaryMonitor.memoryPressure()
+        statusSummaryItem.title = String(
+            format: language.str("statusSummary"),
+            "\(Int(cpu.value.rounded()))%",
+            "\(Int(memory.value.rounded()))%"
+        )
+    }
+
     private func applyLanguage() {
         let l = language
-        monitorHeader.title = l.str("monitor")
+        catHeader.title = l.str("cat")
+        displayHeader.title = l.str("display")
+        for item in displayItems {
+            if let mode = item.representedObject as? DisplayMode {
+                item.title = l.str(mode.locKey)
+            }
+        }
+        metricHeader.title = l.str("metric")
         for item in modeItems {
             if let mode = item.representedObject as? MonitorMode {
                 item.title = l.str(mode.locKey)
             }
         }
-        showAnimationItem.title = l.str("showAnimation")
-        showNumberItem.title = l.str("showNumber")
         batteryHeader.title = l.str("battery")
-        showBatteryPercentItem.title = l.str("showCompactBattery")
+        showBatteryPercentItem.title = l.str("showBatteryInMenuBar")
         hideBatteryChargingItem.title = l.str("hideBatteryPluggedIn")
-        sleepHeader.title = l.str("sleep")
+        toolsHeader.title = l.str("tools")
+        sleepMenuItem.title = l.str("sleep")
         for item in caffeineItems {
             if let mode = item.representedObject as? CaffeineMode {
                 item.title = l.str(mode.locKey)
             }
         }
-        clipboardHeader.title   = l.str("clipboard")
+        clipboardMenuItem.title = l.str("clipboard")
         saveImagesItem.title    = l.str("saveImages")
         historyMenuItem.title   = l.str("history")
         for item in historyDaysItems {
@@ -745,12 +790,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         accessibilityHintItem.title  = l.str("accessibilityNeeded")
         openAccessibilityItem.title  = l.str("openAccessibility")
         newFileInFinderItem.title = l.str("newFileInFinder")
+        generalHeader.title      = l.str("general")
         launchAtLoginItem.title = l.str("launchLogin")
         helpMenuItem.title      = l.str("help")
         checkUpdatesItem.title  = l.str("checkUpdates")
         viewGitHubItem.title    = l.str("viewOnGitHub")
         contactItem.title       = l.str("contact")
         quitItem.title          = l.str("quit")
+        updateStatusSummary()
     }
 
     // MARK: - Button
@@ -799,30 +846,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Menu Actions
 
-    @objc private func toggleShowAnimation(_ sender: NSMenuItem) {
+    @objc private func selectDisplayMode(_ sender: NSMenuItem) {
         guard currentMode != .cpuMemory else { return }
-        setDisplayFlags(showAnimation: !displayMode.showsAnimation,
-                        showNumber: displayMode.showsNumber)
-    }
-
-    @objc private func toggleShowNumber(_ sender: NSMenuItem) {
-        guard currentMode != .cpuMemory else { return }
-        setDisplayFlags(showAnimation: displayMode.showsAnimation,
-                        showNumber: !displayMode.showsNumber)
-    }
-
-    private func setDisplayFlags(showAnimation: Bool, showNumber: Bool) {
-        guard showAnimation || showNumber else {
-            refreshDisplayMenuState()
-            return
-        }
-        if showAnimation && showNumber {
-            displayMode = .both
-        } else if showAnimation {
-            displayMode = .animOnly
-        } else {
-            displayMode = .pctOnly
-        }
+        guard let mode = sender.representedObject as? DisplayMode else { return }
+        displayMode = mode
         refreshDisplayMenuState()
         UserDefaults.standard.set(displayMode.rawValue, forKey: "DashCatDisplayMode")
         updateMetric()
@@ -1074,10 +1101,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func refreshDisplayMenuState() {
         let isCpuMemory = currentMode == .cpuMemory
-        showAnimationItem.state = (!isCpuMemory && displayMode.showsAnimation) ? .on : .off
-        showNumberItem.state = (isCpuMemory || displayMode.showsNumber) ? .on : .off
-        showAnimationItem.isEnabled = !isCpuMemory
-        showNumberItem.isEnabled = !isCpuMemory
+        for item in displayItems {
+            guard let mode = item.representedObject as? DisplayMode else { continue }
+            item.state = (isCpuMemory ? mode == .pctOnly : mode == displayMode) ? .on : .off
+            item.isEnabled = !isCpuMemory
+        }
     }
 
     private func setupPowerSourceMonitoring() {
@@ -1547,6 +1575,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
            let mode = DisplayMode(rawValue: modeStr) {
             displayMode = mode
         }
+        if currentMode == .cpuMemory {
+            displayMode = .pctOnly
+            UserDefaults.standard.set(displayMode.rawValue, forKey: "DashCatDisplayMode")
+        }
         refreshDisplayMenuState()
         switch displayMode {
         case .pctOnly:
@@ -1588,9 +1620,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
 extension AppDelegate: NSMenuDelegate {
     func menuWillOpen(_ menu: NSMenu) {
+        updateStatusSummary()
         refreshLaunchAtLoginState()
         refreshScrollState()
         refreshBatteryMenuState()
+        refreshDisplayMenuState()
     }
 
     func menuDidClose(_ menu: NSMenu) {

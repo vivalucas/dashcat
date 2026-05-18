@@ -24,11 +24,10 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
   - Todos los datos almacenados localmente — totalmente offline, sin recopilación de datos
 
 - **Monitor del Sistema**
-  - Cuatro modos de monitorización: Combinado, CPU, Memoria, Valores de CPU y memoria
+  - El menú de clic derecho se organiza alrededor del elemento del gato: Visualización (Gato + valor, Solo gato, Solo valor) y Métrica (Combinado, CPU, Memoria, CPU + memoria)
   - La velocidad de animación del gato refleja la carga del sistema en tiempo real — cuanto más rápido corre, mayor es la presión
   - El modo combinado elige automáticamente el mayor valor entre CPU y memoria para la animación
-  - Valores de CPU y memoria muestra porcentajes C/M compactos en dos líneas, sin animación
-  - Mostrar animación y Mostrar valor se pueden alternar por separado; al menos uno permanece activado
+  - CPU + memoria muestra porcentajes C/M compactos en dos líneas y usa automáticamente Solo valor
 
 - **Batería compacta**
   - Indicador opcional de batería independiente en la barra de menús, separado del gato
@@ -82,10 +81,10 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
   - `Option + Enter` para copiar como texto sin formato
   - Clic derecho en un elemento para fijarlo o desfijarlo
 - **Clic derecho** en el icono del gato: abrir menú de configuración
-  - Cambiar modo de monitoreo, modo de prevención de suspensión
+  - Configurar el elemento del gato por visualización y métrica
   - Gestionar historial del portapapeles (guardar imágenes, días de retención, borrar historial)
-  - Activar la batería compacta y ocultarla al conectar corriente
-  - Crear un archivo en la carpeta actual de Finder, invertir rueda del mouse, cambiar idioma, activar animación/valor, configurar inicio al iniciar sesión
+  - Activar el elemento de batería independiente y ocultarlo al conectar corriente
+  - Crear un archivo en la carpeta actual de Finder, invertir rueda del mouse, cambiar idioma, configurar inicio al iniciar sesión
 
 ## Preguntas Frecuentes
 

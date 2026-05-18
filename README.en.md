@@ -24,11 +24,10 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - All data stored locally — fully offline, no data collection
 
 - **System Monitor**
-  - Four monitor modes: Combined, CPU, Memory, CPU & Memory Values
+  - Right-click menu is organized around the cat item: Display (Cat + Number, Cat Only, Number Only) and Metric (Combined, CPU, Memory, CPU + Memory)
   - Cat animation speed reflects real-time system load — the faster it runs, the higher the pressure
   - Combined mode automatically picks the higher of CPU / memory to drive the animation
-  - CPU & Memory Values shows compact two-line C/M percentages without animation
-  - Show Animation and Show Number can be toggled independently; at least one stays enabled
+  - CPU + Memory shows compact two-line C/M percentages and automatically uses Number Only
 
 - **Minimal Battery Display**
   - Optional standalone menu bar battery indicator, separate from the cat item
@@ -82,10 +81,10 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - `Option + Enter` to copy as plain text
   - Right-click an item to pin or unpin it
 - **Right-click** the cat icon: open settings menu
-  - Switch monitor mode, sleep prevention mode
+  - Configure the cat item by Display and Metric
   - Manage clipboard history (save images, retention days, clear history)
-  - Toggle the compact battery indicator and plugged-in hide behavior
-  - Create a file in the current Finder folder, reverse mouse wheel, change language, toggle animation/number display, set launch at login
+  - Toggle the standalone battery item and plugged-in hide behavior
+  - Create a file in the current Finder folder, reverse mouse wheel, change language, set launch at login
 
 ## FAQ
 

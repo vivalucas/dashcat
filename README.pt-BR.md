@@ -24,11 +24,10 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
   - Todos os dados armazenados localmente — totalmente offline, sem coleta de dados
 
 - **Monitor do Sistema**
-  - Quatro modos de monitoramento: Combinado, CPU, Memória, Valores de CPU e memória
+  - O menu de clique direito é organizado em torno do item do gato: Exibição (Gato + valor, Apenas gato, Apenas valor) e Métrica (Combinado, CPU, Memória, CPU + memória)
   - A velocidade da animação do gato reflete a carga do sistema em tempo real — quanto mais rápido corre, maior a pressão
   - O modo combinado escolhe automaticamente o maior valor entre CPU e memória para a animação
-  - Valores de CPU e memória mostra porcentagens C/M compactas em duas linhas, sem animação
-  - Mostrar animação e Mostrar valor podem ser alternados separadamente; pelo menos um permanece ativo
+  - CPU + memória mostra porcentagens C/M compactas em duas linhas e usa automaticamente Apenas valor
 
 - **Bateria compacta**
   - Indicador de bateria opcional e independente na barra de menus, separado do gato
@@ -82,10 +81,10 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
   - `Option + Enter` para copiar como texto simples
   - Clique com o botão direito em um item para fixar ou desafixar
 - **Clique direito** no ícone do gato: abrir menu de configurações
-  - Alternar modo de monitoramento, modo de prevenção de suspensão
+  - Configurar o item do gato por exibição e métrica
   - Gerenciar histórico da área de transferência (salvar imagens, dias de retenção, limpar histórico)
-  - Ativar a bateria compacta e ocultá-la quando conectado à energia
-  - Criar um arquivo na pasta atual do Finder, inverter roda do mouse, mudar idioma, alternar animação/valor, configurar início ao fazer login
+  - Ativar o item de bateria independente e ocultá-lo quando conectado à energia
+  - Criar um arquivo na pasta atual do Finder, inverter roda do mouse, mudar idioma, configurar início ao fazer login
 
 ## Perguntas Frequentes
 

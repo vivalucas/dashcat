@@ -24,11 +24,10 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
   - Alle Daten lokal gespeichert — vollständig offline, keine Datenerfassung
 
 - **Systemmonitor**
-  - Vier Monitormodi: Kombiniert, CPU, Speicher, CPU- & Speicherwerte
+  - Das Rechtsklickmenü ist um das Katzen-Element organisiert: Anzeige (Katze + Wert, Nur Katze, Nur Wert) und Metrik (Kombiniert, CPU, Speicher, CPU + Speicher)
   - Geschwindigkeit der Katzen-Animation spiegelt die Systemauslastung in Echtzeit wider — je schneller, desto höher die Auslastung
   - Im kombinierten Modus wird automatisch die höhere CPU- oder Speicherbelastung zur Steuerung der Animation verwendet
-  - CPU- & Speicherwerte zeigt kompakte zweizeilige C/M-Prozentwerte ohne Animation
-  - Animation anzeigen und Wert anzeigen lassen sich unabhängig umschalten; mindestens eine Option bleibt aktiv
+  - CPU + Speicher zeigt kompakte zweizeilige C/M-Prozentwerte und verwendet automatisch Nur Wert
 
 - **Kompakte Batterieanzeige**
   - Optionale eigenständige Batterieanzeige in der Menüleiste, getrennt vom Katzen-Icon
@@ -82,10 +81,10 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
   - `Option + Enter` zum Kopieren als reinen Text
   - Einträge per Rechtsklick anheften oder lösen
 - **Rechtsklick** auf das Katzen-Symbol: Einstellungsmenü öffnen
-  - Monitor-Modus, Ruhezustand-Verhinderungs-Modus umschalten
+  - Katzen-Element nach Anzeige und Metrik konfigurieren
   - Zwischenablage-Historie verwalten (Bilder speichern, Aufbewahrungstage, Historie löschen)
-  - Kompakte Batterieanzeige und Ausblenden bei Netzbetrieb umschalten
-  - Datei im aktuellen Finder-Ordner erstellen, Mausrad umkehren, Sprache wechseln, Animation/Wert anzeigen, Start bei Anmeldung
+  - Eigenständiges Batterie-Element und Ausblenden bei Netzbetrieb umschalten
+  - Datei im aktuellen Finder-Ordner erstellen, Mausrad umkehren, Sprache wechseln, Start bei Anmeldung
 
 ## Häufig gestellte Fragen
 

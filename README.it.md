@@ -24,11 +24,10 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
   - Tutti i dati salvati localmente — completamente offline, nessuna raccolta dati
 
 - **Monitor Sistema**
-  - Quattro modalità di monitoraggio: Combinato, CPU, Memoria, Valori CPU e memoria
+  - Il menu contestuale è organizzato attorno all'elemento gatto: Visualizzazione (Gatto + valore, Solo gatto, Solo valore) e Metrica (Combinato, CPU, Memoria, CPU + memoria)
   - La velocità dell'animazione del gatto riflette il carico del sistema in tempo reale — più veloce corre, più alta è la pressione
   - La modalità combinata sceglie automaticamente il valore più alto tra CPU e memoria per l'animazione
-  - Valori CPU e memoria mostra percentuali C/M compatte su due righe, senza animazione
-  - Mostra animazione e Mostra valore si possono attivare separatamente; almeno una opzione resta attiva
+  - CPU + memoria mostra percentuali C/M compatte su due righe e usa automaticamente Solo valore
 
 - **Batteria compatta**
   - Indicatore batteria opzionale e indipendente nella barra menu, separato dal gatto
@@ -82,10 +81,10 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
   - `Option + Enter` per copiare come testo semplice
   - Clic destro su un elemento per fissarlo o rimuovere il fissaggio
 - **Clic destro** sull'icona del gatto: apri menu impostazioni
-  - Cambia modalità monitor, modalità prevenzione sospensione
+  - Configura l'elemento gatto per visualizzazione e metrica
   - Gestisci cronologia appunti (salva immagini, giorni di conservazione, cancella cronologia)
-  - Attiva la batteria compatta e l’opzione per nasconderla con alimentazione collegata
-  - Crea un file nella cartella Finder attuale, inverti rotella mouse, cambia lingua, mostra animazione/valore, configura avvio al login
+  - Attiva l'elemento batteria indipendente e l’opzione per nasconderlo con alimentazione collegata
+  - Crea un file nella cartella Finder attuale, inverti rotella mouse, cambia lingua, configura avvio al login
 
 ## Domande Frequenti
 
