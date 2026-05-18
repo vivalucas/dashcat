@@ -24,10 +24,10 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
   - Tutti i dati salvati localmente — completamente offline, nessuna raccolta dati
 
 - **Monitor Sistema**
-  - Il menu contestuale è organizzato attorno all'elemento gatto: Visualizzazione (Gatto + valore, Solo gatto, Solo valore) e Metrica (Combinato, CPU, Memoria, CPU + memoria)
+  - L'impostazione predefinita è Valori compatti: percentuali C/M su due righe per CPU + memoria, risparmiando spazio nella barra menu
+  - Visualizzazione personalizzata consente di scegliere fonte (Combinato, CPU, Memoria) e stile (Animazione, Animazione + valore)
   - La velocità dell'animazione del gatto riflette il carico del sistema in tempo reale — più veloce corre, più alta è la pressione
   - La modalità combinata sceglie automaticamente il valore più alto tra CPU e memoria per l'animazione
-  - CPU + memoria mostra percentuali C/M compatte su due righe e usa automaticamente Solo valore
 
 - **Batteria compatta**
   - Indicatore batteria opzionale e indipendente nella barra menu, separato dal gatto
@@ -44,7 +44,7 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
 - **Altro**
   - 11 lingue: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
   - Inverti la rotella di un mouse esterno mantenendo lo scorrimento naturale macOS del trackpad
-  - Crea un file TXT o Markdown nella cartella Finder attuale, mostrando il percorso prima della creazione e con scelta di un'altra cartella
+  - Crea un file TXT o Markdown nel Finder, mostrando il percorso prima della creazione e con scelta di un'altra cartella
   - Supporto per avvio al login
   - Efficiente: limite animazione di 12 fps, intervallo campionamento di 5 s, pausa automatica in sospensione sistema
   - Zero dipendenze esterne — AppKit + Swift puro
@@ -81,10 +81,10 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
   - `Option + Enter` per copiare come testo semplice
   - Clic destro su un elemento per fissarlo o rimuovere il fissaggio
 - **Clic destro** sull'icona del gatto: apri menu impostazioni
-  - Configura l'elemento gatto per visualizzazione e metrica
-  - Gestisci cronologia appunti (salva immagini, giorni di conservazione, cancella cronologia)
-  - Attiva l'elemento batteria indipendente e l’opzione per nasconderlo con alimentazione collegata
-  - Crea un file nella cartella Finder attuale, inverti rotella mouse, cambia lingua, configura avvio al login
+  - Cambia Monitor tra Valori compatti e visualizzazione animata personalizzata
+  - Gestisci immagini, conservazione e pulizia in Impostazioni appunti
+  - Attiva la batteria compatta e l’opzione per nasconderla con alimentazione collegata
+  - Crea un file in Finder, inverti rotella mouse, cambia lingua, configura avvio al login
 
 ## Domande Frequenti
 
@@ -106,7 +106,7 @@ DashCat deve identificare gli eventi della rotella del mouse nel flusso eventi d
 
 **Perché creare un file nel Finder chiede di controllare Finder?**
 
-DashCat legge la cartella Finder attuale solo quando scegli “Nuovo file nella cartella Finder attuale”. macOS può mostrare una richiesta di Automazione per ottenere quel percorso; DashCat non monitora Finder in background. Il comando si trova nel menu di DashCat e non viene inserito nel menu contestuale di un'area vuota del Finder.
+DashCat legge la cartella Finder attuale solo quando scegli “Nuovo file nel Finder”. macOS può mostrare una richiesta di Automazione per ottenere quel percorso; DashCat non monitora Finder in background. Il comando si trova nel menu di DashCat e non viene inserito nel menu contestuale di un'area vuota del Finder.
 
 **Supporta Mac Intel?**
 

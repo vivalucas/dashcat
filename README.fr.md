@@ -24,10 +24,10 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
   - Toutes les données stockées localement — entièrement hors ligne, aucune collecte de données
 
 - **Moniteur système**
-  - Le menu de clic droit est organisé autour de l'élément chat : Affichage (Chat + valeur, Chat seul, Valeur seule) et Métrique (Combiné, CPU, Mémoire, CPU + mémoire)
+  - Par défaut, Valeurs compactes affiche CPU + mémoire en deux lignes C/M pour économiser la barre de menus
+  - Affichage personnalisé permet de choisir la source (Combiné, CPU, Mémoire) et le style (Animation, Animation + valeur)
   - La vitesse d'animation du chat reflète la charge système en temps réel — plus il court vite, plus la charge est élevée
   - En mode combiné, la ressource la plus sollicitée (CPU ou mémoire) pilote l'animation
-  - CPU + mémoire affiche les pourcentages C/M sur deux lignes compactes et utilise automatiquement Valeur seule
 
 - **Batterie compacte**
   - Indicateur de batterie optionnel et indépendant dans la barre de menus, séparé du chat
@@ -44,7 +44,7 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
 - **Autres**
   - 11 langues : English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
   - Inverser la molette d'une souris externe tout en gardant le défilement naturel macOS du trackpad
-  - Créer un fichier TXT ou Markdown dans le dossier Finder actuel, avec affichage du chemin cible et choix possible d'un autre dossier
+  - Créer un fichier TXT ou Markdown dans Finder, avec affichage du chemin cible et choix possible d'un autre dossier
   - Lancement à la connexion
   - Économe en énergie : animation limitée à 12 fps, intervalle d'échantillonnage de 5 s, pause automatique lors de la mise en veille du système
   - Zéro dépendance externe — AppKit pur + Swift
@@ -81,10 +81,10 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
   - `Option + Entrée` pour copier en texte brut
   - Clic droit sur un élément pour l'épingler ou le détacher
 - **Clic droit** sur l'icône du chat : ouvrir le menu des paramètres
-  - Configurer l'élément chat par affichage et métrique
-  - Gérer l'historique du presse-papiers (enregistrer les images, durée de conservation, effacer l'historique)
-  - Activer l'élément batterie indépendant et son masquage sur secteur
-  - Créer un fichier dans le dossier Finder actuel, inverser la molette, changer la langue, lancer au démarrage
+  - Basculer Monitor entre Valeurs compactes et affichage animé personnalisé
+  - Gérer les images, la conservation et l'effacement dans les réglages du presse-papiers
+  - Activer la batterie compacte et son masquage sur secteur
+  - Créer un fichier dans Finder, inverser la molette, changer la langue, lancer au démarrage
 
 ## FAQ
 
@@ -106,7 +106,7 @@ DashCat doit identifier les événements de molette dans le flux d'événements 
 
 **Pourquoi la création d'un fichier Finder demande-t-elle à contrôler Finder ?**
 
-DashCat lit le dossier Finder actuel uniquement lorsque vous choisissez « Nouveau fichier dans le dossier Finder actuel ». macOS peut afficher une demande d'autorisation d'automatisation pour obtenir ce chemin ; DashCat ne surveille pas Finder en arrière-plan. La commande se trouve dans le menu de DashCat et n'est pas injectée dans le menu contextuel d'une zone vide du Finder.
+DashCat lit le dossier Finder actuel uniquement lorsque vous choisissez « Nouveau fichier dans Finder ». macOS peut afficher une demande d'autorisation d'automatisation pour obtenir ce chemin ; DashCat ne surveille pas Finder en arrière-plan. La commande se trouve dans le menu de DashCat et n'est pas injectée dans le menu contextuel d'une zone vide du Finder.
 
 **Les Mac Intel sont-ils supportés ?**
 

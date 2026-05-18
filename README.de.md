@@ -24,10 +24,10 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
   - Alle Daten lokal gespeichert — vollständig offline, keine Datenerfassung
 
 - **Systemmonitor**
-  - Das Rechtsklickmenü ist um das Katzen-Element organisiert: Anzeige (Katze + Wert, Nur Katze, Nur Wert) und Metrik (Kombiniert, CPU, Speicher, CPU + Speicher)
+  - Standard ist Kompakte Werte: zweizeilige C/M-Prozentwerte für CPU + Speicher sparen Platz in der Menüleiste
+  - Eigene Anzeige erlaubt Monitorquelle (Kombiniert, CPU, Speicher) und Anzeigeart (Animation, Animation + Wert)
   - Geschwindigkeit der Katzen-Animation spiegelt die Systemauslastung in Echtzeit wider — je schneller, desto höher die Auslastung
   - Im kombinierten Modus wird automatisch die höhere CPU- oder Speicherbelastung zur Steuerung der Animation verwendet
-  - CPU + Speicher zeigt kompakte zweizeilige C/M-Prozentwerte und verwendet automatisch Nur Wert
 
 - **Kompakte Batterieanzeige**
   - Optionale eigenständige Batterieanzeige in der Menüleiste, getrennt vom Katzen-Icon
@@ -44,7 +44,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
 - **Weiteres**
   - 11 Sprachen: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
   - Richtung externer Mausräder umkehren, während das Trackpad macOS Natural Scrolling beibehält
-  - TXT- oder Markdown-Datei im aktuellen Finder-Ordner erstellen, mit Zielpfad vor dem Erstellen und optionaler Ordnerauswahl
+  - TXT- oder Markdown-Datei im Finder erstellen, mit Zielpfad vor dem Erstellen und optionaler Ordnerauswahl
   - Start bei Anmeldung unterstützt
   - Energieeffizient: Animation begrenzt auf 12 fps, Abfrageintervall 5 Sek., automatische Pause bei System-Ruhezustand
   - Keine externen Abhängigkeiten — reines AppKit + Swift
@@ -81,10 +81,10 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
   - `Option + Enter` zum Kopieren als reinen Text
   - Einträge per Rechtsklick anheften oder lösen
 - **Rechtsklick** auf das Katzen-Symbol: Einstellungsmenü öffnen
-  - Katzen-Element nach Anzeige und Metrik konfigurieren
-  - Zwischenablage-Historie verwalten (Bilder speichern, Aufbewahrungstage, Historie löschen)
-  - Eigenständiges Batterie-Element und Ausblenden bei Netzbetrieb umschalten
-  - Datei im aktuellen Finder-Ordner erstellen, Mausrad umkehren, Sprache wechseln, Start bei Anmeldung
+  - Monitor zwischen Kompakten Werten und eigener Animationsanzeige umschalten
+  - Bildspeicherung, Aufbewahrung und Verlauf in Zwischenablage-Einstellungen verwalten
+  - Kompakte Batterieanzeige und Ausblenden bei Netzbetrieb umschalten
+  - Datei im Finder erstellen, Mausrad umkehren, Sprache wechseln, Start bei Anmeldung
 
 ## Häufig gestellte Fragen
 
@@ -106,7 +106,7 @@ DashCat muss Mausrad-Ereignisse im Systemereignisstrom erkennen und deren Richtu
 
 **Warum fragt das Erstellen einer Finder-Datei nach der Steuerung von Finder?**
 
-DashCat liest den aktuellen Finder-Ordner nur, wenn Sie „Neue Datei im aktuellen Finder-Ordner“ wählen. macOS kann dafür eine Automatisierungsberechtigung anzeigen; DashCat überwacht Finder nicht im Hintergrund. Der Befehl liegt im DashCat-Menü und wird nicht in das Kontextmenü einer leeren Finder-Fläche eingefügt.
+DashCat liest den aktuellen Finder-Ordner nur, wenn Sie „Neue Datei im Finder“ wählen. macOS kann dafür eine Automatisierungsberechtigung anzeigen; DashCat überwacht Finder nicht im Hintergrund. Der Befehl liegt im DashCat-Menü und wird nicht in das Kontextmenü einer leeren Finder-Fläche eingefügt.
 
 **Wird Intel Mac unterstützt?**
 

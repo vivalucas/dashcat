@@ -30,9 +30,9 @@ enum DisplayMode: String, CaseIterable {
 
     var locKey: String {
         switch self {
-        case .both:     return "displayCatNumber"
-        case .animOnly: return "displayCatOnly"
-        case .pctOnly:  return "displayNumberOnly"
+        case .both:     return "displayAnimationValue"
+        case .animOnly: return "displayAnimation"
+        case .pctOnly:  return "compactValues"
         }
     }
 
@@ -122,21 +122,26 @@ enum Language: String, CaseIterable {
 
     private static let table: [String: [String: String]] = [
         "statusSummary":["zh":"CPU %@  内存 %@","zh-TW":"CPU %@  記憶體 %@","en":"CPU %@  Mem %@","ja":"CPU %@  メモリ %@","ko":"CPU %@  메모리 %@","de":"CPU %@  Speicher %@","fr":"CPU %@  Mémoire %@","es":"CPU %@  Mem %@","pt-BR":"CPU %@  Mem %@","it":"CPU %@  Mem %@","ru":"CPU %@  Память %@"],
+        "monitor":      ["zh":"监控",       "zh-TW":"監控",     "en":"Monitor",          "ja":"モニター",             "ko":"모니터",        "de":"Monitor",                     "fr":"Moniteur",               "es":"Monitor",                "pt-BR":"Monitor",             "it":"Monitor",                "ru":"Монитор"],
+        "compactValues":["zh":"紧凑数值",   "zh-TW":"緊湊數值", "en":"Compact Values",   "ja":"コンパクト数値",       "ko":"간결한 수치",   "de":"Kompakte Werte",              "fr":"Valeurs compactes",      "es":"Valores compactos",      "pt-BR":"Valores compactos",   "it":"Valori compatti",        "ru":"Компактные значения"],
+        "customDisplay":["zh":"自定义显示", "zh-TW":"自訂顯示", "en":"Custom Display",   "ja":"カスタム表示",         "ko":"사용자 지정 표시","de":"Eigene Anzeige",             "fr":"Affichage personnalisé", "es":"Visualización personalizada","pt-BR":"Exibição personalizada","it":"Visualizzazione personalizzata","ru":"Пользовательский вид"],
+        "monitorSource":["zh":"监控来源",   "zh-TW":"監控來源", "en":"Monitor Source",   "ja":"監視ソース",           "ko":"모니터 소스",   "de":"Monitorquelle",               "fr":"Source du moniteur",     "es":"Fuente del monitor",     "pt-BR":"Fonte do monitor",    "it":"Sorgente monitor",       "ru":"Источник мониторинга"],
+        "display":      ["zh":"显示方式",   "zh-TW":"顯示方式", "en":"Display",          "ja":"表示方式",             "ko":"표시 방식",     "de":"Anzeige",                     "fr":"Affichage",              "es":"Visualización",          "pt-BR":"Exibição",            "it":"Visualizzazione",        "ru":"Отображение"],
+        "displayAnimation":["zh":"动画",    "zh-TW":"動畫",     "en":"Animation",        "ja":"アニメーション",       "ko":"애니메이션",    "de":"Animation",                   "fr":"Animation",              "es":"Animación",              "pt-BR":"Animação",            "it":"Animazione",             "ru":"Анимация"],
+        "displayAnimationValue":["zh":"动画 + 数值","zh-TW":"動畫 + 數值","en":"Animation + Value","ja":"アニメーション + 数値","ko":"애니메이션 + 수치","de":"Animation + Wert","fr":"Animation + valeur","es":"Animación + valor","pt-BR":"Animação + valor","it":"Animazione + valore","ru":"Анимация + значение"],
         "combined":     ["zh":"综合",       "zh-TW":"綜合",     "en":"Combined",         "ja":"総合",                 "ko":"종합",          "de":"Kombiniert",                  "fr":"Combiné",                "es":"Combinado",              "pt-BR":"Combinado",           "it":"Combinato",              "ru":"Комбинированный"],
         "cpu":          ["zh":"CPU",        "zh-TW":"CPU",      "en":"CPU",              "ja":"CPU",                  "ko":"CPU",           "de":"CPU",                         "fr":"CPU",                    "es":"CPU",                    "pt-BR":"CPU",                 "it":"CPU",                    "ru":"CPU"],
         "memory":       ["zh":"内存",       "zh-TW":"記憶體",   "en":"Memory",           "ja":"メモリ",               "ko":"메모리",        "de":"Speicher",                    "fr":"Mémoire",                "es":"Memoria",                "pt-BR":"Memória",             "it":"Memoria",                "ru":"Память"],
         "cpuMemory":    ["zh":"CPU + 内存", "zh-TW":"CPU + 記憶體","en":"CPU + Memory",    "ja":"CPU + メモリ",         "ko":"CPU + 메모리", "de":"CPU + Speicher",              "fr":"CPU + mémoire",          "es":"CPU + memoria",          "pt-BR":"CPU + memória",       "it":"CPU + memoria",          "ru":"CPU + память"],
-        "displayCatNumber":["zh":"猫 + 数值","zh-TW":"貓咪 + 數值","en":"Cat + Number","ja":"猫 + 数値","ko":"고양이 + 수치","de":"Katze + Wert","fr":"Chat + valeur","es":"Gato + valor","pt-BR":"Gato + valor","it":"Gatto + valore","ru":"Котик + значение"],
-        "displayCatOnly":["zh":"仅猫",       "zh-TW":"僅貓咪",   "en":"Cat Only",         "ja":"猫のみ",               "ko":"고양이만",      "de":"Nur Katze",                   "fr":"Chat seul",              "es":"Solo gato",              "pt-BR":"Apenas gato",         "it":"Solo gatto",             "ru":"Только котик"],
-        "displayNumberOnly":["zh":"仅数值", "zh-TW":"僅數值",   "en":"Number Only",      "ja":"数値のみ",             "ko":"수치만",        "de":"Nur Wert",                    "fr":"Valeur seule",           "es":"Solo valor",             "pt-BR":"Apenas valor",        "it":"Solo valore",            "ru":"Только значение"],
         "sleep":        ["zh":"阻止休眠",   "zh-TW":"防止休眠", "en":"Sleep Prevention", "ja":"スリープ防止",         "ko":"절전 방지",     "de":"Ruhezustand verhindern",      "fr":"Prévention de veille",   "es":"Prevención de suspensión","pt-BR":"Prevenção de suspensão","it":"Prevenzione sospensione","ru":"Предотвращение сна"],
         "sleepOff":     ["zh":"关闭",       "zh-TW":"關閉",     "en":"Off",              "ja":"オフ",                 "ko":"끔",            "de":"Aus",                         "fr":"Désactivé",              "es":"Desactivado",            "pt-BR":"Desativado",          "it":"Disattivato",            "ru":"Выкл"],
         "sleepSystem":  ["zh":"阻止系统休眠","zh-TW":"防止系統休眠","en":"Prevent System Sleep","ja":"システムスリープを防止","ko":"시스템 절전 방지","de":"System-Ruhezustand verhindern","fr":"Empêcher la veille du système","es":"Evitar suspensión del sistema","pt-BR":"Evitar suspensão do sistema","it":"Impedisci sospensione sistema","ru":"Предотвратить сон системы"],
         "sleepDisplay": ["zh":"阻止屏幕休眠","zh-TW":"防止螢幕休眠","en":"Prevent Display Sleep","ja":"ディスプレイスリープを防止","ko":"화면 절전 방지","de":"Display-Ruhezustand verhindern","fr":"Empêcher la veille de l'écran","es":"Evitar suspensión de pantalla","pt-BR":"Evitar suspensão da tela","it":"Impedisci sospensione schermo","ru":"Предотвратить сон экрана"],
-        "showBatteryInMenuBar":["zh":"在菜单栏显示","zh-TW":"在選單列顯示","en":"Show in Menu Bar","ja":"メニューバーに表示","ko":"메뉴 막대에 표시","de":"In Menüleiste anzeigen","fr":"Afficher dans la barre de menus","es":"Mostrar en barra de menús","pt-BR":"Mostrar na barra de menus","it":"Mostra nella barra menu","ru":"Показывать в строке меню"],
+        "battery":      ["zh":"电量",       "zh-TW":"電量",     "en":"Battery",          "ja":"バッテリー",           "ko":"배터리",        "de":"Batterie",                    "fr":"Batterie",               "es":"Batería",                "pt-BR":"Bateria",             "it":"Batteria",               "ru":"Батарея"],
+        "showCompactBattery":["zh":"显示极简电量","zh-TW":"顯示極簡電量","en":"Show Compact Battery","ja":"コンパクトなバッテリー表示","ko":"간결한 배터리 표시","de":"Kompakte Batterie anzeigen","fr":"Afficher la batterie compacte","es":"Mostrar batería compacta","pt-BR":"Mostrar bateria compacta","it":"Mostra batteria compatta","ru":"Показывать компактную батарею"],
         "hideBatteryPluggedIn":["zh":"接电时隐藏","zh-TW":"接上電源時隱藏","en":"Hide When Plugged In","ja":"電源接続中は非表示","ko":"전원 연결 시 숨기기","de":"Bei Netzbetrieb ausblenden","fr":"Masquer sur secteur","es":"Ocultar al conectar corriente","pt-BR":"Ocultar quando conectado à energia","it":"Nascondi con alimentazione collegata","ru":"Скрывать при подключении питания"],
         "batteryTooltip":["zh":"电量：%@%%","zh-TW":"電量：%@%%","en":"Battery: %@%%","ja":"バッテリー：%@%%","ko":"배터리: %@%%","de":"Batterie: %@%%","fr":"Batterie : %@%%","es":"Batería: %@%%","pt-BR":"Bateria: %@%%","it":"Batteria: %@%%","ru":"Батарея: %@%%"],
-        "clipboard":    ["zh":"剪贴板",     "zh-TW":"剪貼簿",   "en":"Clipboard",        "ja":"クリップボード",       "ko":"클립보드",      "de":"Zwischenablage",              "fr":"Presse-papiers",         "es":"Portapapeles",           "pt-BR":"Área de Transferência","it":"Appunti",               "ru":"Буфер обмена"],
+        "clipboardSettings":["zh":"剪贴板设置","zh-TW":"剪貼簿設定","en":"Clipboard Settings","ja":"クリップボード設定","ko":"클립보드 설정","de":"Zwischenablage-Einstellungen","fr":"Réglages du presse-papiers","es":"Ajustes del portapapeles","pt-BR":"Configurações da área de transferência","it":"Impostazioni appunti","ru":"Настройки буфера обмена"],
         "language":     ["zh":"语言",       "zh-TW":"語言",     "en":"Language",         "ja":"言語",                 "ko":"언어",          "de":"Sprache",                     "fr":"Langue",                 "es":"Idioma",                 "pt-BR":"Idioma",              "it":"Lingua",                 "ru":"Язык"],
         "saveImages":   ["zh":"保存图片",   "zh-TW":"儲存圖片", "en":"Save Images",      "ja":"画像を保存",           "ko":"이미지 저장",   "de":"Bilder speichern",            "fr":"Enregistrer les images", "es":"Guardar imágenes",       "pt-BR":"Salvar imagens",      "it":"Salva immagini",         "ru":"Сохранять изображения"],
         "history":      ["zh":"历史记录",   "zh-TW":"歷史記錄", "en":"History",          "ja":"履歴",                 "ko":"기록",          "de":"Verlauf",                     "fr":"Historique",             "es":"Historial",              "pt-BR":"Histórico",           "it":"Cronologia",             "ru":"История"],
@@ -153,17 +158,20 @@ enum Language: String, CaseIterable {
         "delete":       ["zh":"删除",       "zh-TW":"刪除",     "en":"Delete",          "ja":"削除",                 "ko":"삭제",              "de":"Löschen",                     "fr":"Supprimer",              "es":"Eliminar",               "pt-BR":"Excluir",             "it":"Elimina",                "ru":"Удалить"],
         "customDaysPrompt":["zh":"输入天数 (1-365)：","zh-TW":"輸入天數 (1-365)：","en":"Enter number of days (1-365):","ja":"日数を入力 (1-365)：","ko":"일수 입력 (1-365)：","de":"Anzahl der Tage eingeben (1-365):","fr":"Entrez le nombre de jours (1-365) :","es":"Ingrese número de días (1-365):","pt-BR":"Digite o número de dias (1-365):","it":"Inserisci il numero di giorni (1-365):","ru":"Введите количество дней (1-365):"],
         "reverseMouseScroll":["zh":"反转鼠标滚轮","zh-TW":"反轉滑鼠滾輪","en":"Reverse Mouse Wheel","ja":"マウスホイールを反転","ko":"마우스 휠 반전","de":"Mausrad umkehren","fr":"Inverser la molette","es":"Invertir rueda del mouse","pt-BR":"Inverter roda do mouse","it":"Inverti rotella mouse","ru":"Инвертировать колесо мыши"],
-        "newFileInFinder":["zh":"在当前 Finder 文件夹中新建文件","zh-TW":"在目前 Finder 檔案夾中新建檔案","en":"New File in Current Finder Folder","ja":"現在のFinderフォルダに新規ファイル","ko":"현재 Finder 폴더에 새 파일","de":"Neue Datei im aktuellen Finder-Ordner","fr":"Nouveau fichier dans le dossier Finder actuel","es":"Nuevo archivo en la carpeta actual de Finder","pt-BR":"Novo arquivo na pasta atual do Finder","it":"Nuovo file nella cartella Finder attuale","ru":"Новый файл в текущей папке Finder"],
+        "newFileInFinder":["zh":"在 Finder 中新建文件","zh-TW":"在 Finder 中新建檔案","en":"New File in Finder","ja":"Finderで新規ファイル","ko":"Finder에서 새 파일","de":"Neue Datei im Finder","fr":"Nouveau fichier dans Finder","es":"Nuevo archivo en Finder","pt-BR":"Novo arquivo no Finder","it":"Nuovo file nel Finder","ru":"Новый файл в Finder"],
         "newFileTypePrompt":["zh":"选择要创建的文件类型：","zh-TW":"選擇要建立的檔案類型：","en":"Choose the file type to create:","ja":"作成するファイル形式を選択してください：","ko":"만들 파일 형식을 선택하세요:","de":"Wählen Sie den Dateityp aus:","fr":"Choisissez le type de fichier à créer :","es":"Elige el tipo de archivo que quieres crear:","pt-BR":"Escolha o tipo de arquivo para criar:","it":"Scegli il tipo di file da creare:","ru":"Выберите тип создаваемого файла:"],
         "newFileTarget":["zh":"目标文件夹：","zh-TW":"目標檔案夾：","en":"Target folder:","ja":"作成先フォルダ：","ko":"대상 폴더:","de":"Zielordner:","fr":"Dossier cible :","es":"Carpeta de destino:","pt-BR":"Pasta de destino:","it":"Cartella di destinazione:","ru":"Целевая папка:"],
         "chooseFolder":["zh":"选择其他文件夹\u{2026}","zh-TW":"選擇其他檔案夾\u{2026}","en":"Choose Other Folder\u{2026}","ja":"別のフォルダを選択\u{2026}","ko":"다른 폴더 선택\u{2026}","de":"Anderen Ordner wählen\u{2026}","fr":"Choisir un autre dossier\u{2026}","es":"Elegir otra carpeta\u{2026}","pt-BR":"Escolher outra pasta\u{2026}","it":"Scegli altra cartella\u{2026}","ru":"Выбрать другую папку\u{2026}"],
         "create":       ["zh":"创建",       "zh-TW":"建立",     "en":"Create",          "ja":"作成",                 "ko":"만들기",            "de":"Erstellen",                   "fr":"Créer",                  "es":"Crear",                  "pt-BR":"Criar",               "it":"Crea",                   "ru":"Создать"],
         "newFileCreateFail":["zh":"无法新建文件","zh-TW":"無法新建檔案","en":"Could Not Create File","ja":"ファイルを作成できませんでした","ko":"파일을 만들 수 없습니다","de":"Datei konnte nicht erstellt werden","fr":"Impossible de créer le fichier","es":"No se pudo crear el archivo","pt-BR":"Não foi possível criar o arquivo","it":"Impossibile creare il file","ru":"Не удалось создать файл"],
         "newFileCreateFailMsg":["zh":"请确认 Finder 当前文件夹可写，并允许 DashCat 控制 Finder。","zh-TW":"請確認目前 Finder 檔案夾可寫入，並允許 DashCat 控制 Finder。","en":"Make sure the current Finder folder is writable and DashCat is allowed to control Finder.","ja":"現在のFinderフォルダに書き込めることと、DashCatによるFinderの制御が許可されていることを確認してください。","ko":"현재 Finder 폴더에 쓸 수 있고 DashCat이 Finder를 제어할 수 있는지 확인하세요.","de":"Stellen Sie sicher, dass der aktuelle Finder-Ordner beschreibbar ist und DashCat Finder steuern darf.","fr":"Vérifiez que le dossier Finder actuel est accessible en écriture et que DashCat est autorisé à contrôler Finder.","es":"Asegúrate de que la carpeta actual de Finder permita escritura y que DashCat pueda controlar Finder.","pt-BR":"Verifique se a pasta atual do Finder permite gravação e se o DashCat pode controlar o Finder.","it":"Verifica che la cartella Finder attuale sia scrivibile e che DashCat possa controllare Finder.","ru":"Убедитесь, что текущая папка Finder доступна для записи и DashCat разрешено управлять Finder."],
+        "accessibilityNeeded":["zh":"需要辅助功能权限","zh-TW":"需要輔助使用權限","en":"Accessibility Permission Required","ja":"アクセシビリティ権限が必要","ko":"손쉬운 사용 권한 필요","de":"Bedienungshilfen-Berechtigung erforderlich","fr":"Autorisation Accessibilité requise","es":"Se requiere permiso de Accesibilidad","pt-BR":"Permissão de Acessibilidade necessária","it":"Permesso Accessibilità richiesto","ru":"Требуется разрешение Универсального доступа"],
+        "openAccessibility":["zh":"前往授权\u{2026}","zh-TW":"前往授權\u{2026}","en":"Open System Settings\u{2026}","ja":"システム設定を開く\u{2026}","ko":"시스템 설정 열기\u{2026}","de":"Systemeinstellungen öffnen\u{2026}","fr":"Ouvrir les Réglages Système\u{2026}","es":"Abrir Ajustes del Sistema\u{2026}","pt-BR":"Abrir Ajustes do Sistema\u{2026}","it":"Apri Impostazioni di Sistema\u{2026}","ru":"Открыть Системные настройки\u{2026}"],
         "ok":           ["zh":"确定",       "zh-TW":"確定",     "en":"OK",              "ja":"OK",                   "ko":"확인",              "de":"OK",                          "fr":"OK",                     "es":"OK",                     "pt-BR":"OK",                  "it":"OK",                     "ru":"OK"],
         "cancel":       ["zh":"取消",       "zh-TW":"取消",     "en":"Cancel",          "ja":"キャンセル",           "ko":"취소",              "de":"Abbrechen",                   "fr":"Annuler",                "es":"Cancelar",               "pt-BR":"Cancelar",            "it":"Annulla",                "ru":"Отмена"],
         "clearHistory": ["zh":"清除历史",   "zh-TW":"清除歷史", "en":"Clear History",    "ja":"履歴をクリア",         "ko":"기록 지우기",   "de":"Verlauf löschen",             "fr":"Effacer l'historique",   "es":"Borrar historial",       "pt-BR":"Limpar histórico",    "it":"Cancella cronologia",    "ru":"Очистить историю"],
         "launchLogin":  ["zh":"开机启动",   "zh-TW":"登入時啟動", "en":"Launch at Login",  "ja":"ログイン時に起動",     "ko":"로그인 시 시작","de":"Beim Login starten",          "fr":"Lancer au démarrage",    "es":"Abrir al iniciar sesión","pt-BR":"Iniciar ao fazer login","it":"Avvia al login",         "ru":"Запуск при входе"],
+        "help":         ["zh":"帮助与更新",   "zh-TW":"幫助與更新", "en":"Help & Updates",   "ja":"ヘルプと更新",         "ko":"도움말 및 업데이트","de":"Hilfe & Updates",            "fr":"Aide et mises à jour",  "es":"Ayuda y actualizaciones","pt-BR":"Ajuda e atualizações","it":"Aiuto e aggiornamenti",  "ru":"Справка и обновления"],
         "checkUpdates": ["zh":"检查更新\u{2026}","zh-TW":"檢查更新\u{2026}","en":"Check for Updates\u{2026}","ja":"アップデートを確認\u{2026}","ko":"업데이트 확인\u{2026}","de":"Nach Updates suchen\u{2026}","fr":"Vérifier les mises à jour\u{2026}","es":"Buscar actualizaciones\u{2026}","pt-BR":"Verificar atualizações\u{2026}","it":"Cerca aggiornamenti\u{2026}","ru":"Проверить обновления\u{2026}"],
         "viewOnGitHub": ["zh":"在 GitHub 上查看","zh-TW":"在 GitHub 上查看","en":"View on GitHub","ja":"GitHubで開く",       "ko":"GitHub에서 보기","de":"Auf GitHub öffnen",          "fr":"Voir sur GitHub",       "es":"Ver en GitHub",          "pt-BR":"Ver no GitHub",       "it":"Vedi su GitHub",         "ru":"Открыть на GitHub"],
         "contact":      ["zh":"联系方式",   "zh-TW":"聯絡方式", "en":"Contact",          "ja":"お問い合わせ",           "ko":"연락처",              "de":"Kontakt",                    "fr":"Contact",                "es":"Contacto",               "pt-BR":"Contato",             "it":"Contatto",               "ru":"Контакты"],
@@ -424,11 +432,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // Menu item references
     private var statusSummaryItem: NSMenuItem!
+    private var monitorHeader: NSMenuItem!
+    private var compactValuesItem: NSMenuItem!
+    private var customDisplayItem: NSMenuItem!
+    private var monitorDetailsSeparator: NSMenuItem!
+    private var monitorSourceHeader: NSMenuItem!
+    private var displayHeader: NSMenuItem!
     private var displayItems: [NSMenuItem] = []
     private var modeItems: [NSMenuItem] = []
+    private var batteryHeader: NSMenuItem!
     private var showBatteryItem: NSMenuItem!
     private var hideBatteryOnPowerItem: NSMenuItem!
-    private var sleepMenuItem: NSMenuItem!
+    private var sleepHeader: NSMenuItem!
     private var caffeineItems: [NSMenuItem] = []
     private var clipboardMenuItem: NSMenuItem!
     private var saveImagesItem: NSMenuItem!
@@ -439,8 +454,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var languageMenuItem: NSMenuItem!
     private var languageItems: [NSMenuItem] = []
     private var reverseMouseScrollItem: NSMenuItem!
+    private var accessibilityHintItem: NSMenuItem!
+    private var openAccessibilityItem: NSMenuItem!
     private var newFileInFinderItem: NSMenuItem!
     private var launchAtLoginItem: NSMenuItem!
+    private var helpMenuItem: NSMenuItem!
     private var checkUpdatesItem: NSMenuItem!
     private var viewGitHubItem: NSMenuItem!
     private var contactItem: NSMenuItem!
@@ -542,36 +560,56 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func setupMenu() {
         menu.delegate = self
 
-        statusSummaryItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
-        statusSummaryItem.isEnabled = false
+        statusSummaryItem = makeHeader()
         menu.addItem(statusSummaryItem)
 
         menu.addItem(.separator())
 
-        // Menu bar display section — no header, items are self-explanatory
-        for mode in DisplayMode.allCases {
-            let item = NSMenuItem(title: "", action: #selector(selectDisplayMode(_:)), keyEquivalent: "")
-            item.representedObject = mode
-            displayItems.append(item)
-            menu.addItem(item)
-        }
-        displayItems.first?.state = .on
+        // Monitor section
+        monitorHeader = makeHeader()
+        menu.addItem(monitorHeader)
 
-        menu.addItem(.separator())
+        compactValuesItem = NSMenuItem(title: "", action: #selector(selectCompactValues(_:)), keyEquivalent: "")
+        compactValuesItem.indentationLevel = 1
+        menu.addItem(compactValuesItem)
 
-        // Monitor mode
-        for mode in MonitorMode.allCases {
+        customDisplayItem = NSMenuItem(title: "", action: #selector(selectCustomDisplay(_:)), keyEquivalent: "")
+        customDisplayItem.indentationLevel = 1
+        menu.addItem(customDisplayItem)
+
+        monitorDetailsSeparator = .separator()
+        menu.addItem(monitorDetailsSeparator)
+
+        monitorSourceHeader = makeHeader()
+        monitorSourceHeader.indentationLevel = 1
+        menu.addItem(monitorSourceHeader)
+        for mode in [MonitorMode.combined, .cpu, .memory] {
             let item = NSMenuItem(title: "", action: #selector(selectMode(_:)), keyEquivalent: "")
             item.representedObject = mode
+            item.indentationLevel = 2
             modeItems.append(item)
             menu.addItem(item)
         }
-        modeItems.first?.state = .on
+
+        displayHeader = makeHeader()
+        displayHeader.indentationLevel = 1
+        menu.addItem(displayHeader)
+        for mode in [DisplayMode.animOnly, .both] {
+            let item = NSMenuItem(title: "", action: #selector(selectDisplayMode(_:)), keyEquivalent: "")
+            item.representedObject = mode
+            item.indentationLevel = 2
+            displayItems.append(item)
+            menu.addItem(item)
+        }
 
         menu.addItem(.separator())
 
         // Battery
+        batteryHeader = makeHeader()
+        menu.addItem(batteryHeader)
+
         showBatteryItem = NSMenuItem(title: "", action: #selector(toggleBatteryPercentage(_:)), keyEquivalent: "")
+        showBatteryItem.indentationLevel = 1
         menu.addItem(showBatteryItem)
 
         hideBatteryOnPowerItem = NSMenuItem(title: "", action: #selector(toggleHideBatteryWhenCharging(_:)), keyEquivalent: "")
@@ -581,17 +619,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(.separator())
 
         // Sleep prevention
-        sleepMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
-        let sleepSubmenu = NSMenu()
+        sleepHeader = makeHeader()
+        menu.addItem(sleepHeader)
         for mode in CaffeineMode.allCases {
             let item = NSMenuItem(title: "", action: #selector(selectCaffeineMode(_:)), keyEquivalent: "")
             item.representedObject = mode
+            item.indentationLevel = 1
             caffeineItems.append(item)
-            sleepSubmenu.addItem(item)
+            menu.addItem(item)
         }
         caffeineItems.first?.state = .on
-        sleepMenuItem.submenu = sleepSubmenu
-        menu.addItem(sleepMenuItem)
+
+        menu.addItem(.separator())
 
         // Clipboard submenu
         clipboardMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
@@ -628,6 +667,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         reverseMouseScrollItem = NSMenuItem(title: "", action: #selector(toggleReverseMouseScroll(_:)), keyEquivalent: "")
         menu.addItem(reverseMouseScrollItem)
 
+        accessibilityHintItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        accessibilityHintItem.isEnabled = false
+        menu.addItem(accessibilityHintItem)
+
+        openAccessibilityItem = NSMenuItem(title: "", action: #selector(openAccessibilitySettings), keyEquivalent: "")
+        menu.addItem(openAccessibilityItem)
+
+        menu.addItem(.separator())
+
         // Finder new file
         newFileInFinderItem = NSMenuItem(title: "", action: #selector(createNewFileInFinder(_:)), keyEquivalent: "")
         menu.addItem(newFileInFinderItem)
@@ -655,15 +703,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
 
-        // Info & actions
+        // Help & Updates submenu
+        helpMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        let helpSubmenu = NSMenu()
         checkUpdatesItem = NSMenuItem(title: "", action: #selector(checkForUpdates), keyEquivalent: "")
-        menu.addItem(checkUpdatesItem)
         viewGitHubItem   = NSMenuItem(title: "", action: #selector(openGitHub),      keyEquivalent: "")
-        menu.addItem(viewGitHubItem)
         contactItem      = NSMenuItem(title: "", action: #selector(showContact),     keyEquivalent: "")
-        menu.addItem(contactItem)
-
-        menu.addItem(.separator())
+        helpSubmenu.addItem(checkUpdatesItem)
+        helpSubmenu.addItem(viewGitHubItem)
+        helpSubmenu.addItem(contactItem)
+        helpMenuItem.submenu = helpSubmenu
+        menu.addItem(helpMenuItem)
 
         // Quit
         quitItem = NSMenuItem(title: "", action: #selector(terminateApp(_:)), keyEquivalent: "q")
@@ -671,6 +721,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         applyLanguage()
         refreshScrollState()
+    }
+
+    private func makeHeader() -> NSMenuItem {
+        let item = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        item.isEnabled = false
+        return item
     }
 
     private func updateStatusSummary() {
@@ -686,25 +742,31 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func applyLanguage() {
         let l = language
+        monitorHeader.title = l.str("monitor")
+        compactValuesItem.title = l.str("compactValues")
+        customDisplayItem.title = l.str("customDisplay")
+        monitorSourceHeader.title = l.str("monitorSource")
         for item in displayItems {
             if let mode = item.representedObject as? DisplayMode {
                 item.title = l.str(mode.locKey)
             }
         }
+        displayHeader.title = l.str("display")
         for item in modeItems {
             if let mode = item.representedObject as? MonitorMode {
                 item.title = l.str(mode.locKey)
             }
         }
-        showBatteryItem.title = l.str("showBatteryInMenuBar")
+        batteryHeader.title = l.str("battery")
+        showBatteryItem.title = l.str("showCompactBattery")
         hideBatteryOnPowerItem.title = l.str("hideBatteryPluggedIn")
-        sleepMenuItem.title = l.str("sleep")
+        sleepHeader.title = l.str("sleep")
         for item in caffeineItems {
             if let mode = item.representedObject as? CaffeineMode {
                 item.title = l.str(mode.locKey)
             }
         }
-        clipboardMenuItem.title = l.str("clipboard")
+        clipboardMenuItem.title = l.str("clipboardSettings")
         saveImagesItem.title    = l.str("saveImages")
         historyMenuItem.title   = l.str("history")
         for item in historyDaysItems {
@@ -719,8 +781,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         clearHistoryItem.title  = l.str("clearHistory")
         reverseMouseScrollItem.title = l.str("reverseMouseScroll")
+        accessibilityHintItem.title = l.str("accessibilityNeeded")
+        openAccessibilityItem.title = l.str("openAccessibility")
         newFileInFinderItem.title = l.str("newFileInFinder")
         launchAtLoginItem.title = l.str("launchLogin")
+        helpMenuItem.title      = l.str("help")
         checkUpdatesItem.title  = l.str("checkUpdates")
         viewGitHubItem.title    = l.str("viewOnGitHub")
         contactItem.title       = l.str("contact")
@@ -774,8 +839,31 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Menu Actions
 
+    @objc private func selectCompactValues(_ sender: NSMenuItem) {
+        currentMode = .cpuMemory
+        displayMode = .pctOnly
+        UserDefaults.standard.set(currentMode.rawValue, forKey: "DashCatMonitorMode")
+        UserDefaults.standard.set(displayMode.rawValue, forKey: "DashCatDisplayMode")
+        refreshDisplayMenuState()
+        updateMetric()
+    }
+
+    @objc private func selectCustomDisplay(_ sender: NSMenuItem) {
+        if currentMode == .cpuMemory {
+            currentMode = .combined
+            UserDefaults.standard.set(currentMode.rawValue, forKey: "DashCatMonitorMode")
+        }
+        if displayMode == .pctOnly {
+            displayMode = .both
+            UserDefaults.standard.set(displayMode.rawValue, forKey: "DashCatDisplayMode")
+        }
+        refreshDisplayMenuState()
+        updateMetric()
+    }
+
     @objc private func selectDisplayMode(_ sender: NSMenuItem) {
         guard let mode = sender.representedObject as? DisplayMode else { return }
+        guard currentMode != .cpuMemory else { return }
         displayMode = mode
         refreshDisplayMenuState()
         UserDefaults.standard.set(displayMode.rawValue, forKey: "DashCatDisplayMode")
@@ -804,9 +892,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func selectMode(_ sender: NSMenuItem) {
         guard let mode = sender.representedObject as? MonitorMode else { return }
         currentMode = mode
-        modeItems.forEach { $0.state = ($0.representedObject as? MonitorMode) == mode ? .on : .off }
         if mode == .cpuMemory {
             displayMode = .pctOnly
+            UserDefaults.standard.set(displayMode.rawValue, forKey: "DashCatDisplayMode")
+        } else if displayMode == .pctOnly {
+            displayMode = .both
             UserDefaults.standard.set(displayMode.rawValue, forKey: "DashCatDisplayMode")
         }
         refreshDisplayMenuState()
@@ -879,6 +969,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             ScrollManager.shared.stop()
         }
         refreshScrollState()
+    }
+
+    @objc private func openAccessibilitySettings() {
+        let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!
+        NSWorkspace.shared.open(url)
     }
 
     @objc private func createNewFileInFinder(_ sender: NSMenuItem) {
@@ -1010,6 +1105,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             ScrollManager.shared.start()
         }
         reverseMouseScrollItem.state = ScrollManager.shared.mouseReversed ? .on : .off
+        let needsPermission = ScrollManager.shared.mouseReversed && !ScrollManager.shared.isTrusted
+        accessibilityHintItem.isHidden = !needsPermission
+        openAccessibilityItem.isHidden = !needsPermission
     }
 
     private func refreshBatteryMenuState() {
@@ -1020,10 +1118,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func refreshDisplayMenuState() {
         let isCpuMemory = currentMode == .cpuMemory
+        compactValuesItem.state = isCpuMemory ? .on : .off
+        customDisplayItem.state = isCpuMemory ? .off : .on
+        monitorDetailsSeparator.isHidden = isCpuMemory
+        monitorSourceHeader.isHidden = isCpuMemory
+        displayHeader.isHidden = isCpuMemory
+        for item in modeItems {
+            guard let mode = item.representedObject as? MonitorMode else { continue }
+            item.state = (!isCpuMemory && mode == currentMode) ? .on : .off
+            item.isHidden = isCpuMemory
+        }
         for item in displayItems {
             guard let mode = item.representedObject as? DisplayMode else { continue }
-            item.state = (isCpuMemory ? mode == .pctOnly : mode == displayMode) ? .on : .off
             item.isHidden = isCpuMemory
+            item.state = (!isCpuMemory && mode == displayMode) ? .on : .off
         }
     }
 
@@ -1487,15 +1595,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if let modeStr = UserDefaults.standard.string(forKey: "DashCatMonitorMode"),
            let mode = MonitorMode(rawValue: modeStr) {
             currentMode = mode
-            modeItems.forEach { $0.state = ($0.representedObject as? MonitorMode) == mode ? .on : .off }
+        } else {
+            currentMode = .cpuMemory
+            UserDefaults.standard.set(currentMode.rawValue, forKey: "DashCatMonitorMode")
         }
-        // Restore display mode (default: .both)
+        // Restore display mode (default: compact values)
         if let modeStr = UserDefaults.standard.string(forKey: "DashCatDisplayMode"),
            let mode = DisplayMode(rawValue: modeStr) {
             displayMode = mode
+        } else {
+            displayMode = .pctOnly
+            UserDefaults.standard.set(displayMode.rawValue, forKey: "DashCatDisplayMode")
         }
         if currentMode == .cpuMemory {
             displayMode = .pctOnly
+            UserDefaults.standard.set(displayMode.rawValue, forKey: "DashCatDisplayMode")
+        } else if displayMode == .pctOnly {
+            displayMode = .both
             UserDefaults.standard.set(displayMode.rawValue, forKey: "DashCatDisplayMode")
         }
         refreshDisplayMenuState()

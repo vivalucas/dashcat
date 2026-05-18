@@ -24,10 +24,10 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - All data stored locally — fully offline, no data collection
 
 - **System Monitor**
-  - Right-click menu is organized around the cat item: Display (Cat + Number, Cat Only, Number Only) and Metric (Combined, CPU, Memory, CPU + Memory)
+  - Defaults to Compact Values: a two-line C/M percentage readout for CPU + memory that saves menu bar space
+  - Custom Display lets you choose the monitor source (Combined, CPU, Memory) and display style (Animation, Animation + Value)
   - Cat animation speed reflects real-time system load — the faster it runs, the higher the pressure
   - Combined mode automatically picks the higher of CPU / memory to drive the animation
-  - CPU + Memory shows compact two-line C/M percentages and automatically uses Number Only
 
 - **Minimal Battery Display**
   - Optional standalone menu bar battery indicator, separate from the cat item
@@ -44,7 +44,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 - **More**
   - 11 languages: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
   - Reverse external mouse wheel direction while keeping the trackpad on macOS natural scrolling
-  - Create a TXT or Markdown file in the current Finder folder, with the target path shown before creation and an option to choose another folder
+  - Create a TXT or Markdown file in Finder, with the target path shown before creation and an option to choose another folder
   - Launch at login support
   - Energy-efficient: 12 fps animation cap, 5 s sampling interval, auto-pause on system sleep
   - Zero external dependencies — pure AppKit + Swift
@@ -81,10 +81,10 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - `Option + Enter` to copy as plain text
   - Right-click an item to pin or unpin it
 - **Right-click** the cat icon: open settings menu
-  - Configure the cat item by Display and Metric
-  - Manage clipboard history (save images, retention days, clear history)
-  - Toggle the standalone battery item and plugged-in hide behavior
-  - Create a file in the current Finder folder, reverse mouse wheel, change language, set launch at login
+  - Switch Monitor between Compact Values and custom animation display
+  - Manage image saving, retention, and clearing history in Clipboard Settings
+  - Toggle the compact battery display and plugged-in hide behavior
+  - Create a file in Finder, reverse mouse wheel, change language, set launch at login
 
 ## FAQ
 
@@ -106,7 +106,7 @@ DashCat needs to identify mouse wheel events in the system event stream and flip
 
 **Why does creating a Finder file ask to control Finder?**
 
-DashCat only reads the current Finder window folder when you choose “New File in Current Finder Folder”. macOS may show an Automation permission prompt so DashCat can get that path; DashCat does not monitor Finder in the background. The command lives in DashCat’s menu and does not inject itself into Finder’s blank-area context menu.
+DashCat only reads the current Finder window folder when you choose “New File in Finder”. macOS may show an Automation permission prompt so DashCat can get that path; DashCat does not monitor Finder in the background. The command lives in DashCat’s menu and does not inject itself into Finder’s blank-area context menu.
 
 **Does it support Intel Macs?**
 
