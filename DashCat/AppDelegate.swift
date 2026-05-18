@@ -121,11 +121,6 @@ enum Language: String, CaseIterable {
     }
 
     private static let table: [String: [String: String]] = [
-        "cat":          ["zh":"小猫",       "zh-TW":"貓咪",     "en":"Cat",              "ja":"猫",                   "ko":"고양이",        "de":"Katze",                       "fr":"Chat",                   "es":"Gato",                   "pt-BR":"Gato",                "it":"Gatto",                  "ru":"Котик"],
-        "display":      ["zh":"显示形态",   "zh-TW":"顯示形態", "en":"Display",          "ja":"表示",                 "ko":"표시 방식",     "de":"Anzeige",                     "fr":"Affichage",              "es":"Visualización",          "pt-BR":"Exibição",            "it":"Visualizzazione",        "ru":"Отображение"],
-        "metric":       ["zh":"指标",       "zh-TW":"指標",     "en":"Metric",           "ja":"指標",                 "ko":"지표",          "de":"Metrik",                      "fr":"Métrique",               "es":"Métrica",                "pt-BR":"Métrica",             "it":"Metrica",                "ru":"Метрика"],
-        "tools":        ["zh":"工具",       "zh-TW":"工具",     "en":"Tools",            "ja":"ツール",               "ko":"도구",          "de":"Werkzeuge",                   "fr":"Outils",                 "es":"Herramientas",           "pt-BR":"Ferramentas",         "it":"Strumenti",              "ru":"Инструменты"],
-        "general":      ["zh":"通用",       "zh-TW":"一般",     "en":"General",          "ja":"一般",                 "ko":"일반",          "de":"Allgemein",                   "fr":"Général",                "es":"General",                "pt-BR":"Geral",               "it":"Generale",               "ru":"Общее"],
         "statusSummary":["zh":"CPU %@  内存 %@","zh-TW":"CPU %@  記憶體 %@","en":"CPU %@  Mem %@","ja":"CPU %@  メモリ %@","ko":"CPU %@  메모리 %@","de":"CPU %@  Speicher %@","fr":"CPU %@  Mémoire %@","es":"CPU %@  Mem %@","pt-BR":"CPU %@  Mem %@","it":"CPU %@  Mem %@","ru":"CPU %@  Память %@"],
         "combined":     ["zh":"综合",       "zh-TW":"綜合",     "en":"Combined",         "ja":"総合",                 "ko":"종합",          "de":"Kombiniert",                  "fr":"Combiné",                "es":"Combinado",              "pt-BR":"Combinado",           "it":"Combinato",              "ru":"Комбинированный"],
         "cpu":          ["zh":"CPU",        "zh-TW":"CPU",      "en":"CPU",              "ja":"CPU",                  "ko":"CPU",           "de":"CPU",                         "fr":"CPU",                    "es":"CPU",                    "pt-BR":"CPU",                 "it":"CPU",                    "ru":"CPU"],
@@ -138,7 +133,6 @@ enum Language: String, CaseIterable {
         "sleepOff":     ["zh":"关闭",       "zh-TW":"關閉",     "en":"Off",              "ja":"オフ",                 "ko":"끔",            "de":"Aus",                         "fr":"Désactivé",              "es":"Desactivado",            "pt-BR":"Desativado",          "it":"Disattivato",            "ru":"Выкл"],
         "sleepSystem":  ["zh":"阻止系统休眠","zh-TW":"防止系統休眠","en":"Prevent System Sleep","ja":"システムスリープを防止","ko":"시스템 절전 방지","de":"System-Ruhezustand verhindern","fr":"Empêcher la veille du système","es":"Evitar suspensión del sistema","pt-BR":"Evitar suspensão do sistema","it":"Impedisci sospensione sistema","ru":"Предотвратить сон системы"],
         "sleepDisplay": ["zh":"阻止屏幕休眠","zh-TW":"防止螢幕休眠","en":"Prevent Display Sleep","ja":"ディスプレイスリープを防止","ko":"화면 절전 방지","de":"Display-Ruhezustand verhindern","fr":"Empêcher la veille de l'écran","es":"Evitar suspensión de pantalla","pt-BR":"Evitar suspensão da tela","it":"Impedisci sospensione schermo","ru":"Предотвратить сон экрана"],
-        "battery":      ["zh":"电量",       "zh-TW":"電量",     "en":"Battery",          "ja":"バッテリー",           "ko":"배터리",        "de":"Batterie",                    "fr":"Batterie",               "es":"Batería",                "pt-BR":"Bateria",             "it":"Batteria",              "ru":"Батарея"],
         "showBatteryInMenuBar":["zh":"在菜单栏显示","zh-TW":"在選單列顯示","en":"Show in Menu Bar","ja":"メニューバーに表示","ko":"메뉴 막대에 표시","de":"In Menüleiste anzeigen","fr":"Afficher dans la barre de menus","es":"Mostrar en barra de menús","pt-BR":"Mostrar na barra de menus","it":"Mostra nella barra menu","ru":"Показывать в строке меню"],
         "hideBatteryPluggedIn":["zh":"接电时隐藏","zh-TW":"接上電源時隱藏","en":"Hide When Plugged In","ja":"電源接続中は非表示","ko":"전원 연결 시 숨기기","de":"Bei Netzbetrieb ausblenden","fr":"Masquer sur secteur","es":"Ocultar al conectar corriente","pt-BR":"Ocultar quando conectado à energia","it":"Nascondi con alimentazione collegata","ru":"Скрывать при подключении питания"],
         "batteryTooltip":["zh":"电量：%@%%","zh-TW":"電量：%@%%","en":"Battery: %@%%","ja":"バッテリー：%@%%","ko":"배터리: %@%%","de":"Batterie: %@%%","fr":"Batterie : %@%%","es":"Batería: %@%%","pt-BR":"Bateria: %@%%","it":"Batteria: %@%%","ru":"Батарея: %@%%"],
@@ -166,13 +160,10 @@ enum Language: String, CaseIterable {
         "create":       ["zh":"创建",       "zh-TW":"建立",     "en":"Create",          "ja":"作成",                 "ko":"만들기",            "de":"Erstellen",                   "fr":"Créer",                  "es":"Crear",                  "pt-BR":"Criar",               "it":"Crea",                   "ru":"Создать"],
         "newFileCreateFail":["zh":"无法新建文件","zh-TW":"無法新建檔案","en":"Could Not Create File","ja":"ファイルを作成できませんでした","ko":"파일을 만들 수 없습니다","de":"Datei konnte nicht erstellt werden","fr":"Impossible de créer le fichier","es":"No se pudo crear el archivo","pt-BR":"Não foi possível criar o arquivo","it":"Impossibile creare il file","ru":"Не удалось создать файл"],
         "newFileCreateFailMsg":["zh":"请确认 Finder 当前文件夹可写，并允许 DashCat 控制 Finder。","zh-TW":"請確認目前 Finder 檔案夾可寫入，並允許 DashCat 控制 Finder。","en":"Make sure the current Finder folder is writable and DashCat is allowed to control Finder.","ja":"現在のFinderフォルダに書き込めることと、DashCatによるFinderの制御が許可されていることを確認してください。","ko":"현재 Finder 폴더에 쓸 수 있고 DashCat이 Finder를 제어할 수 있는지 확인하세요.","de":"Stellen Sie sicher, dass der aktuelle Finder-Ordner beschreibbar ist und DashCat Finder steuern darf.","fr":"Vérifiez que le dossier Finder actuel est accessible en écriture et que DashCat est autorisé à contrôler Finder.","es":"Asegúrate de que la carpeta actual de Finder permita escritura y que DashCat pueda controlar Finder.","pt-BR":"Verifique se a pasta atual do Finder permite gravação e se o DashCat pode controlar o Finder.","it":"Verifica che la cartella Finder attuale sia scrivibile e che DashCat possa controllare Finder.","ru":"Убедитесь, что текущая папка Finder доступна для записи и DashCat разрешено управлять Finder."],
-        "accessibilityNeeded":["zh":"需要辅助功能权限","zh-TW":"需要輔助使用權限","en":"Accessibility Permission Required","ja":"アクセシビリティ権限が必要","ko":"손쉬운 사용 권한 필요","de":"Bedienungshilfen-Berechtigung erforderlich","fr":"Autorisation Accessibilité requise","es":"Se requiere permiso de Accesibilidad","pt-BR":"Permissão de Acessibilidade necessária","it":"Permesso Accessibilità richiesto","ru":"Требуется разрешение Универсального доступа"],
-        "openAccessibility":["zh":"前往授权\u{2026}","zh-TW":"前往授權\u{2026}","en":"Open System Settings\u{2026}","ja":"システム設定を開く\u{2026}","ko":"시스템 설정 열기\u{2026}","de":"Systemeinstellungen öffnen\u{2026}","fr":"Ouvrir les Réglages Système\u{2026}","es":"Abrir Ajustes del Sistema\u{2026}","pt-BR":"Abrir Ajustes do Sistema\u{2026}","it":"Apri Impostazioni di Sistema\u{2026}","ru":"Открыть Системные настройки\u{2026}"],
         "ok":           ["zh":"确定",       "zh-TW":"確定",     "en":"OK",              "ja":"OK",                   "ko":"확인",              "de":"OK",                          "fr":"OK",                     "es":"OK",                     "pt-BR":"OK",                  "it":"OK",                     "ru":"OK"],
         "cancel":       ["zh":"取消",       "zh-TW":"取消",     "en":"Cancel",          "ja":"キャンセル",           "ko":"취소",              "de":"Abbrechen",                   "fr":"Annuler",                "es":"Cancelar",               "pt-BR":"Cancelar",            "it":"Annulla",                "ru":"Отмена"],
         "clearHistory": ["zh":"清除历史",   "zh-TW":"清除歷史", "en":"Clear History",    "ja":"履歴をクリア",         "ko":"기록 지우기",   "de":"Verlauf löschen",             "fr":"Effacer l'historique",   "es":"Borrar historial",       "pt-BR":"Limpar histórico",    "it":"Cancella cronologia",    "ru":"Очистить историю"],
         "launchLogin":  ["zh":"开机启动",   "zh-TW":"登入時啟動", "en":"Launch at Login",  "ja":"ログイン時に起動",     "ko":"로그인 시 시작","de":"Beim Login starten",          "fr":"Lancer au démarrage",    "es":"Abrir al iniciar sesión","pt-BR":"Iniciar ao fazer login","it":"Avvia al login",         "ru":"Запуск при входе"],
-        "help":         ["zh":"帮助与更新",   "zh-TW":"幫助與更新", "en":"Help & Updates",   "ja":"ヘルプと更新",         "ko":"도움말 및 업데이트","de":"Hilfe & Updates",            "fr":"Aide et mises à jour",  "es":"Ayuda y actualizaciones","pt-BR":"Ajuda e atualizações","it":"Aiuto e aggiornamenti",  "ru":"Справка и обновления"],
         "checkUpdates": ["zh":"检查更新\u{2026}","zh-TW":"檢查更新\u{2026}","en":"Check for Updates\u{2026}","ja":"アップデートを確認\u{2026}","ko":"업데이트 확인\u{2026}","de":"Nach Updates suchen\u{2026}","fr":"Vérifier les mises à jour\u{2026}","es":"Buscar actualizaciones\u{2026}","pt-BR":"Verificar atualizações\u{2026}","it":"Cerca aggiornamenti\u{2026}","ru":"Проверить обновления\u{2026}"],
         "viewOnGitHub": ["zh":"在 GitHub 上查看","zh-TW":"在 GitHub 上查看","en":"View on GitHub","ja":"GitHubで開く",       "ko":"GitHub에서 보기","de":"Auf GitHub öffnen",          "fr":"Voir sur GitHub",       "es":"Ver en GitHub",          "pt-BR":"Ver no GitHub",       "it":"Vedi su GitHub",         "ru":"Открыть на GitHub"],
         "contact":      ["zh":"联系方式",   "zh-TW":"聯絡方式", "en":"Contact",          "ja":"お問い合わせ",           "ko":"연락처",              "de":"Kontakt",                    "fr":"Contact",                "es":"Contacto",               "pt-BR":"Contato",             "it":"Contatto",               "ru":"Контакты"],
@@ -433,15 +424,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // Menu item references
     private var statusSummaryItem: NSMenuItem!
-    private var catHeader: NSMenuItem!
-    private var displayHeader: NSMenuItem!
     private var displayItems: [NSMenuItem] = []
-    private var metricHeader: NSMenuItem!
     private var modeItems: [NSMenuItem] = []
-    private var batteryHeader: NSMenuItem!
-    private var showBatteryPercentItem: NSMenuItem!
-    private var hideBatteryChargingItem: NSMenuItem!
-    private var toolsHeader: NSMenuItem!
+    private var showBatteryItem: NSMenuItem!
+    private var hideBatteryOnPowerItem: NSMenuItem!
     private var sleepMenuItem: NSMenuItem!
     private var caffeineItems: [NSMenuItem] = []
     private var clipboardMenuItem: NSMenuItem!
@@ -453,12 +439,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var languageMenuItem: NSMenuItem!
     private var languageItems: [NSMenuItem] = []
     private var reverseMouseScrollItem: NSMenuItem!
-    private var accessibilityHintItem: NSMenuItem!
-    private var openAccessibilityItem: NSMenuItem!
     private var newFileInFinderItem: NSMenuItem!
-    private var generalHeader: NSMenuItem!
     private var launchAtLoginItem: NSMenuItem!
-    private var helpMenuItem: NSMenuItem!
     private var checkUpdatesItem: NSMenuItem!
     private var viewGitHubItem: NSMenuItem!
     private var contactItem: NSMenuItem!
@@ -560,22 +542,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func setupMenu() {
         menu.delegate = self
 
-        statusSummaryItem = makeHeader()
+        statusSummaryItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        statusSummaryItem.isEnabled = false
         menu.addItem(statusSummaryItem)
 
         menu.addItem(.separator())
 
-        // Cat section
-        catHeader = makeHeader()
-        menu.addItem(catHeader)
-
-        displayHeader = makeHeader()
-        displayHeader.indentationLevel = 1
-        menu.addItem(displayHeader)
+        // Menu bar display section — no header, items are self-explanatory
         for mode in DisplayMode.allCases {
             let item = NSMenuItem(title: "", action: #selector(selectDisplayMode(_:)), keyEquivalent: "")
             item.representedObject = mode
-            item.indentationLevel = 2
             displayItems.append(item)
             menu.addItem(item)
         }
@@ -583,13 +559,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
 
-        metricHeader = makeHeader()
-        metricHeader.indentationLevel = 1
-        menu.addItem(metricHeader)
+        // Monitor mode
         for mode in MonitorMode.allCases {
             let item = NSMenuItem(title: "", action: #selector(selectMode(_:)), keyEquivalent: "")
             item.representedObject = mode
-            item.indentationLevel = 2
             modeItems.append(item)
             menu.addItem(item)
         }
@@ -597,24 +570,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
 
-        // Battery section
-        batteryHeader = makeHeader()
-        menu.addItem(batteryHeader)
+        // Battery
+        showBatteryItem = NSMenuItem(title: "", action: #selector(toggleBatteryPercentage(_:)), keyEquivalent: "")
+        menu.addItem(showBatteryItem)
 
-        showBatteryPercentItem = NSMenuItem(title: "", action: #selector(toggleBatteryPercentage(_:)), keyEquivalent: "")
-        showBatteryPercentItem.indentationLevel = 1
-        menu.addItem(showBatteryPercentItem)
-
-        hideBatteryChargingItem = NSMenuItem(title: "", action: #selector(toggleHideBatteryWhenCharging(_:)), keyEquivalent: "")
-        hideBatteryChargingItem.indentationLevel = 1
-        menu.addItem(hideBatteryChargingItem)
+        hideBatteryOnPowerItem = NSMenuItem(title: "", action: #selector(toggleHideBatteryWhenCharging(_:)), keyEquivalent: "")
+        hideBatteryOnPowerItem.indentationLevel = 1
+        menu.addItem(hideBatteryOnPowerItem)
 
         menu.addItem(.separator())
 
-        // Tools section
-        toolsHeader = makeHeader()
-        menu.addItem(toolsHeader)
-
+        // Sleep prevention
         sleepMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
         let sleepSubmenu = NSMenu()
         for mode in CaffeineMode.allCases {
@@ -625,9 +591,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         caffeineItems.first?.state = .on
         sleepMenuItem.submenu = sleepSubmenu
-        sleepMenuItem.indentationLevel = 1
         menu.addItem(sleepMenuItem)
 
+        // Clipboard submenu
         clipboardMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
         let clipboardSubmenu = NSMenu()
 
@@ -635,13 +601,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         saveImagesItem.state = UserDefaults.standard.bool(forKey: "DashCatSaveImages") ? .on : .off
         clipboardSubmenu.addItem(saveImagesItem)
 
-        // History days submenu
         historyMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
         let historySubmenu = NSMenu()
         for days in HistoryDays.allCases {
             let item = NSMenuItem(title: "", action: #selector(selectHistoryDays(_:)), keyEquivalent: "")
             item.representedObject = days
-            item.indentationLevel = 1
             if customHistoryDays == nil && days == historyDays { item.state = .on }
             historyDaysItems.append(item)
             historySubmenu.addItem(item)
@@ -658,33 +622,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         clipboardSubmenu.addItem(clearHistoryItem)
 
         clipboardMenuItem.submenu = clipboardSubmenu
-        clipboardMenuItem.indentationLevel = 1
         menu.addItem(clipboardMenuItem)
 
         // Mouse wheel scrolling
         reverseMouseScrollItem = NSMenuItem(title: "", action: #selector(toggleReverseMouseScroll(_:)), keyEquivalent: "")
-        reverseMouseScrollItem.indentationLevel = 1
         menu.addItem(reverseMouseScrollItem)
 
-        accessibilityHintItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
-        accessibilityHintItem.isEnabled = false
-        accessibilityHintItem.indentationLevel = 1
-        menu.addItem(accessibilityHintItem)
-
-        openAccessibilityItem = NSMenuItem(title: "", action: #selector(openAccessibilitySettings), keyEquivalent: "")
-        openAccessibilityItem.indentationLevel = 1
-        menu.addItem(openAccessibilityItem)
-
-        // Finder current folder tools
+        // Finder new file
         newFileInFinderItem = NSMenuItem(title: "", action: #selector(createNewFileInFinder(_:)), keyEquivalent: "")
-        newFileInFinderItem.indentationLevel = 1
         menu.addItem(newFileInFinderItem)
 
         menu.addItem(.separator())
-
-        // General section
-        generalHeader = makeHeader()
-        menu.addItem(generalHeader)
 
         // Language submenu — title stays fixed so users can always find it
         languageMenuItem = NSMenuItem(title: "Language", action: nil, keyEquivalent: "")
@@ -699,40 +647,30 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             langSubmenu.addItem(item)
         }
         languageMenuItem.submenu = langSubmenu
-        languageMenuItem.indentationLevel = 1
         menu.addItem(languageMenuItem)
 
         launchAtLoginItem = NSMenuItem(title: "", action: #selector(toggleLaunchAtLogin(_:)), keyEquivalent: "")
         launchAtLoginItem.state = UserDefaults.standard.bool(forKey: "DashCatLaunchAtLogin") ? .on : .off
-        launchAtLoginItem.indentationLevel = 1
         menu.addItem(launchAtLoginItem)
 
-        // Help & Updates submenu
-        helpMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
-        let helpSubmenu = NSMenu()
+        menu.addItem(.separator())
+
+        // Info & actions
         checkUpdatesItem = NSMenuItem(title: "", action: #selector(checkForUpdates), keyEquivalent: "")
+        menu.addItem(checkUpdatesItem)
         viewGitHubItem   = NSMenuItem(title: "", action: #selector(openGitHub),      keyEquivalent: "")
+        menu.addItem(viewGitHubItem)
         contactItem      = NSMenuItem(title: "", action: #selector(showContact),     keyEquivalent: "")
-        helpSubmenu.addItem(checkUpdatesItem)
-        helpSubmenu.addItem(viewGitHubItem)
-        helpSubmenu.addItem(contactItem)
-        helpMenuItem.submenu = helpSubmenu
-        helpMenuItem.indentationLevel = 1
-        menu.addItem(helpMenuItem)
+        menu.addItem(contactItem)
+
+        menu.addItem(.separator())
 
         // Quit
         quitItem = NSMenuItem(title: "", action: #selector(terminateApp(_:)), keyEquivalent: "q")
-        quitItem.indentationLevel = 1
         menu.addItem(quitItem)
 
         applyLanguage()
         refreshScrollState()
-    }
-
-    private func makeHeader() -> NSMenuItem {
-        let item = NSMenuItem(title: "", action: nil, keyEquivalent: "")
-        item.isEnabled = false
-        return item
     }
 
     private func updateStatusSummary() {
@@ -748,23 +686,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func applyLanguage() {
         let l = language
-        catHeader.title = l.str("cat")
-        displayHeader.title = l.str("display")
         for item in displayItems {
             if let mode = item.representedObject as? DisplayMode {
                 item.title = l.str(mode.locKey)
             }
         }
-        metricHeader.title = l.str("metric")
         for item in modeItems {
             if let mode = item.representedObject as? MonitorMode {
                 item.title = l.str(mode.locKey)
             }
         }
-        batteryHeader.title = l.str("battery")
-        showBatteryPercentItem.title = l.str("showBatteryInMenuBar")
-        hideBatteryChargingItem.title = l.str("hideBatteryPluggedIn")
-        toolsHeader.title = l.str("tools")
+        showBatteryItem.title = l.str("showBatteryInMenuBar")
+        hideBatteryOnPowerItem.title = l.str("hideBatteryPluggedIn")
         sleepMenuItem.title = l.str("sleep")
         for item in caffeineItems {
             if let mode = item.representedObject as? CaffeineMode {
@@ -785,14 +718,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             customDaysItem.title = l.str("customDays")
         }
         clearHistoryItem.title  = l.str("clearHistory")
-        // Language menu title stays fixed so users can always find it
         reverseMouseScrollItem.title = l.str("reverseMouseScroll")
-        accessibilityHintItem.title  = l.str("accessibilityNeeded")
-        openAccessibilityItem.title  = l.str("openAccessibility")
         newFileInFinderItem.title = l.str("newFileInFinder")
-        generalHeader.title      = l.str("general")
         launchAtLoginItem.title = l.str("launchLogin")
-        helpMenuItem.title      = l.str("help")
         checkUpdatesItem.title  = l.str("checkUpdates")
         viewGitHubItem.title    = l.str("viewOnGitHub")
         contactItem.title       = l.str("contact")
@@ -847,7 +775,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Menu Actions
 
     @objc private func selectDisplayMode(_ sender: NSMenuItem) {
-        guard currentMode != .cpuMemory else { return }
         guard let mode = sender.representedObject as? DisplayMode else { return }
         displayMode = mode
         refreshDisplayMenuState()
@@ -952,11 +879,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             ScrollManager.shared.stop()
         }
         refreshScrollState()
-    }
-
-    @objc private func openAccessibilitySettings() {
-        let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!
-        NSWorkspace.shared.open(url)
     }
 
     @objc private func createNewFileInFinder(_ sender: NSMenuItem) {
@@ -1088,15 +1010,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             ScrollManager.shared.start()
         }
         reverseMouseScrollItem.state = ScrollManager.shared.mouseReversed ? .on : .off
-        let needsPermission = ScrollManager.shared.mouseReversed && !ScrollManager.shared.isTrusted
-        accessibilityHintItem.isHidden = !needsPermission
-        openAccessibilityItem.isHidden = !needsPermission
     }
 
     private func refreshBatteryMenuState() {
-        showBatteryPercentItem.state = showBatteryPercentage ? .on : .off
-        hideBatteryChargingItem.state = hideBatteryWhenCharging ? .on : .off
-        hideBatteryChargingItem.isEnabled = showBatteryPercentage
+        showBatteryItem.state = showBatteryPercentage ? .on : .off
+        hideBatteryOnPowerItem.state = hideBatteryWhenCharging ? .on : .off
+        hideBatteryOnPowerItem.isHidden = !showBatteryPercentage
     }
 
     private func refreshDisplayMenuState() {
@@ -1104,7 +1023,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         for item in displayItems {
             guard let mode = item.representedObject as? DisplayMode else { continue }
             item.state = (isCpuMemory ? mode == .pctOnly : mode == displayMode) ? .on : .off
-            item.isEnabled = !isCpuMemory
+            item.isHidden = isCpuMemory
         }
     }
 
