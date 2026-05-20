@@ -33,7 +33,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 - **Minimal Battery Display**
   - Optional standalone menu bar battery indicator, separate from the cat item
   - Shows a narrow number without the percent sign, backed by a subtle green battery fill for crowded notched menu bars
-  - Shows a non-widening blue outline when plugged in or charging
+  - Switches to a non-widening blue fill/outline when plugged in or charging
   - Click the battery number to view level, power source, charging status, Low Power Mode, and Battery Settings
   - Can hide automatically when plugged in, leaving no menu bar gap
   - Uses system power information with low-frequency refresh, no animation, and minimal overhead

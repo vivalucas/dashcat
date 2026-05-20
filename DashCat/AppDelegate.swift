@@ -358,12 +358,12 @@ private final class BatteryStatusView: NSView {
         )
         NSGraphicsContext.saveGraphicsState()
         path.addClip()
-        tint.withAlphaComponent(0.16).setFill()
+        tint.withAlphaComponent(fillAlpha).setFill()
         fillRect.fill()
         NSGraphicsContext.restoreGraphicsState()
 
         if battery.isPluggedIn || battery.isCharging {
-            NSColor.systemBlue.withAlphaComponent(battery.isCharging ? 0.65 : 0.45).setStroke()
+            NSColor.systemBlue.withAlphaComponent(battery.isCharging ? 0.9 : 0.7).setStroke()
             path.lineWidth = 1
             path.stroke()
         }
@@ -372,7 +372,12 @@ private final class BatteryStatusView: NSView {
     private var tintColor: NSColor {
         if battery.level <= 10 { return .systemRed }
         if battery.level <= 20 { return .systemOrange }
+        if battery.isPluggedIn || battery.isCharging { return .systemBlue }
         return .systemGreen
+    }
+
+    private var fillAlpha: CGFloat {
+        battery.isPluggedIn || battery.isCharging ? 0.26 : 0.16
     }
 
     static func preferredWidth(for level: Int) -> CGFloat {
