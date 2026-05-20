@@ -141,6 +141,18 @@ enum Language: String, CaseIterable {
         "showCompactBattery":["zh":"显示极简电量","zh-TW":"顯示極簡電量","en":"Show Compact Battery","ja":"コンパクトなバッテリー表示","ko":"간결한 배터리 표시","de":"Kompakte Batterie anzeigen","fr":"Afficher la batterie compacte","es":"Mostrar batería compacta","pt-BR":"Mostrar bateria compacta","it":"Mostra batteria compatta","ru":"Показывать компактную батарею"],
         "hideBatteryPluggedIn":["zh":"接电时隐藏","zh-TW":"接上電源時隱藏","en":"Hide When Plugged In","ja":"電源接続中は非表示","ko":"전원 연결 시 숨기기","de":"Bei Netzbetrieb ausblenden","fr":"Masquer sur secteur","es":"Ocultar al conectar corriente","pt-BR":"Ocultar quando conectado à energia","it":"Nascondi con alimentazione collegata","ru":"Скрывать при подключении питания"],
         "batteryTooltip":["zh":"电量：%@%%","zh-TW":"電量：%@%%","en":"Battery: %@%%","ja":"バッテリー：%@%%","ko":"배터리: %@%%","de":"Batterie: %@%%","fr":"Batterie : %@%%","es":"Batería: %@%%","pt-BR":"Bateria: %@%%","it":"Batteria: %@%%","ru":"Батарея: %@%%"],
+        "batteryLevel":["zh":"电量：%@%%","zh-TW":"電量：%@%%","en":"Level: %@%%","ja":"残量：%@%%","ko":"배터리 잔량: %@%%","de":"Ladestand: %@%%","fr":"Niveau : %@%%","es":"Nivel: %@%%","pt-BR":"Nível: %@%%","it":"Livello: %@%%","ru":"Уровень: %@%%"],
+        "batteryPowerSource":["zh":"电源：%@","zh-TW":"電源：%@","en":"Power: %@","ja":"電源：%@","ko":"전원: %@","de":"Stromquelle: %@","fr":"Alimentation : %@","es":"Fuente de energía: %@","pt-BR":"Energia: %@","it":"Alimentazione: %@","ru":"Питание: %@"],
+        "batteryStatus":["zh":"状态：%@","zh-TW":"狀態：%@","en":"Status: %@","ja":"状態：%@","ko":"상태: %@","de":"Status: %@","fr":"État : %@","es":"Estado: %@","pt-BR":"Status: %@","it":"Stato: %@","ru":"Состояние: %@"],
+        "powerAdapter":["zh":"电源适配器","zh-TW":"電源轉接器","en":"Power Adapter","ja":"電源アダプタ","ko":"전원 어댑터","de":"Netzteil","fr":"Adaptateur secteur","es":"Adaptador de corriente","pt-BR":"Adaptador de energia","it":"Alimentatore","ru":"Адаптер питания"],
+        "batteryPower":["zh":"电池","zh-TW":"電池","en":"Battery","ja":"バッテリー","ko":"배터리","de":"Batterie","fr":"Batterie","es":"Batería","pt-BR":"Bateria","it":"Batteria","ru":"Батарея"],
+        "batteryCharging":["zh":"正在充电","zh-TW":"正在充電","en":"Charging","ja":"充電中","ko":"충전 중","de":"Wird geladen","fr":"En charge","es":"Cargando","pt-BR":"Carregando","it":"In carica","ru":"Заряжается"],
+        "batteryPluggedIn":["zh":"已接电","zh-TW":"已接上電源","en":"Plugged In","ja":"電源接続中","ko":"전원 연결됨","de":"Angeschlossen","fr":"Branché","es":"Conectado","pt-BR":"Conectado","it":"Collegato","ru":"Подключено"],
+        "batteryDischarging":["zh":"正在使用电池","zh-TW":"正在使用電池","en":"Using Battery","ja":"バッテリー使用中","ko":"배터리 사용 중","de":"Batteriebetrieb","fr":"Sur batterie","es":"Usando batería","pt-BR":"Usando bateria","it":"Uso batteria","ru":"Работает от батареи"],
+        "lowPowerMode":["zh":"低电量模式：%@","zh-TW":"低耗電模式：%@","en":"Low Power Mode: %@","ja":"低電力モード：%@","ko":"저전력 모드: %@","de":"Stromsparmodus: %@","fr":"Mode économie d'énergie : %@","es":"Modo de bajo consumo: %@","pt-BR":"Modo de pouca energia: %@","it":"Risparmio energetico: %@","ru":"Режим энергосбережения: %@"],
+        "on":["zh":"开启","zh-TW":"開啟","en":"On","ja":"オン","ko":"켬","de":"Ein","fr":"Activé","es":"Activado","pt-BR":"Ativado","it":"Attivo","ru":"Вкл"],
+        "off":["zh":"关闭","zh-TW":"關閉","en":"Off","ja":"オフ","ko":"끔","de":"Aus","fr":"Désactivé","es":"Desactivado","pt-BR":"Desativado","it":"Disattivo","ru":"Выкл"],
+        "batterySettings":["zh":"电池设置\u{2026}","zh-TW":"電池設定\u{2026}","en":"Battery Settings\u{2026}","ja":"バッテリー設定\u{2026}","ko":"배터리 설정\u{2026}","de":"Batterie-Einstellungen\u{2026}","fr":"Réglages Batterie\u{2026}","es":"Configuración de batería\u{2026}","pt-BR":"Ajustes de bateria\u{2026}","it":"Impostazioni Batteria\u{2026}","ru":"Настройки батареи\u{2026}"],
         "clipboardSettings":["zh":"剪贴板设置","zh-TW":"剪貼簿設定","en":"Clipboard Settings","ja":"クリップボード設定","ko":"클립보드 설정","de":"Zwischenablage-Einstellungen","fr":"Réglages du presse-papiers","es":"Ajustes del portapapeles","pt-BR":"Configurações da área de transferência","it":"Impostazioni appunti","ru":"Настройки буфера обмена"],
         "language":     ["zh":"语言",       "zh-TW":"語言",     "en":"Language",         "ja":"言語",                 "ko":"언어",          "de":"Sprache",                     "fr":"Langue",                 "es":"Idioma",                 "pt-BR":"Idioma",              "it":"Lingua",                 "ru":"Язык"],
         "saveImages":   ["zh":"保存图片",   "zh-TW":"儲存圖片", "en":"Save Images",      "ja":"画像を保存",           "ko":"이미지 저장",   "de":"Bilder speichern",            "fr":"Enregistrer les images", "es":"Guardar imágenes",       "pt-BR":"Salvar imagens",      "it":"Salva immagini",         "ru":"Сохранять изображения"],
@@ -1237,6 +1249,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         view.battery = info
         batteryStatusItem?.length = view.preferredWidth
         batteryStatusItem?.button?.toolTip = String(format: language.str("batteryTooltip"), "\(info.level)")
+        batteryStatusItem?.menu = makeBatteryDetailsMenu(for: info)
     }
 
     private func ensureBatteryStatusView(for info: BatteryInfo) -> BatteryStatusView {
@@ -1264,6 +1277,50 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         return view
+    }
+
+    private func makeBatteryDetailsMenu(for info: BatteryInfo) -> NSMenu {
+        let menu = NSMenu()
+        menu.addItem(disabledMenuItem(language.str("battery")))
+        menu.addItem(.separator())
+        menu.addItem(disabledMenuItem(String(format: language.str("batteryLevel"), "\(info.level)")))
+
+        let powerSource = info.isPluggedIn ? language.str("powerAdapter") : language.str("batteryPower")
+        menu.addItem(disabledMenuItem(String(format: language.str("batteryPowerSource"), powerSource)))
+
+        let status: String
+        if info.isCharging {
+            status = language.str("batteryCharging")
+        } else if info.isPluggedIn {
+            status = language.str("batteryPluggedIn")
+        } else {
+            status = language.str("batteryDischarging")
+        }
+        menu.addItem(disabledMenuItem(String(format: language.str("batteryStatus"), status)))
+
+        menu.addItem(.separator())
+        let lowPower = ProcessInfo.processInfo.isLowPowerModeEnabled ? language.str("on") : language.str("off")
+        menu.addItem(disabledMenuItem(String(format: language.str("lowPowerMode"), lowPower)))
+
+        menu.addItem(.separator())
+        let settingsItem = NSMenuItem(title: language.str("batterySettings"),
+                                      action: #selector(openBatterySettings),
+                                      keyEquivalent: "")
+        settingsItem.target = self
+        menu.addItem(settingsItem)
+        return menu
+    }
+
+    private func disabledMenuItem(_ title: String) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
+        item.isEnabled = false
+        return item
+    }
+
+    @objc private func openBatterySettings() {
+        if let url = URL(string: "x-apple.systempreferences:com.apple.Battery-Settings.extension") {
+            NSWorkspace.shared.open(url)
+        }
     }
 
     private func removeBatteryStatusItem() {
