@@ -4,6 +4,7 @@ import os.log
 
 private let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
 private let maxTextLength = 10000
+private let filterTermsKey = "DashCatClipboardFilterTerms"
 
 extension NSNotification.Name {
     static let DashCatClipboardDidChange = NSNotification.Name("DashCatClipboardDidChange")
@@ -28,6 +29,7 @@ final class ClipboardManager {
     private var pollTimer: Timer?
     private var lastStorageCheck: TimeInterval = 0
     private var latestCache: ClipboardItem?
+    private var filterTerms: [String] = []
 
     private let dbPath: String
     private let imagesDir: String
@@ -45,6 +47,7 @@ final class ClipboardManager {
         openDatabase()
         createTable()
         cleanupExpired()
+        reloadFilterTerms()
 
         changeCount = NSPasteboard.general.changeCount
     }
@@ -112,6 +115,7 @@ final class ClipboardManager {
 
         // Try text first
         if let string = pb.string(forType: .string), !string.isEmpty {
+            guard !shouldSkipText(string) else { return }
             let truncated = string.count > maxTextLength ? String(string.prefix(maxTextLength)) : string
             // Normalize Windows/Mac line endings to Unix
             let normalized = truncated
@@ -132,6 +136,42 @@ final class ClipboardManager {
                 }
             }
         }
+    }
+
+    // MARK: - Filter Terms
+
+    func savedFilterTerms() -> [String] {
+        UserDefaults.standard.stringArray(forKey: filterTermsKey) ?? []
+    }
+
+    func setFilterTerms(_ terms: [String]) {
+        let normalized = normalizeTermsForStorage(terms)
+        UserDefaults.standard.set(normalized, forKey: filterTermsKey)
+        reloadFilterTerms()
+    }
+
+    func reloadFilterTerms() {
+        filterTerms = normalizeTermsForStorage(savedFilterTerms()).map { $0.lowercased() }
+    }
+
+    private func shouldSkipText(_ text: String) -> Bool {
+        guard !filterTerms.isEmpty else { return false }
+        let lowercased = text.lowercased()
+        return filterTerms.contains { lowercased.contains($0) }
+    }
+
+    private func normalizeTermsForStorage(_ terms: [String]) -> [String] {
+        var seen = Set<String>()
+        var result: [String] = []
+        for term in terms {
+            let trimmed = term.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmed.isEmpty else { continue }
+            let key = trimmed.lowercased()
+            guard !seen.contains(key) else { continue }
+            seen.insert(key)
+            result.append(trimmed)
+        }
+        return result
     }
 
     // MARK: - Image Storage

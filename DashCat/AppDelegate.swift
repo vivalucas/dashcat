@@ -145,6 +145,8 @@ enum Language: String, CaseIterable {
         "language":     ["zh":"语言",       "zh-TW":"語言",     "en":"Language",         "ja":"言語",                 "ko":"언어",          "de":"Sprache",                     "fr":"Langue",                 "es":"Idioma",                 "pt-BR":"Idioma",              "it":"Lingua",                 "ru":"Язык"],
         "saveImages":   ["zh":"保存图片",   "zh-TW":"儲存圖片", "en":"Save Images",      "ja":"画像を保存",           "ko":"이미지 저장",   "de":"Bilder speichern",            "fr":"Enregistrer les images", "es":"Guardar imágenes",       "pt-BR":"Salvar imagens",      "it":"Salva immagini",         "ru":"Сохранять изображения"],
         "history":      ["zh":"历史记录",   "zh-TW":"歷史記錄", "en":"History",          "ja":"履歴",                 "ko":"기록",          "de":"Verlauf",                     "fr":"Historique",             "es":"Historial",              "pt-BR":"Histórico",           "it":"Cronologia",             "ru":"История"],
+        "filterTerms":  ["zh":"过滤词\u{2026}","zh-TW":"過濾詞\u{2026}","en":"Filter Terms\u{2026}","ja":"フィルター語句\u{2026}","ko":"필터 단어\u{2026}","de":"Filterbegriffe\u{2026}","fr":"Termes filtrés\u{2026}","es":"Términos de filtro\u{2026}","pt-BR":"Termos de filtro\u{2026}","it":"Termini filtro\u{2026}","ru":"Фильтры\u{2026}"],
+        "filterTermsPrompt":["zh":"每行一个过滤词：","zh-TW":"每行一個過濾詞：","en":"One filter term per line:","ja":"1行に1つのフィルター語句：","ko":"한 줄에 필터 단어 하나:","de":"Ein Filterbegriff pro Zeile:","fr":"Un terme filtré par ligne :","es":"Un término de filtro por línea:","pt-BR":"Um termo de filtro por linha:","it":"Un termine filtro per riga:","ru":"Один фильтр на строку:"],
         "days7":        ["zh":"7 天",       "zh-TW":"7 天",     "en":"7 Days",           "ja":"7日",                  "ko":"7일",           "de":"7 Tage",                      "fr":"7 jours",                "es":"7 días",                 "pt-BR":"7 dias",              "it":"7 giorni",              "ru":"7 дней"],
         "days14":       ["zh":"14 天",      "zh-TW":"14 天",    "en":"14 Days",          "ja":"14日",                 "ko":"14일",          "de":"14 Tage",                     "fr":"14 jours",               "es":"14 días",                "pt-BR":"14 dias",             "it":"14 giorni",              "ru":"14 дней"],
         "days30":       ["zh":"30 天",      "zh-TW":"30 天",    "en":"30 Days",          "ja":"30日",                 "ko":"30일",          "de":"30 Tage",                     "fr":"30 jours",               "es":"30 días",                "pt-BR":"30 dias",             "it":"30 giorni",              "ru":"30 дней"],
@@ -347,6 +349,12 @@ private final class BatteryStatusView: NSView {
         tint.withAlphaComponent(0.16).setFill()
         fillRect.fill()
         NSGraphicsContext.restoreGraphicsState()
+
+        if battery.isPluggedIn || battery.isCharging {
+            NSColor.systemBlue.withAlphaComponent(battery.isCharging ? 0.65 : 0.45).setStroke()
+            path.lineWidth = 1
+            path.stroke()
+        }
     }
 
     private var tintColor: NSColor {
@@ -452,6 +460,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var historyMenuItem: NSMenuItem!
     private var historyDaysItems: [NSMenuItem] = []
     private var customDaysItem: NSMenuItem!
+    private var filterTermsItem: NSMenuItem!
     private var clearHistoryItem: NSMenuItem!
     private var languageMenuItem: NSMenuItem!
     private var languageItems: [NSMenuItem] = []
@@ -657,6 +666,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         historyMenuItem.submenu = historySubmenu
         clipboardSubmenu.addItem(historyMenuItem)
 
+        filterTermsItem = NSMenuItem(title: "", action: #selector(editFilterTerms(_:)), keyEquivalent: "")
+        clipboardSubmenu.addItem(filterTermsItem)
+
         clipboardSubmenu.addItem(.separator())
 
         clearHistoryItem = NSMenuItem(title: "", action: #selector(clearClipboardHistory(_:)), keyEquivalent: "")
@@ -779,6 +791,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             customDaysItem.title = l.str("customDays")
         }
+        filterTermsItem.title = l.str("filterTerms")
         clearHistoryItem.title  = l.str("clearHistory")
         reverseMouseScrollItem.title = l.str("reverseMouseScroll")
         accessibilityHintItem.title = l.str("accessibilityNeeded")
@@ -949,6 +962,32 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func cleanupClipboardHistoryAfterRetentionChange() {
         ClipboardManager.shared.cleanupExpired()
         clipboardPanel?.reloadData()
+    }
+
+    @objc private func editFilterTerms(_ sender: NSMenuItem) {
+        let l = language
+        let alert = NSAlert()
+        alert.messageText = l.str("filterTerms")
+        alert.informativeText = l.str("filterTermsPrompt")
+        alert.addButton(withTitle: l.str("ok"))
+        alert.addButton(withTitle: l.str("cancel"))
+
+        let textView = NSTextView(frame: NSRect(x: 0, y: 0, width: 360, height: 140))
+        textView.font = NSFont.systemFont(ofSize: 13)
+        textView.isRichText = false
+        textView.string = ClipboardManager.shared.savedFilterTerms().joined(separator: "\n")
+
+        let scrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 360, height: 140))
+        scrollView.hasVerticalScroller = true
+        scrollView.borderType = .bezelBorder
+        scrollView.documentView = textView
+        alert.accessoryView = scrollView
+
+        activateAppForModal()
+        if alert.runModal() == .alertFirstButtonReturn {
+            let terms = textView.string.components(separatedBy: .newlines)
+            ClipboardManager.shared.setFilterTerms(terms)
+        }
     }
 
     @objc private func clearClipboardHistory(_ sender: NSMenuItem) {

@@ -21,6 +21,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - Right-click an item to pin it to the top
   - Text and image support (JPEG compressed, toggleable image storage)
   - Customizable retention: 7 / 14 / 30 / 90 days, forever, or a custom 1-365 day value
+  - Optional filter terms so matching future text clips are not saved
   - All data stored locally — fully offline, no data collection
 
 - **System Monitor**
@@ -32,6 +33,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 - **Minimal Battery Display**
   - Optional standalone menu bar battery indicator, separate from the cat item
   - Shows a narrow number without the percent sign, backed by a subtle green battery fill for crowded notched menu bars
+  - Shows a non-widening blue outline when plugged in or charging
   - Can hide automatically when plugged in, leaving no menu bar gap
   - Uses system power information with low-frequency refresh, no animation, and minimal overhead
 
@@ -82,7 +84,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - Right-click an item to pin or unpin it
 - **Right-click** the cat icon: open settings menu
   - Switch Monitor between Compact Values and custom animation display
-  - Manage image saving, retention, and clearing history in Clipboard Settings
+  - Manage image saving, retention, filter terms, and clearing history in Clipboard Settings
   - Toggle the compact battery display and plugged-in hide behavior
   - Create a file in Finder, reverse mouse wheel, change language, set launch at login
 
