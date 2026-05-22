@@ -1254,7 +1254,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         view.battery = info
         batteryStatusItem?.length = view.preferredWidth
         batteryStatusItem?.button?.toolTip = String(format: language.str("batteryTooltip"), "\(info.level)")
-        batteryStatusItem?.menu = makeBatteryDetailsMenu(for: info)
     }
 
     private func ensureBatteryStatusView(for info: BatteryInfo) -> BatteryStatusView {
@@ -1271,6 +1270,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         batteryStatusItem = item
 
         if let button = item.button {
+            button.target = self
+            button.action = #selector(batteryButtonClicked(_:))
+            button.sendAction(on: [.leftMouseUp, .rightMouseUp])
             button.addSubview(view)
             view.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
@@ -1282,6 +1284,33 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         return view
+    }
+
+    @objc private func batteryButtonClicked(_ sender: NSStatusBarButton) {
+        guard let event = NSApp.currentEvent else { return }
+        if event.type == .rightMouseUp {
+            showBatteryDetailsMenu()
+        } else {
+            cycleCaffeineMode()
+        }
+    }
+
+    private func cycleCaffeineMode() {
+        let nextRaw = caffeineMode.rawValue + 1
+        let nextMode = CaffeineMode(rawValue: nextRaw) ?? .off
+        applyCaffeineMode(nextMode)
+    }
+
+    private func showBatteryDetailsMenu() {
+        guard let item = batteryStatusItem,
+              let button = item.button,
+              let info = lastBatteryInfo ?? readBatteryInfo() else {
+            return
+        }
+        let menu = makeBatteryDetailsMenu(for: info)
+        menu.delegate = self
+        item.menu = menu
+        button.performClick(nil)
     }
 
     private func makeBatteryDetailsMenu(for info: BatteryInfo) -> NSMenu {
@@ -1756,6 +1785,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
 extension AppDelegate: NSMenuDelegate {
     func menuWillOpen(_ menu: NSMenu) {
+        guard menu === self.menu else { return }
         updateStatusSummary()
         refreshLaunchAtLoginState()
         refreshScrollState()
@@ -1764,7 +1794,12 @@ extension AppDelegate: NSMenuDelegate {
     }
 
     func menuDidClose(_ menu: NSMenu) {
-        statusItem.menu = nil
+        if statusItem.menu === menu {
+            statusItem.menu = nil
+        }
+        if batteryStatusItem?.menu === menu {
+            batteryStatusItem?.menu = nil
+        }
     }
 }
 

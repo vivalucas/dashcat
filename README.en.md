@@ -34,7 +34,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - Optional standalone menu bar battery indicator, separate from the cat item
   - Shows a narrow number without the percent sign, backed by a subtle green battery fill for crowded notched menu bars
   - Switches to a non-widening blue fill/outline when plugged in or charging
-  - Click the battery number to view level, power source, charging status, Low Power Mode, and Battery Settings
+  - Left-click the battery number to cycle Sleep Prevention; right-click it to view level, power source, charging status, Low Power Mode, and Battery Settings
   - Can hide automatically when plugged in, leaving no menu bar gap
   - Uses system power information with low-frequency refresh, no animation, and minimal overhead
 
@@ -88,6 +88,9 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - Manage image saving, retention, filter terms, and clearing history in Clipboard Settings
   - Toggle the compact battery display and plugged-in hide behavior
   - Create a file in Finder, reverse mouse wheel, change language, set launch at login
+- **When compact battery is visible**
+  - Left-click the battery number to cycle Sleep Prevention
+  - Right-click the battery number to open battery details
 
 ## FAQ
 
