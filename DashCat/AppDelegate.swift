@@ -1635,11 +1635,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Check for Updates
 
     @objc private func checkForUpdates() {
-        let url = URL(string: "https://api.github.com/repos/vivalucas/DashCat/releases/latest")!
-        var request = URLRequest(url: url)
+        let url = URL(string: "https://github.com/vivalucas/dashcat/releases/latest")!
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 15)
         request.setValue("DashCat/\(bundleVersion)", forHTTPHeaderField: "User-Agent")
-        URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
-            DispatchQueue.main.async { self?.handleUpdateResponse(data: data, error: error) }
+        URLSession.shared.dataTask(with: request) { [weak self] _, response, error in
+            let tag = Self.releaseTag(from: response)
+            DispatchQueue.main.async {
+                if let tag {
+                    self?.handleUpdateTag(tag)
+                } else {
+                    self?.handleUpdateFailure(error: error)
+                }
+            }
         }.resume()
     }
 
@@ -1647,16 +1654,34 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0"
     }
 
-    private func handleUpdateResponse(data: Data?, error: Error?) {
-        let l = language
-        guard error == nil,
-              let data,
-              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let tag = json["tag_name"] as? String else {
-            presentAlert(title: l.str("updateFail"),
-                         message: l.str("updateFailMsg"))
-            return
+    private static func releaseTag(from response: URLResponse?) -> String? {
+        guard let response = response as? HTTPURLResponse,
+              (200..<400).contains(response.statusCode),
+              let url = response.url else {
+            return nil
         }
+        let pathComponents = url.pathComponents
+        guard let tagIndex = pathComponents.firstIndex(of: "tag") else {
+            return nil
+        }
+        let versionIndex = pathComponents.index(after: tagIndex)
+        guard pathComponents.indices.contains(versionIndex) else {
+            return nil
+        }
+        return pathComponents[versionIndex]
+    }
+
+    private func handleUpdateFailure(error: Error?) {
+        let l = language
+        if let error {
+            NSLog("DashCat update check failed: \(error.localizedDescription)")
+        }
+        presentAlert(title: l.str("updateFail"),
+                     message: l.str("updateFailMsg"))
+    }
+
+    private func handleUpdateTag(_ tag: String) {
+        let l = language
         let remote = tag.hasPrefix("v") ? String(tag.dropFirst()) : tag
         let local  = bundleVersion
         if isNewerVersion(remote, than: local) {
@@ -1666,7 +1691,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             alert.addButton(withTitle: l.str("download"))
             alert.addButton(withTitle: l.str("later"))
             activateAppForModal()
-            if alert.runModal() == .alertFirstButtonReturn { openGitHub() }
+            if alert.runModal() == .alertFirstButtonReturn { openRelease(tag: tag) }
         } else {
             presentAlert(title: l.str("updateOk"),
                          message: String(format: l.str("updateOkMsg"), local))
@@ -1698,6 +1723,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func openGitHub() {
         NSWorkspace.shared.open(URL(string: "https://github.com/vivalucas/DashCat")!)
+    }
+
+    private func openRelease(tag: String) {
+        let encodedTag = tag.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? tag
+        NSWorkspace.shared.open(URL(string: "https://github.com/vivalucas/dashcat/releases/tag/\(encodedTag)")!)
     }
 
     @objc private func showContact() {
