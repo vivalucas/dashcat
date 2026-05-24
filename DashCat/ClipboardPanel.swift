@@ -27,6 +27,11 @@ final class ClipboardPanel: NSPanel {
     private var searchTimer: Timer?
     private var hasAppeared = false
     private var isSelecting = false
+    private let thumbnailCache: NSCache<NSString, NSImage> = {
+        let cache = NSCache<NSString, NSImage>()
+        cache.countLimit = 200
+        return cache
+    }()
     private let iconCache: NSCache<NSString, NSImage> = {
         let cache = NSCache<NSString, NSImage>()
         cache.countLimit = 100
@@ -383,9 +388,13 @@ extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
             // Show thumbnail
             if let imgPath = item.imagePath,
                let thumbPath = ClipboardManager.shared.thumbnailPath(for: imgPath) {
-                if let image = NSImage(contentsOfFile: thumbPath) {
+                let cacheKey = thumbPath as NSString
+                if let cached = thumbnailCache.object(forKey: cacheKey) {
+                    iconView?.image = cached
+                } else if let image = NSImage(contentsOfFile: thumbPath) {
+                    image.size = NSSize(width: 20, height: 20)
+                    thumbnailCache.setObject(image, forKey: cacheKey)
                     iconView?.image = image
-                    iconView?.image?.size = NSSize(width: 20, height: 20)
                 }
             }
         } else {

@@ -1,5 +1,8 @@
 import Cocoa
+import CoreGraphics
+import ImageIO
 import SQLite3
+import UniformTypeIdentifiers
 import os.log
 
 private let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
@@ -25,6 +28,8 @@ final class ClipboardManager {
     static let shared = ClipboardManager()
 
     private var db: OpaquePointer?
+    private let maintenanceQueue = DispatchQueue(label: "com.dashcat.app.clipboard-maintenance", qos: .utility)
+    private let stateLock = NSLock()
     private var changeCount: Int = 0
     private var pollTimer: Timer?
     private var lastStorageCheck: TimeInterval = 0
@@ -46,8 +51,8 @@ final class ClipboardManager {
 
         openDatabase()
         createTable()
-        cleanupExpired()
         reloadFilterTerms()
+        cleanupExpired()
 
         changeCount = NSPasteboard.general.changeCount
     }
@@ -60,7 +65,9 @@ final class ClipboardManager {
     // MARK: - Database
 
     private func openDatabase() {
-        if sqlite3_open(dbPath, &db) != SQLITE_OK {
+        if sqlite3_open_v2(dbPath, &db,
+                           SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX,
+                           nil) != SQLITE_OK {
             logger.error("Failed to open database at \(self.dbPath)")
             db = nil
             return
@@ -112,9 +119,16 @@ final class ClipboardManager {
         changeCount = pb.changeCount
 
         let sourceApp = NSWorkspace.shared.frontmostApplication?.bundleIdentifier ?? ""
+        let string = pb.string(forType: .string)
+        let imageData = pb.data(forType: .tiff) ?? pb.data(forType: .png)
+        maintenanceQueue.async { [weak self] in
+            self?.processPasteboardSnapshot(string: string, imageData: imageData, sourceApp: sourceApp)
+        }
+    }
 
+    private func processPasteboardSnapshot(string: String?, imageData: Data?, sourceApp: String) {
         // Try text first
-        if let string = pb.string(forType: .string), !string.isEmpty {
+        if let string, !string.isEmpty {
             guard !shouldSkipText(string) else { return }
             let truncated = string.count > maxTextLength ? String(string.prefix(maxTextLength)) : string
             // Normalize Windows/Mac line endings to Unix
@@ -128,12 +142,10 @@ final class ClipboardManager {
         }
 
         // Try image (TIFF or PNG)
-        if UserDefaults.standard.bool(forKey: "DashCatSaveImages") {
-            let imageData = pb.data(forType: .tiff) ?? pb.data(forType: .png)
-            if let data = imageData, let bitmap = NSBitmapImageRep(data: data) {
-                if let saved = saveImage(bitmap) {
-                    insert(content: nil, imagePath: saved, sourceApp: sourceApp)
-                }
+        if UserDefaults.standard.bool(forKey: "DashCatSaveImages"),
+           let data = imageData {
+            if let saved = saveImage(from: data) {
+                insert(content: nil, imagePath: saved, sourceApp: sourceApp)
             }
         }
     }
@@ -151,13 +163,19 @@ final class ClipboardManager {
     }
 
     func reloadFilterTerms() {
-        filterTerms = normalizeTermsForStorage(savedFilterTerms()).map { $0.lowercased() }
+        let terms = normalizeTermsForStorage(savedFilterTerms()).map { $0.lowercased() }
+        stateLock.lock()
+        filterTerms = terms
+        stateLock.unlock()
     }
 
     private func shouldSkipText(_ text: String) -> Bool {
-        guard !filterTerms.isEmpty else { return false }
+        stateLock.lock()
+        let terms = filterTerms
+        stateLock.unlock()
+        guard !terms.isEmpty else { return false }
         let lowercased = text.lowercased()
-        return filterTerms.contains { lowercased.contains($0) }
+        return terms.contains { lowercased.contains($0) }
     }
 
     private func normalizeTermsForStorage(_ terms: [String]) -> [String] {
@@ -176,75 +194,24 @@ final class ClipboardManager {
 
     // MARK: - Image Storage
 
-    private func saveImage(_ bitmap: NSBitmapImageRep) -> String? {
-        let uuid = UUID().uuidString
-        let maxSize: CGFloat = 500
-
-        // Save compressed original
-        let targetSize: NSSize
-        let origSize = bitmap.size
-        if origSize.width > maxSize || origSize.height > maxSize {
-            let scale = maxSize / max(origSize.width, origSize.height)
-            targetSize = NSSize(width: origSize.width * scale, height: origSize.height * scale)
-        } else {
-            targetSize = origSize
-        }
-
-        let resized = NSImage(size: targetSize, flipped: false) { rect in
-            NSGraphicsContext.current?.imageInterpolation = .high
-            bitmap.draw(in: rect,
-                        from: .zero, operation: .copy, fraction: 1.0, respectFlipped: true, hints: nil)
-            return true
-        }
-
-        guard let resizedRep = resized.tiffRepresentation.flatMap({ NSBitmapImageRep(data: $0) }) else { return nil }
-
-        // Try decreasing compression, then downsample if needed
-        let maxImageBytes = 500 * 1024
-        var jpegData: Data?
-        for factor: CGFloat in [0.6, 0.4, 0.25] {
-            if let data = resizedRep.representation(using: .jpeg, properties: [.compressionFactor: factor]) {
-                jpegData = data
-                if data.count <= maxImageBytes { break }
-            }
-        }
-        // If still too large, downsample and retry
-        if let data = jpegData, data.count > maxImageBytes {
-            let halfSize = NSSize(width: targetSize.width / 2, height: targetSize.height / 2)
-            let smaller = NSImage(size: halfSize, flipped: false) { rect in
-                NSGraphicsContext.current?.imageInterpolation = .high
-                resizedRep.draw(in: rect,
-                                from: .zero, operation: .copy, fraction: 1.0, respectFlipped: true, hints: nil)
-                return true
-            }
-            if let smallerRep = smaller.tiffRepresentation.flatMap({ NSBitmapImageRep(data: $0) }),
-               let data = smallerRep.representation(using: .jpeg, properties: [.compressionFactor: 0.25]) {
-                jpegData = data
-            }
-        }
-        guard let finalData = jpegData else { return nil }
-
-        let filePath = (imagesDir as NSString).appendingPathComponent("\(uuid).jpg")
-        let url = URL(fileURLWithPath: filePath)
-        do {
-            try finalData.write(to: url)
-        } catch {
+    private func saveImage(from data: Data) -> String? {
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil),
+              let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else {
             return nil
         }
 
-        // Save thumbnail
-        let thumbSize = NSSize(width: 80, height: 80)
-        let thumb = NSImage(size: thumbSize, flipped: false) { rect in
-            NSGraphicsContext.current?.imageInterpolation = .high
-            resizedRep.draw(in: rect,
-                            from: .zero, operation: .copy, fraction: 1.0, respectFlipped: true, hints: nil)
-            return true
+        let uuid = UUID().uuidString
+        let maxDimension: CGFloat = 500
+        let scaledImage = scaleImage(image, maxDimension: maxDimension) ?? image
+
+        let filePath = (imagesDir as NSString).appendingPathComponent("\(uuid).jpg")
+        guard writeJPEG(scaledImage, to: URL(fileURLWithPath: filePath), quality: 0.6) else {
+            return nil
         }
 
-        if let thumbRep = thumb.tiffRepresentation.flatMap({ NSBitmapImageRep(data: $0) }),
-           let thumbData = thumbRep.representation(using: .jpeg, properties: [.compressionFactor: 0.6]) {
+        if let thumbnail = scaleImage(scaledImage, maxDimension: 80) {
             let thumbPath = (imagesDir as NSString).appendingPathComponent("\(uuid)_thumb.jpg")
-            try? thumbData.write(to: URL(fileURLWithPath: thumbPath))
+            _ = writeJPEG(thumbnail, to: URL(fileURLWithPath: thumbPath), quality: 0.6)
         }
 
         return filePath
@@ -254,6 +221,7 @@ final class ClipboardManager {
 
     private func insert(content: String?, imagePath: String?, sourceApp: String) {
         guard db != nil else { return }
+        let now = Date().timeIntervalSince1970
         var stmt: OpaquePointer?
         let sql = "INSERT INTO clipboard_history (content, image_path, source_app, is_pinned, created_at) VALUES (?, ?, ?, 0, ?)"
         guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else { return }
@@ -269,22 +237,30 @@ final class ClipboardManager {
             sqlite3_bind_null(stmt, 2)
         }
         sqlite3_bind_text(stmt, 3, sourceApp, -1, SQLITE_TRANSIENT)
-        sqlite3_bind_double(stmt, 4, Date().timeIntervalSince1970)
+        sqlite3_bind_double(stmt, 4, now)
         if sqlite3_step(stmt) == SQLITE_DONE {
             let rowId = sqlite3_last_insert_rowid(db)
+            stateLock.lock()
             latestCache = ClipboardItem(id: rowId, content: content, imagePath: imagePath,
-                                        sourceApp: sourceApp, isPinned: false, createdAt: Date().timeIntervalSince1970)
+                                        sourceApp: sourceApp, isPinned: false, createdAt: now)
+            stateLock.unlock()
         } else {
             logger.error("Failed to insert clipboard item")
         }
 
-        NotificationCenter.default.post(name: .DashCatClipboardDidChange, object: nil)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: .DashCatClipboardDidChange, object: nil)
+        }
 
         // Throttle storage check to at most once per 60 seconds
-        let now = Date().timeIntervalSince1970
-        if now - lastStorageCheck > 60 {
-            lastStorageCheck = now
-            enforceMaxStorage()
+        stateLock.lock()
+        let shouldEnforce = now - lastStorageCheck > 60
+        if shouldEnforce { lastStorageCheck = now }
+        stateLock.unlock()
+        if shouldEnforce {
+            maintenanceQueue.async { [weak self] in
+                self?.enforceMaxStorage()
+            }
         }
     }
 
@@ -324,7 +300,9 @@ final class ClipboardManager {
 
     func togglePin(id: Int64) {
         guard db != nil else { return }
+        stateLock.lock()
         latestCache = nil
+        stateLock.unlock()
         var stmt: OpaquePointer?
         let sql = "UPDATE clipboard_history SET is_pinned = 1 - is_pinned WHERE id = ?"
         guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else {
@@ -340,7 +318,9 @@ final class ClipboardManager {
 
     func deleteItem(id: Int64) {
         guard db != nil else { return }
+        stateLock.lock()
         latestCache = nil
+        stateLock.unlock()
         // Delete associated image files first
         var stmt: OpaquePointer?
         let selectSql = "SELECT image_path FROM clipboard_history WHERE id = ?"
@@ -369,22 +349,13 @@ final class ClipboardManager {
         }
     }
 
-    func clearAll() {
-        guard db != nil else { return }
-        latestCache = nil
-
-        guard sqlite3_exec(db, "DELETE FROM clipboard_history", nil, nil, nil) == SQLITE_OK else {
-            logger.error("Failed to clear clipboard history")
-            return
-        }
-
-        if sqlite3_exec(db, "VACUUM", nil, nil, nil) != SQLITE_OK {
-            logger.error("Failed to vacuum clipboard database after clearing history")
-        }
-
-        if let files = try? FileManager.default.contentsOfDirectory(atPath: imagesDir) {
-            for file in files {
-                try? FileManager.default.removeItem(atPath: (imagesDir as NSString).appendingPathComponent(file))
+    func clearAll(completion: (() -> Void)? = nil) {
+        maintenanceQueue.async { [weak self] in
+            self?.clearAllOnMaintenanceQueue()
+            if let completion {
+                DispatchQueue.main.async {
+                    completion()
+                }
             }
         }
     }
@@ -400,27 +371,18 @@ final class ClipboardManager {
     // MARK: - Cleanup
 
     func cleanupExpired() {
-        guard db != nil else { return }
-        latestCache = nil
-        let days = UserDefaults.standard.integer(forKey: "DashCatHistoryDays")
-        let effectiveDays = days > 0 ? days : 30
-        if effectiveDays >= 36500 { return } // "Forever" = ~100 years
+        cleanupExpired(completion: nil)
+    }
 
-        let cutoff = Date().timeIntervalSince1970 - Double(effectiveDays * 86400)
-
-        // Delete expired records
-        var stmt: OpaquePointer?
-        let sql = "DELETE FROM clipboard_history WHERE is_pinned = 0 AND created_at < ?"
-        guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else { return }
-        defer { sqlite3_finalize(stmt) }
-        sqlite3_bind_double(stmt, 1, cutoff)
-        if sqlite3_step(stmt) != SQLITE_DONE {
-            logger.error("Failed to clean expired clipboard records")
-            return
+    func cleanupExpired(completion: (() -> Void)?) {
+        maintenanceQueue.async { [weak self] in
+            self?.cleanupExpiredOnMaintenanceQueue()
+            if let completion {
+                DispatchQueue.main.async {
+                    completion()
+                }
+            }
         }
-
-        // Clean orphaned images
-        cleanupOrphanedImages()
     }
 
     private func cleanupOrphanedImages() {
@@ -450,6 +412,92 @@ final class ClipboardManager {
         }
     }
 
+    private func clearAllOnMaintenanceQueue() {
+        guard db != nil else { return }
+        stateLock.lock()
+        latestCache = nil
+        stateLock.unlock()
+
+        guard sqlite3_exec(db, "DELETE FROM clipboard_history", nil, nil, nil) == SQLITE_OK else {
+            logger.error("Failed to clear clipboard history")
+            return
+        }
+
+        if sqlite3_exec(db, "VACUUM", nil, nil, nil) != SQLITE_OK {
+            logger.error("Failed to vacuum clipboard database after clearing history")
+        }
+
+        if let files = try? FileManager.default.contentsOfDirectory(atPath: imagesDir) {
+            for file in files {
+                try? FileManager.default.removeItem(atPath: (imagesDir as NSString).appendingPathComponent(file))
+            }
+        }
+    }
+
+    private func cleanupExpiredOnMaintenanceQueue() {
+        guard db != nil else { return }
+        stateLock.lock()
+        latestCache = nil
+        stateLock.unlock()
+
+        let days = UserDefaults.standard.integer(forKey: "DashCatHistoryDays")
+        let effectiveDays = days > 0 ? days : 30
+        if effectiveDays >= 36500 { return } // "Forever" = ~100 years
+
+        let cutoff = Date().timeIntervalSince1970 - Double(effectiveDays * 86400)
+
+        // Delete expired records
+        var stmt: OpaquePointer?
+        let sql = "DELETE FROM clipboard_history WHERE is_pinned = 0 AND created_at < ?"
+        guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else { return }
+        defer { sqlite3_finalize(stmt) }
+        sqlite3_bind_double(stmt, 1, cutoff)
+        if sqlite3_step(stmt) != SQLITE_DONE {
+            logger.error("Failed to clean expired clipboard records")
+            return
+        }
+
+        // Clean orphaned images
+        cleanupOrphanedImages()
+    }
+
+    private func scaleImage(_ image: CGImage, maxDimension: CGFloat) -> CGImage? {
+        let width = CGFloat(image.width)
+        let height = CGFloat(image.height)
+        let largest = max(width, height)
+        guard largest > maxDimension else { return image }
+
+        let scale = maxDimension / largest
+        let targetWidth = max(1, Int((width * scale).rounded()))
+        let targetHeight = max(1, Int((height * scale).rounded()))
+        guard let colorSpace = image.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB),
+              let context = CGContext(data: nil,
+                                      width: targetWidth,
+                                      height: targetHeight,
+                                      bitsPerComponent: 8,
+                                      bytesPerRow: 0,
+                                      space: colorSpace,
+                                      bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else {
+            return nil
+        }
+
+        context.interpolationQuality = .high
+        context.draw(image, in: CGRect(x: 0, y: 0, width: targetWidth, height: targetHeight))
+        return context.makeImage()
+    }
+
+    private func writeJPEG(_ image: CGImage, to url: URL, quality: CGFloat) -> Bool {
+        guard let destination = CGImageDestinationCreateWithURL(url as CFURL,
+                                                                UTType.jpeg.identifier as CFString,
+                                                                1,
+                                                                nil) else {
+            return false
+        }
+        let options: [CFString: Any] = [kCGImageDestinationLossyCompressionQuality: quality]
+        CGImageDestinationAddImage(destination, image, options as CFDictionary)
+        return CGImageDestinationFinalize(destination)
+    }
+
     private func enforceMaxStorage() {
         let maxBytes: Int64 = 500 * 1024 * 1024 // 500 MB
         guard let files = try? FileManager.default.contentsOfDirectory(atPath: imagesDir) else { return }
@@ -467,7 +515,9 @@ final class ClipboardManager {
             }
         }
         guard totalSize > maxBytes else { return }
+        stateLock.lock()
         latestCache = nil
+        stateLock.unlock()
 
         // Batch-query all pinned image paths
         var pinnedPaths = Set<String>()
@@ -512,7 +562,12 @@ final class ClipboardManager {
     // MARK: - Helpers
 
     private func fetchLatest() -> ClipboardItem? {
-        if let cache = latestCache { return cache }
+        stateLock.lock()
+        if let cache = latestCache {
+            stateLock.unlock()
+            return cache
+        }
+        stateLock.unlock()
         guard db != nil else { return nil }
         var stmt: OpaquePointer?
         let sql = "SELECT id, content, image_path, source_app, is_pinned, created_at FROM clipboard_history ORDER BY created_at DESC LIMIT 1"
@@ -520,7 +575,9 @@ final class ClipboardManager {
         defer { sqlite3_finalize(stmt) }
         if sqlite3_step(stmt) == SQLITE_ROW {
             let item = itemFromRow(stmt)
+            stateLock.lock()
             latestCache = item
+            stateLock.unlock()
             return item
         }
         return nil

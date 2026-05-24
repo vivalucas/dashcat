@@ -453,6 +453,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var powerSourceRunLoopSource: CFRunLoopSource?
     private var showBatteryPercentage = false
     private var hideBatteryWhenCharging = true
+    private var accessibilityRetryTimer: Timer?
 
     // Clipboard panel
     private var clipboardPanel: ClipboardPanel?
@@ -538,6 +539,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSWorkspace.shared.notificationCenter.removeObserver(self)
         clipboardPanel?.close()
         clipboardPanel = nil
+        stopAccessibilityRetryTimer()
         stopRunning()
         stopPowerSourceMonitoring()
         removeBatteryStatusItem()
@@ -977,39 +979,35 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func cleanupClipboardHistoryAfterRetentionChange() {
-        ClipboardManager.shared.cleanupExpired()
-        clipboardPanel?.reloadData()
+        ClipboardManager.shared.cleanupExpired { [weak self] in
+            self?.clipboardPanel?.reloadData()
+        }
     }
 
     @objc private func editFilterTerms(_ sender: NSMenuItem) {
         let l = language
         let alert = NSAlert()
         alert.messageText = l.str("filterTerms")
-        alert.informativeText = l.str("filterTermsPrompt")
         alert.addButton(withTitle: l.str("ok"))
         alert.addButton(withTitle: l.str("cancel"))
 
-        let textView = NSTextView(frame: NSRect(x: 0, y: 0, width: 360, height: 140))
-        textView.font = NSFont.systemFont(ofSize: 13)
-        textView.isRichText = false
-        textView.string = ClipboardManager.shared.savedFilterTerms().joined(separator: "\n")
-
-        let scrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 360, height: 140))
-        scrollView.hasVerticalScroller = true
-        scrollView.borderType = .bezelBorder
-        scrollView.documentView = textView
-        alert.accessoryView = scrollView
+        let accessory = FilterTermsAccessoryView(
+            language: l,
+            terms: ClipboardManager.shared.savedFilterTerms()
+        )
+        alert.accessoryView = accessory
 
         activateAppForModal()
         if alert.runModal() == .alertFirstButtonReturn {
-            let terms = textView.string.components(separatedBy: .newlines)
+            let terms = accessory.currentTerms()
             ClipboardManager.shared.setFilterTerms(terms)
         }
     }
 
     @objc private func clearClipboardHistory(_ sender: NSMenuItem) {
-        ClipboardManager.shared.clearAll()
-        clipboardPanel?.reloadData()
+        ClipboardManager.shared.clearAll { [weak self] in
+            self?.clipboardPanel?.reloadData()
+        }
     }
 
     @objc private func toggleReverseMouseScroll(_ sender: NSMenuItem) {
@@ -1020,8 +1018,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 ScrollManager.shared.start()
             } else {
                 ScrollManager.shared.requestTrustPrompt()
+                startAccessibilityRetryTimer()
             }
         } else {
+            stopAccessibilityRetryTimer()
             ScrollManager.shared.stop()
         }
         refreshScrollState()
@@ -1158,12 +1158,46 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func refreshScrollState() {
         if ScrollManager.shared.mouseReversed && ScrollManager.shared.isTrusted {
+            stopAccessibilityRetryTimer()
             ScrollManager.shared.start()
         }
         reverseMouseScrollItem.state = ScrollManager.shared.mouseReversed ? .on : .off
         let needsPermission = ScrollManager.shared.mouseReversed && !ScrollManager.shared.isTrusted
         accessibilityHintItem.isHidden = !needsPermission
         openAccessibilityItem.isHidden = !needsPermission
+    }
+
+    private func startAccessibilityRetryTimer() {
+        accessibilityRetryTimer?.invalidate()
+        var attempts = 0
+        accessibilityRetryTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] timer in
+            guard let self else { timer.invalidate(); return }
+            guard ScrollManager.shared.mouseReversed else {
+                timer.invalidate()
+                self.accessibilityRetryTimer = nil
+                return
+            }
+            attempts += 1
+            if attempts > 60 {
+                timer.invalidate()
+                self.accessibilityRetryTimer = nil
+                return
+            }
+            if ScrollManager.shared.isTrusted {
+                _ = ScrollManager.shared.start()
+                timer.invalidate()
+                self.accessibilityRetryTimer = nil
+                self.refreshScrollState()
+            }
+        }
+        if let timer = accessibilityRetryTimer {
+            RunLoop.main.add(timer, forMode: .common)
+        }
+    }
+
+    private func stopAccessibilityRetryTimer() {
+        accessibilityRetryTimer?.invalidate()
+        accessibilityRetryTimer = nil
     }
 
     private func refreshBatteryMenuState() {
@@ -1917,5 +1951,68 @@ private final class NewFileAccessoryView: NSView {
             return "~" + String(url.path.dropFirst(homePath.count))
         }
         return url.path
+    }
+}
+
+private final class FilterTermsAccessoryView: NSView {
+    private let titleLabel = NSTextField(labelWithString: "")
+    private let helperLabel = NSTextField(labelWithString: "")
+    private let scrollView = NSScrollView()
+    private let textView = NSTextView()
+
+    init(language: Language, terms: [String]) {
+        super.init(frame: NSRect(x: 0, y: 0, width: 420, height: 220))
+        build(language: language, terms: terms)
+    }
+
+    required init?(coder: NSCoder) {
+        nil
+    }
+
+    func currentTerms() -> [String] {
+        textView.string.components(separatedBy: .newlines)
+    }
+
+    private func build(language: Language, terms: [String]) {
+        titleLabel.stringValue = language.str("filterTerms")
+        titleLabel.font = NSFont.systemFont(ofSize: 13, weight: .semibold)
+        titleLabel.textColor = .labelColor
+        titleLabel.frame = NSRect(x: 0, y: 198, width: 420, height: 18)
+
+        helperLabel.stringValue = language.str("filterTermsPrompt")
+        helperLabel.font = NSFont.systemFont(ofSize: 11)
+        helperLabel.textColor = .secondaryLabelColor
+        helperLabel.frame = NSRect(x: 0, y: 177, width: 420, height: 16)
+
+        scrollView.frame = NSRect(x: 0, y: 0, width: 420, height: 168)
+        scrollView.hasVerticalScroller = true
+        scrollView.drawsBackground = true
+        scrollView.backgroundColor = .textBackgroundColor
+        scrollView.borderType = .bezelBorder
+        scrollView.autohidesScrollers = true
+
+        textView.frame = scrollView.bounds
+        textView.isRichText = false
+        textView.importsGraphics = false
+        textView.allowsUndo = true
+        textView.isAutomaticQuoteSubstitutionEnabled = false
+        textView.isAutomaticDashSubstitutionEnabled = false
+        textView.isAutomaticDataDetectionEnabled = false
+        textView.isAutomaticTextReplacementEnabled = false
+        textView.font = NSFont.systemFont(ofSize: 13)
+        textView.textColor = .labelColor
+        textView.backgroundColor = .clear
+        textView.drawsBackground = false
+        textView.string = terms.joined(separator: "\n")
+        textView.textContainerInset = NSSize(width: 7, height: 8)
+        textView.isVerticallyResizable = true
+        textView.isHorizontallyResizable = false
+        textView.textContainer?.widthTracksTextView = true
+        textView.textContainer?.containerSize = NSSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
+        scrollView.documentView = textView
+
+        addSubview(titleLabel)
+        addSubview(helperLabel)
+        addSubview(scrollView)
     }
 }
