@@ -363,17 +363,17 @@ private final class BatteryStatusView: NSView {
         NSGraphicsContext.restoreGraphicsState()
 
         if battery.isPluggedIn || battery.isCharging {
-            NSColor.systemBlue.withAlphaComponent(battery.isCharging ? 0.9 : 0.7).setStroke()
+            NSColor.systemPink.withAlphaComponent(battery.isCharging ? 0.9 : 0.7).setStroke()
             path.lineWidth = 1
             path.stroke()
         }
     }
 
     private var tintColor: NSColor {
+        if battery.isPluggedIn || battery.isCharging { return .systemPink }
         if battery.level <= 10 { return .systemRed }
         if battery.level <= 20 { return .systemOrange }
-        if battery.isPluggedIn || battery.isCharging { return .systemBlue }
-        return .systemGreen
+        return .systemBlue
     }
 
     private var fillAlpha: CGFloat {
