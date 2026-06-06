@@ -1015,7 +1015,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         ScrollManager.shared.mouseReversed = newValue
         if newValue {
             if ScrollManager.shared.isTrusted {
-                ScrollManager.shared.start()
+                if !ScrollManager.shared.start() {
+                    startAccessibilityRetryTimer()
+                }
             } else {
                 ScrollManager.shared.requestTrustPrompt()
                 startAccessibilityRetryTimer()
@@ -1029,6 +1031,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func openAccessibilitySettings() {
         let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!
+        if ScrollManager.shared.mouseReversed {
+            ScrollManager.shared.requestTrustPrompt()
+            startAccessibilityRetryTimer()
+        }
         NSWorkspace.shared.open(url)
     }
 
@@ -1159,7 +1165,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func refreshScrollState() {
         if ScrollManager.shared.mouseReversed && ScrollManager.shared.isTrusted {
             stopAccessibilityRetryTimer()
-            ScrollManager.shared.start()
+            if !ScrollManager.shared.start() {
+                startAccessibilityRetryTimer()
+            }
         }
         reverseMouseScrollItem.state = ScrollManager.shared.mouseReversed ? .on : .off
         let needsPermission = ScrollManager.shared.mouseReversed && !ScrollManager.shared.isTrusted
@@ -1178,16 +1186,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 return
             }
             attempts += 1
-            if attempts > 60 {
+            if attempts > 240 {
                 timer.invalidate()
                 self.accessibilityRetryTimer = nil
                 return
             }
             if ScrollManager.shared.isTrusted {
-                _ = ScrollManager.shared.start()
-                timer.invalidate()
-                self.accessibilityRetryTimer = nil
-                self.refreshScrollState()
+                if ScrollManager.shared.start() {
+                    timer.invalidate()
+                    self.accessibilityRetryTimer = nil
+                    self.refreshScrollState()
+                }
             }
         }
         if let timer = accessibilityRetryTimer {
