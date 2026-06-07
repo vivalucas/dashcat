@@ -418,7 +418,7 @@ final class ClipboardManager {
         latestCache = nil
         stateLock.unlock()
 
-        guard sqlite3_exec(db, "DELETE FROM clipboard_history", nil, nil, nil) == SQLITE_OK else {
+        guard sqlite3_exec(db, "DELETE FROM clipboard_history WHERE is_pinned = 0", nil, nil, nil) == SQLITE_OK else {
             logger.error("Failed to clear clipboard history")
             return
         }
@@ -427,11 +427,7 @@ final class ClipboardManager {
             logger.error("Failed to vacuum clipboard database after clearing history")
         }
 
-        if let files = try? FileManager.default.contentsOfDirectory(atPath: imagesDir) {
-            for file in files {
-                try? FileManager.default.removeItem(atPath: (imagesDir as NSString).appendingPathComponent(file))
-            }
-        }
+        cleanupOrphanedImages()
     }
 
     private func cleanupExpiredOnMaintenanceQueue() {
@@ -500,6 +496,7 @@ final class ClipboardManager {
 
     private func enforceMaxStorage() {
         let maxBytes: Int64 = 500 * 1024 * 1024 // 500 MB
+        cleanupOrphanedImages()
         guard let files = try? FileManager.default.contentsOfDirectory(atPath: imagesDir) else { return }
 
         // Collect only non-thumbnail jpg files with their sizes and dates
@@ -542,15 +539,20 @@ final class ClipboardManager {
             // Skip pinned items
             if pinnedPaths.contains(path) { continue }
 
-            try? FileManager.default.removeItem(atPath: path)
-            // Delete associated database record
+            // Delete the database record first with a pinned guard. This prevents
+            // a newly pinned item from being removed by an older cleanup snapshot.
             var delStmt: OpaquePointer?
-            let delSql = "DELETE FROM clipboard_history WHERE image_path = ?"
+            let delSql = "DELETE FROM clipboard_history WHERE image_path = ? AND is_pinned = 0"
             if sqlite3_prepare_v2(db, delSql, -1, &delStmt, nil) == SQLITE_OK {
-                defer { sqlite3_finalize(delStmt) }
                 sqlite3_bind_text(delStmt, 1, path, -1, SQLITE_TRANSIENT)
-                sqlite3_step(delStmt)
+                let deleted = sqlite3_step(delStmt) == SQLITE_DONE && sqlite3_changes(db) > 0
+                sqlite3_finalize(delStmt)
+                guard deleted else { continue }
+            } else {
+                continue
             }
+
+            try? FileManager.default.removeItem(atPath: path)
             // Delete thumbnail too
             if let thumbPath = thumbnailPath(for: path) {
                 try? FileManager.default.removeItem(atPath: thumbPath)
