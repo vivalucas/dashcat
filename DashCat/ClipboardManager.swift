@@ -321,18 +321,15 @@ final class ClipboardManager {
         stateLock.lock()
         latestCache = nil
         stateLock.unlock()
-        // Delete associated image files first
+
+        var imagePath: String?
         var stmt: OpaquePointer?
         let selectSql = "SELECT image_path FROM clipboard_history WHERE id = ?"
         if sqlite3_prepare_v2(db, selectSql, -1, &stmt, nil) == SQLITE_OK {
             defer { sqlite3_finalize(stmt) }
             sqlite3_bind_int64(stmt, 1, id)
             if sqlite3_step(stmt) == SQLITE_ROW, let cStr = sqlite3_column_text(stmt, 0) {
-                let path = String(cString: cStr)
-                try? FileManager.default.removeItem(atPath: path)
-                if let thumbPath = thumbnailPath(for: path) {
-                    try? FileManager.default.removeItem(atPath: thumbPath)
-                }
+                imagePath = String(cString: cStr)
             }
         }
 
@@ -346,12 +343,20 @@ final class ClipboardManager {
         sqlite3_bind_int64(delStmt, 1, id)
         if sqlite3_step(delStmt) != SQLITE_DONE {
             logger.error("Failed to delete item \(id)")
+            return
+        }
+
+        if let path = imagePath {
+            try? FileManager.default.removeItem(atPath: path)
+            if let thumbPath = thumbnailPath(for: path) {
+                try? FileManager.default.removeItem(atPath: thumbPath)
+            }
         }
     }
 
-    func clearAll(completion: (() -> Void)? = nil) {
+    func clearAll(includePinned: Bool = false, completion: (() -> Void)? = nil) {
         maintenanceQueue.async { [weak self] in
-            self?.clearAllOnMaintenanceQueue()
+            self?.clearAllOnMaintenanceQueue(includePinned: includePinned)
             if let completion {
                 DispatchQueue.main.async {
                     completion()
@@ -412,13 +417,14 @@ final class ClipboardManager {
         }
     }
 
-    private func clearAllOnMaintenanceQueue() {
+    private func clearAllOnMaintenanceQueue(includePinned: Bool) {
         guard db != nil else { return }
         stateLock.lock()
         latestCache = nil
         stateLock.unlock()
 
-        guard sqlite3_exec(db, "DELETE FROM clipboard_history WHERE is_pinned = 0", nil, nil, nil) == SQLITE_OK else {
+        let sql = includePinned ? "DELETE FROM clipboard_history" : "DELETE FROM clipboard_history WHERE is_pinned = 0"
+        guard sqlite3_exec(db, sql, nil, nil, nil) == SQLITE_OK else {
             logger.error("Failed to clear clipboard history")
             return
         }
@@ -438,7 +444,10 @@ final class ClipboardManager {
 
         let days = UserDefaults.standard.integer(forKey: "DashCatHistoryDays")
         let effectiveDays = days > 0 ? days : 30
-        if effectiveDays >= 36500 { return } // "Forever" = ~100 years
+        if effectiveDays >= 36500 {
+            cleanupOrphanedImages()
+            return
+        } // "Forever" = ~100 years
 
         let cutoff = Date().timeIntervalSince1970 - Double(effectiveDays * 86400)
 

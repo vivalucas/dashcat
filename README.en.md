@@ -32,8 +32,8 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 
 - **Minimal Battery Display**
   - Optional standalone menu bar battery indicator, separate from the cat item
-  - Shows a narrow number without the percent sign, backed by a subtle green battery fill for crowded notched menu bars
-  - Switches to a non-widening blue fill/outline when plugged in or charging
+  - Shows a narrow number without the percent sign, backed by a subtle blue battery fill for crowded notched menu bars
+  - Switches to a non-widening pink fill/outline when plugged in or charging
   - Left-click the battery number to cycle Sleep Prevention; right-click it to view level, power source, charging status, Low Power Mode, and Battery Settings
   - Can hide automatically when plugged in, leaving no menu bar gap
   - Uses system power information with low-frequency refresh, no animation, and minimal overhead
@@ -47,7 +47,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 - **More**
   - 11 languages: English, 中文, 日本語, 한국어, Deutsch, Français, Español, Português, Italiano, 繁體中文, Русский
   - Reverse external mouse wheel direction while keeping the trackpad on macOS natural scrolling
-  - Create a TXT or Markdown file in Finder, with the target path shown before creation and an option to choose another folder
+  - Create a TXT or Markdown file in Finder, with filename input, target path preview, and an option to choose another folder
   - Launch at login support
   - Energy-efficient: 12 fps animation cap, 5 s sampling interval, auto-pause on system sleep
   - Zero external dependencies — pure AppKit + Swift
@@ -85,7 +85,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - Right-click an item to pin or unpin it
 - **Right-click** the cat icon: open settings menu
   - Switch Monitor between Compact Values and custom animation display
-  - Manage image saving, retention, filter terms, and clearing history in Clipboard Settings
+  - Manage image saving, retention, filter terms, and clearing history in Clipboard Settings; clearing can preserve pinned items or remove everything
   - Toggle the compact battery display and plugged-in hide behavior
   - Create a file in Finder, reverse mouse wheel, change language, set launch at login
 - **When compact battery is visible**
@@ -96,7 +96,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 
 **Where is clipboard data stored?**
 
-`~/Library/Application Support/DashCat/` — `clipboard.db` for text records, `Images/` for image files. Clearing history cleans both.
+`~/Library/Application Support/DashCat/` — `clipboard.db` for text records, `Images/` for image files. Clearing history asks first, so you can clear only unpinned items or remove pinned items and images too.
 
 **How much disk space do images use?**
 
@@ -112,7 +112,7 @@ DashCat needs to identify mouse wheel events in the system event stream and flip
 
 **Why does creating a Finder file ask to control Finder?**
 
-DashCat only reads the current Finder window folder when you choose “New File in Finder”. macOS may show an Automation permission prompt so DashCat can get that path; DashCat does not monitor Finder in the background. The command lives in DashCat’s menu and does not inject itself into Finder’s blank-area context menu.
+DashCat only reads the current Finder window folder when you choose “New File in Finder”. macOS may show an Automation permission prompt so DashCat can get that path; DashCat does not monitor Finder in the background. The command lives in DashCat’s menu and does not inject itself into Finder’s blank-area context menu. Before creation, you can enter a filename, choose TXT or Markdown, and temporarily pick another folder if needed.
 
 **Does it support Intel Macs?**
 

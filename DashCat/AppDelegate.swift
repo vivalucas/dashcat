@@ -166,6 +166,8 @@ enum Language: String, CaseIterable {
         "forever":      ["zh":"永久",       "zh-TW":"永久",     "en":"Forever",          "ja":"無期限",               "ko":"영구",          "de":"Unbegrenzt",                  "fr":"Illimité",               "es":"Para siempre",           "pt-BR":"Para sempre",         "it":"Per sempre",             "ru":"Навсегда"],
         "customDays":   ["zh":"自定义\u{2026}","zh-TW":"自訂\u{2026}","en":"Custom\u{2026}","ja":"カスタム\u{2026}","ko":"사용자 정의\u{2026}","de":"Benutzerdefiniert\u{2026}","fr":"Personnalisé\u{2026}","es":"Personalizado\u{2026}","pt-BR":"Personalizado\u{2026}","it":"Personalizzato\u{2026}","ru":"Пользовательский\u{2026}"],
         "search":       ["zh":"搜索\u{2026}",   "zh-TW":"搜尋\u{2026}",  "en":"Search\u{2026}",  "ja":"検索\u{2026}",         "ko":"검색\u{2026}",      "de":"Suchen\u{2026}",              "fr":"Rechercher\u{2026}",      "es":"Buscar\u{2026}",         "pt-BR":"Pesquisar\u{2026}",   "it":"Cerca\u{2026}",          "ru":"Поиск\u{2026}"],
+        "noClipboardHistory":["zh":"暂无剪贴板历史","zh-TW":"暫無剪貼簿歷史","en":"No clipboard history yet","ja":"クリップボード履歴はまだありません","ko":"아직 클립보드 기록이 없습니다","de":"Noch kein Zwischenablageverlauf","fr":"Aucun historique du presse-papiers","es":"Aún no hay historial del portapapeles","pt-BR":"Ainda não há histórico da área de transferência","it":"Nessuna cronologia degli appunti","ru":"Истории буфера обмена пока нет"],
+        "noSearchResults":["zh":"没有匹配结果","zh-TW":"沒有符合結果","en":"No matching results","ja":"一致する結果はありません","ko":"일치하는 결과가 없습니다","de":"Keine passenden Ergebnisse","fr":"Aucun résultat correspondant","es":"No hay resultados coincidentes","pt-BR":"Nenhum resultado correspondente","it":"Nessun risultato corrispondente","ru":"Нет совпадающих результатов"],
         "image":        ["zh":"图片",       "zh-TW":"圖片",     "en":"Image",           "ja":"画像",                 "ko":"이미지",            "de":"Bild",                        "fr":"Image",                  "es":"Imagen",                 "pt-BR":"Imagem",              "it":"Immagine",               "ru":"Изображение"],
         "pin":          ["zh":"固定",       "zh-TW":"釘選",     "en":"Pin",             "ja":"ピン",                 "ko":"고정",              "de":"Anheften",                    "fr":"Épingler",               "es":"Fijar",                  "pt-BR":"Fixar",               "it":"Fissa",                  "ru":"Закрепить"],
         "unpin":        ["zh":"取消固定",   "zh-TW":"取消釘選", "en":"Unpin",           "ja":"ピン解除",             "ko":"고정 해제",         "de":"Lösen",                       "fr":"Détacher",               "es":"Desfijar",               "pt-BR":"Desafixar",           "it":"Rimuovi fissaggio",      "ru":"Открепить"],
@@ -184,9 +186,14 @@ enum Language: String, CaseIterable {
         "ok":           ["zh":"确定",       "zh-TW":"確定",     "en":"OK",              "ja":"OK",                   "ko":"확인",              "de":"OK",                          "fr":"OK",                     "es":"OK",                     "pt-BR":"OK",                  "it":"OK",                     "ru":"OK"],
         "cancel":       ["zh":"取消",       "zh-TW":"取消",     "en":"Cancel",          "ja":"キャンセル",           "ko":"취소",              "de":"Abbrechen",                   "fr":"Annuler",                "es":"Cancelar",               "pt-BR":"Cancelar",            "it":"Annulla",                "ru":"Отмена"],
         "clearHistory": ["zh":"清除历史",   "zh-TW":"清除歷史", "en":"Clear History",    "ja":"履歴をクリア",         "ko":"기록 지우기",   "de":"Verlauf löschen",             "fr":"Effacer l'historique",   "es":"Borrar historial",       "pt-BR":"Limpar histórico",    "it":"Cancella cronologia",    "ru":"Очистить историю"],
+        "clearHistoryConfirmTitle":["zh":"清除剪贴板历史？","zh-TW":"清除剪貼簿歷史？","en":"Clear Clipboard History?","ja":"クリップボード履歴をクリアしますか？","ko":"클립보드 기록을 지울까요?","de":"Zwischenablageverlauf löschen?","fr":"Effacer l'historique du presse-papiers ?","es":"¿Borrar historial del portapapeles?","pt-BR":"Limpar histórico da área de transferência?","it":"Cancellare la cronologia degli appunti?","ru":"Очистить историю буфера обмена?"],
+        "clearHistoryConfirmMsg":["zh":"可以只清除未固定项，也可以连固定项一起清除。","zh-TW":"可以只清除未釘選項目，也可以連釘選項目一起清除。","en":"You can clear only unpinned items, or clear pinned items too.","ja":"ピン留めしていない項目だけ、またはピン留め項目も含めてクリアできます。","ko":"고정하지 않은 항목만 지우거나 고정 항목까지 모두 지울 수 있습니다.","de":"Sie können nur nicht angeheftete Einträge oder auch angeheftete Einträge löschen.","fr":"Vous pouvez effacer seulement les éléments non épinglés, ou aussi les éléments épinglés.","es":"Puedes borrar solo los elementos sin fijar o también los fijados.","pt-BR":"Você pode limpar apenas os itens não fixados ou também os itens fixados.","it":"Puoi cancellare solo gli elementi non fissati o includere anche quelli fissati.","ru":"Можно очистить только незакрепленные элементы или также закрепленные."],
+        "clearUnpinned":["zh":"清除未固定项","zh-TW":"清除未釘選項目","en":"Clear Unpinned","ja":"未ピン留めをクリア","ko":"고정 안 함 지우기","de":"Nicht angeheftete löschen","fr":"Effacer non épinglés","es":"Borrar sin fijar","pt-BR":"Limpar não fixados","it":"Cancella non fissati","ru":"Очистить незакрепленные"],
+        "clearAllItems":["zh":"清除全部","zh-TW":"清除全部","en":"Clear All","ja":"すべてクリア","ko":"모두 지우기","de":"Alle löschen","fr":"Tout effacer","es":"Borrar todo","pt-BR":"Limpar tudo","it":"Cancella tutto","ru":"Очистить всё"],
         "launchLogin":  ["zh":"开机启动",   "zh-TW":"登入時啟動", "en":"Launch at Login",  "ja":"ログイン時に起動",     "ko":"로그인 시 시작","de":"Beim Login starten",          "fr":"Lancer au démarrage",    "es":"Abrir al iniciar sesión","pt-BR":"Iniciar ao fazer login","it":"Avvia al login",         "ru":"Запуск при входе"],
         "help":         ["zh":"帮助与更新",   "zh-TW":"幫助與更新", "en":"Help & Updates",   "ja":"ヘルプと更新",         "ko":"도움말 및 업데이트","de":"Hilfe & Updates",            "fr":"Aide et mises à jour",  "es":"Ayuda y actualizaciones","pt-BR":"Ajuda e atualizações","it":"Aiuto e aggiornamenti",  "ru":"Справка и обновления"],
         "checkUpdates": ["zh":"检查更新\u{2026}","zh-TW":"檢查更新\u{2026}","en":"Check for Updates\u{2026}","ja":"アップデートを確認\u{2026}","ko":"업데이트 확인\u{2026}","de":"Nach Updates suchen\u{2026}","fr":"Vérifier les mises à jour\u{2026}","es":"Buscar actualizaciones\u{2026}","pt-BR":"Verificar atualizações\u{2026}","it":"Cerca aggiornamenti\u{2026}","ru":"Проверить обновления\u{2026}"],
+        "updateChecking":["zh":"正在检查更新\u{2026}","zh-TW":"正在檢查更新\u{2026}","en":"Checking for Updates\u{2026}","ja":"アップデートを確認中\u{2026}","ko":"업데이트 확인 중\u{2026}","de":"Updates werden gesucht\u{2026}","fr":"Recherche de mises à jour\u{2026}","es":"Buscando actualizaciones\u{2026}","pt-BR":"Verificando atualizações\u{2026}","it":"Ricerca aggiornamenti\u{2026}","ru":"Проверка обновлений\u{2026}"],
         "viewOnGitHub": ["zh":"在 GitHub 上查看","zh-TW":"在 GitHub 上查看","en":"View on GitHub","ja":"GitHubで開く",       "ko":"GitHub에서 보기","de":"Auf GitHub öffnen",          "fr":"Voir sur GitHub",       "es":"Ver en GitHub",          "pt-BR":"Ver no GitHub",       "it":"Vedi su GitHub",         "ru":"Открыть на GitHub"],
         "contact":      ["zh":"联系方式",   "zh-TW":"聯絡方式", "en":"Contact",          "ja":"お問い合わせ",           "ko":"연락처",              "de":"Kontakt",                    "fr":"Contact",                "es":"Contacto",               "pt-BR":"Contato",             "it":"Contatto",               "ru":"Контакты"],
         "contactTitle": ["zh":"DashCat 联系信息","zh-TW":"DashCat 聯絡資訊","en":"DashCat Contact Info","ja":"DashCat 連絡先","ko":"DashCat 연락처 정보","de":"DashCat Kontaktinformationen","fr":"Infos de contact DashCat","es":"Información de contacto de DashCat","pt-BR":"Informações de contato do DashCat","it":"Informazioni di contatto DashCat","ru":"Контактная информация DashCat"],
@@ -200,6 +207,7 @@ enum Language: String, CaseIterable {
         "later":          ["zh":"稍后",               "zh-TW":"稍後",               "en":"Later",                               "ja":"後で",                                  "ko":"나중에",                                 "de":"Später",                                         "fr":"Plus tard",                                     "es":"Más tarde",                         "pt-BR":"Mais tarde",                       "it":"Più tardi",                                     "ru":"Позже"],
         "updateOk":       ["zh":"已是最新版本",       "zh-TW":"已是最新版本",       "en":"You're up to date",                   "ja":"最新バージョンです",                     "ko":"최신 버전입니다",                         "de":"Sie sind auf dem neuesten Stand",                 "fr":"Vous êtes à jour",                              "es":"Estás actualizado",               "pt-BR":"Você está atualizado",             "it":"Sei aggiornato",                              "ru":"Установлена последняя версия"],
         "updateOkMsg":    ["zh":"DashCat %@ 是最新版本。","zh-TW":"DashCat %@ 是最新版本。","en":"DashCat %@ is the latest version.","ja":"DashCat %@ は最新バージョンです。","ko":"DashCat %@는 최신 버전입니다.","de":"DashCat %@ ist die neueste Version.","fr":"DashCat %@ est la dernière version.","es":"DashCat %@ es la última versión.","pt-BR":"DashCat %@ é a versão mais recente.","it":"DashCat %@ è l'ultima versione.","ru":"DashCat %@ — последняя версия."],
+        "fileName":       ["zh":"文件名：","zh-TW":"檔案名稱：","en":"File name:","ja":"ファイル名：","ko":"파일 이름:","de":"Dateiname:","fr":"Nom du fichier :","es":"Nombre del archivo:","pt-BR":"Nome do arquivo:","it":"Nome file:","ru":"Имя файла:"],
     ]
 
     func str(_ key: String) -> String {
@@ -454,6 +462,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var showBatteryPercentage = false
     private var hideBatteryWhenCharging = true
     private var accessibilityRetryTimer: Timer?
+    private var isCheckingForUpdates = false
 
     // Clipboard panel
     private var clipboardPanel: ClipboardPanel?
@@ -818,7 +827,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         newFileInFinderItem.title = l.str("newFileInFinder")
         launchAtLoginItem.title = l.str("launchLogin")
         helpMenuItem.title      = l.str("help")
-        checkUpdatesItem.title  = l.str("checkUpdates")
+        checkUpdatesItem.title  = isCheckingForUpdates ? l.str("updateChecking") : l.str("checkUpdates")
+        checkUpdatesItem.isEnabled = !isCheckingForUpdates
         viewGitHubItem.title    = l.str("viewOnGitHub")
         contactItem.title       = l.str("contact")
         quitItem.title          = l.str("quit")
@@ -850,15 +860,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             IOPMAssertionRelease(sleepAssertionID)
             sleepAssertionID = 0
         }
+        var appliedMode = mode
         caffeineMode = mode
         if let type = mode.assertionType {
             let ret = IOPMAssertionCreateWithName(type,
                                                   IOPMAssertionLevel(kIOPMAssertionLevelOn),
                                                   "DashCat" as CFString,
                                                   &sleepAssertionID)
-            if ret != kIOReturnSuccess { sleepAssertionID = 0 }
+            if ret != kIOReturnSuccess {
+                sleepAssertionID = 0
+                appliedMode = .off
+                caffeineMode = .off
+            }
         }
-        caffeineItems.forEach { $0.state = ($0.representedObject as? CaffeineMode) == mode ? .on : .off }
+        caffeineItems.forEach { $0.state = ($0.representedObject as? CaffeineMode) == appliedMode ? .on : .off }
         if displayMode == .pctOnly || currentMode == .cpuMemory {
             statusItem.button?.image = nil
         } else {
@@ -866,7 +881,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             statusItem.button?.image = frames[index % frames.count]
         }
         applyMetricDisplay()
-        UserDefaults.standard.set(mode.rawValue, forKey: "DashCatCaffeineMode")
+        UserDefaults.standard.set(appliedMode.rawValue, forKey: "DashCatCaffeineMode")
     }
 
     // MARK: - Menu Actions
@@ -1005,7 +1020,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func clearClipboardHistory(_ sender: NSMenuItem) {
-        ClipboardManager.shared.clearAll { [weak self] in
+        let alert = NSAlert()
+        alert.messageText = language.str("clearHistoryConfirmTitle")
+        alert.informativeText = language.str("clearHistoryConfirmMsg")
+        alert.addButton(withTitle: language.str("clearUnpinned"))
+        alert.addButton(withTitle: language.str("clearAllItems"))
+        alert.addButton(withTitle: language.str("cancel"))
+
+        activateAppForModal()
+        let response = alert.runModal()
+        let includePinned: Bool
+        switch response {
+        case .alertFirstButtonReturn:
+            includePinned = false
+        case .alertSecondButtonReturn:
+            includePinned = true
+        default:
+            return
+        }
+
+        ClipboardManager.shared.clearAll(includePinned: includePinned) { [weak self] in
             self?.clipboardPanel?.reloadData()
         }
     }
@@ -1042,7 +1076,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         do {
             let defaultFolderURL = try currentFinderFolderURL()
             guard let request = promptForNewFile(defaultFolderURL: defaultFolderURL) else { return }
-            let fileURL = try createEmptyFile(in: request.folderURL, fileExtension: request.fileExtension)
+            let fileURL = try createEmptyFile(in: request.folderURL,
+                                              fileName: request.fileName,
+                                              fileExtension: request.fileExtension)
             NSWorkspace.shared.activateFileViewerSelecting([fileURL])
         } catch {
             NSLog("DashCat Finder new file failed: \(error.localizedDescription)")
@@ -1051,7 +1087,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    private func promptForNewFile(defaultFolderURL: URL) -> (folderURL: URL, fileExtension: String)? {
+    private func promptForNewFile(defaultFolderURL: URL) -> (folderURL: URL, fileName: String, fileExtension: String)? {
         let alert = NSAlert()
         alert.messageText = language.str("newFileInFinder")
         alert.addButton(withTitle: language.str("create"))
@@ -1071,7 +1107,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         activateAppForModal()
         guard alert.runModal() == .alertFirstButtonReturn else { return nil }
-        return (selectedFolderURL, accessory.selectedFileExtension)
+        return (selectedFolderURL, accessory.selectedFileName, accessory.selectedFileExtension)
     }
 
     private func chooseFolder(startingAt folderURL: URL) -> URL? {
@@ -1104,17 +1140,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         return URL(fileURLWithPath: output, isDirectory: true)
     }
 
-    private func createEmptyFile(in folderURL: URL, fileExtension ext: String) throws -> URL {
+    private func createEmptyFile(in folderURL: URL, fileName: String, fileExtension ext: String) throws -> URL {
         var isDirectory: ObjCBool = false
         guard FileManager.default.fileExists(atPath: folderURL.path, isDirectory: &isDirectory),
               isDirectory.boolValue else {
             throw NSError(domain: "DashCat.NewFile", code: 2)
         }
 
+        let baseName = normalizedFileBaseName(fileName, selectedExtension: ext)
         var index = 1
         while true {
             let suffix = index == 1 ? "" : " \(index)"
-            let fileURL = folderURL.appendingPathComponent("Untitled\(suffix).\(ext)")
+            let fileURL = folderURL.appendingPathComponent("\(baseName)\(suffix).\(ext)")
             if !FileManager.default.fileExists(atPath: fileURL.path) {
                 guard FileManager.default.createFile(atPath: fileURL.path, contents: Data()) else {
                     throw NSError(domain: "DashCat.NewFile", code: 3)
@@ -1123,6 +1160,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
             index += 1
         }
+    }
+
+    private func normalizedFileBaseName(_ fileName: String, selectedExtension ext: String) -> String {
+        let trimmed = fileName.trimmingCharacters(in: .whitespacesAndNewlines)
+        let fallback = "Untitled"
+        let cleaned = trimmed
+            .replacingOccurrences(of: "/", with: "-")
+            .replacingOccurrences(of: ":", with: "-")
+        guard !cleaned.isEmpty else { return fallback }
+        let url = URL(fileURLWithPath: cleaned)
+        if url.pathExtension.lowercased() == ext.lowercased() {
+            let base = url.deletingPathExtension().lastPathComponent
+            return base.isEmpty ? fallback : base
+        }
+        return cleaned
     }
 
     private func refreshServices() {
@@ -1678,16 +1730,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Check for Updates
 
     @objc private func checkForUpdates() {
+        guard !isCheckingForUpdates else { return }
+        isCheckingForUpdates = true
+        applyLanguage()
+
         let url = URL(string: "https://github.com/vivalucas/dashcat/releases/latest")!
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 15)
         request.setValue("DashCat/\(bundleVersion)", forHTTPHeaderField: "User-Agent")
         URLSession.shared.dataTask(with: request) { [weak self] _, response, error in
             let tag = Self.releaseTag(from: response)
             DispatchQueue.main.async {
+                guard let self else { return }
+                self.isCheckingForUpdates = false
+                self.applyLanguage()
                 if let tag {
-                    self?.handleUpdateTag(tag)
+                    self.handleUpdateTag(tag)
                 } else {
-                    self?.handleUpdateFailure(error: error)
+                    self.handleUpdateFailure(error: error)
                 }
             }
         }.resume()
@@ -1881,9 +1940,14 @@ private final class NewFileAccessoryView: NSView {
     private var folderURL: URL
     private let chooseFolder: (URL) -> URL?
     private let folderChanged: (URL) -> Void
+    private let nameField = NSTextField(string: "Untitled")
     private let pathField = NSTextField(labelWithString: "")
     private let txtButton = NSButton(radioButtonWithTitle: "TXT", target: nil, action: nil)
     private let markdownButton = NSButton(radioButtonWithTitle: "Markdown", target: nil, action: nil)
+
+    var selectedFileName: String {
+        nameField.stringValue
+    }
 
     var selectedFileExtension: String {
         markdownButton.state == .on ? "md" : "txt"
@@ -1897,7 +1961,7 @@ private final class NewFileAccessoryView: NSView {
         self.folderURL = folderURL
         self.chooseFolder = chooseFolder
         self.folderChanged = folderChanged
-        super.init(frame: NSRect(x: 0, y: 0, width: 520, height: 108))
+        super.init(frame: NSRect(x: 0, y: 0, width: 520, height: 140))
         build()
         updatePath()
     }
@@ -1908,15 +1972,22 @@ private final class NewFileAccessoryView: NSView {
 
     private func build() {
         let typeLabel = NSTextField(labelWithString: language.str("newFileTypePrompt"))
-        typeLabel.frame = NSRect(x: 0, y: 84, width: 520, height: 18)
+        typeLabel.frame = NSRect(x: 0, y: 116, width: 520, height: 18)
 
-        txtButton.frame = NSRect(x: 0, y: 58, width: 90, height: 22)
-        markdownButton.frame = NSRect(x: 92, y: 58, width: 130, height: 22)
+        txtButton.frame = NSRect(x: 0, y: 90, width: 90, height: 22)
+        markdownButton.frame = NSRect(x: 92, y: 90, width: 130, height: 22)
         txtButton.target = self
         txtButton.action = #selector(selectFileType(_:))
         markdownButton.target = self
         markdownButton.action = #selector(selectFileType(_:))
         txtButton.state = .on
+
+        let nameLabel = NSTextField(labelWithString: language.str("fileName"))
+        nameLabel.frame = NSRect(x: 0, y: 62, width: 96, height: 18)
+
+        nameField.frame = NSRect(x: 98, y: 58, width: 422, height: 24)
+        nameField.font = NSFont.systemFont(ofSize: 13)
+        nameField.placeholderString = "Untitled"
 
         let folderLabel = NSTextField(labelWithString: language.str("newFileTarget"))
         folderLabel.frame = NSRect(x: 0, y: 32, width: 520, height: 18)
@@ -1931,6 +2002,8 @@ private final class NewFileAccessoryView: NSView {
         addSubview(typeLabel)
         addSubview(txtButton)
         addSubview(markdownButton)
+        addSubview(nameLabel)
+        addSubview(nameField)
         addSubview(folderLabel)
         addSubview(pathField)
         addSubview(chooseButton)

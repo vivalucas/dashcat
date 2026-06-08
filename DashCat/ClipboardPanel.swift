@@ -21,6 +21,7 @@ final class ClipboardPanel: NSPanel {
     private let searchField = NSSearchField()
     private let scrollView = NSScrollView()
     private let tableView = ClipboardTableView()
+    private let emptyLabel = NSTextField(labelWithString: "")
     private var items: [ClipboardItem] = []
     private var searchQuery = ""
     private let maxHeight: CGFloat = 500
@@ -66,6 +67,7 @@ final class ClipboardPanel: NSPanel {
         setupVisualEffect()
         setupSearchField()
         setupTableView()
+        setupEmptyLabel()
         setupLayout()
 
         reloadData()
@@ -196,6 +198,15 @@ final class ClipboardPanel: NSPanel {
         contentView?.addSubview(scrollView)
     }
 
+    private func setupEmptyLabel() {
+        emptyLabel.font = NSFont.systemFont(ofSize: 13)
+        emptyLabel.textColor = .secondaryLabelColor
+        emptyLabel.alignment = .center
+        emptyLabel.isHidden = true
+        emptyLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView?.addSubview(emptyLabel)
+    }
+
     // MARK: - Layout
 
     private func setupLayout() {
@@ -209,6 +220,10 @@ final class ClipboardPanel: NSPanel {
             scrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
             scrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
             scrollView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+
+            emptyLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            emptyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            emptyLabel.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
         ])
     }
 
@@ -218,7 +233,13 @@ final class ClipboardPanel: NSPanel {
         let manager = ClipboardManager.shared
         items = searchQuery.isEmpty ? manager.fetchAll() : manager.search(query: searchQuery)
         tableView.reloadData()
+        updateEmptyState()
         resizeToFitContent()
+    }
+
+    private func updateEmptyState() {
+        emptyLabel.stringValue = searchQuery.isEmpty ? localized("noClipboardHistory") : localized("noSearchResults")
+        emptyLabel.isHidden = !items.isEmpty
     }
 
     private func resizeToFitContent() {
@@ -385,16 +406,28 @@ extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
         if item.isImage {
             label?.stringValue = localized("image")
             label?.textColor = .secondaryLabelColor
+            iconView?.image = nil
             // Show thumbnail
             if let imgPath = item.imagePath,
                let thumbPath = ClipboardManager.shared.thumbnailPath(for: imgPath) {
                 let cacheKey = thumbPath as NSString
                 if let cached = thumbnailCache.object(forKey: cacheKey) {
                     iconView?.image = cached
-                } else if let image = NSImage(contentsOfFile: thumbPath) {
-                    image.size = NSSize(width: 20, height: 20)
-                    thumbnailCache.setObject(image, forKey: cacheKey)
-                    iconView?.image = image
+                } else {
+                    let itemID = item.id
+                    DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                        guard let data = try? Data(contentsOf: URL(fileURLWithPath: thumbPath)) else { return }
+                        DispatchQueue.main.async { [weak self] in
+                            guard let self else { return }
+                            guard let image = NSImage(data: data) else { return }
+                            image.size = NSSize(width: 20, height: 20)
+                            self.thumbnailCache.setObject(image, forKey: cacheKey)
+                            if let currentRow = self.items.firstIndex(where: { $0.id == itemID }) {
+                                self.tableView.reloadData(forRowIndexes: IndexSet(integer: currentRow),
+                                                          columnIndexes: IndexSet(integer: 0))
+                            }
+                        }
+                    }
                 }
             }
         } else {

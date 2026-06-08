@@ -31,7 +31,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
 
 - **Kompakte Batterieanzeige**
   - Optionale eigenständige Batterieanzeige in der Menüleiste, getrennt vom Katzen-Icon
-  - Zeigt eine schmale Zahl ohne Prozentzeichen mit dezenter grüner Batteriefüllung für volle Menüleisten
+  - Zeigt eine schmale Zahl ohne Prozentzeichen mit dezenter blauer Batteriefüllung für volle Menüleisten
   - Kann bei Netzbetrieb automatisch ausgeblendet werden, ohne Platz in der Menüleiste zu belegen
   - Nutzt System-Strominformationen mit niedriger Aktualisierungsfrequenz, ohne Animation und mit minimalem Aufwand
 
