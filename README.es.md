@@ -32,6 +32,7 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
 - **Batería compacta**
   - Indicador opcional de batería independiente en la barra de menús, separado del gato
   - Muestra un número estrecho sin signo de porcentaje, con un relleno azul sutil para barras de menús llenas
+  - Al usar batería, el número/contorno se vuelve naranja con 20% o menos y rojo con 10% o menos
   - Puede ocultarse automáticamente al conectar corriente, sin dejar espacio en la barra
   - Usa información de energía del sistema con actualización de baja frecuencia, sin animación y con carga mínima
 

@@ -327,7 +327,7 @@ private final class BatteryStatusView: NSView {
         let text = "\(battery.level)"
         let attributedText = NSAttributedString(string: text, attributes: [
             .font: Self.font,
-            .foregroundColor: NSColor.labelColor
+            .foregroundColor: textColor
         ])
         let textSize = attributedText.size()
         let badgeRect = NSRect(
@@ -370,8 +370,8 @@ private final class BatteryStatusView: NSView {
         fillRect.fill()
         NSGraphicsContext.restoreGraphicsState()
 
-        if battery.isPluggedIn || battery.isCharging {
-            NSColor.systemPink.withAlphaComponent(battery.isCharging ? 0.9 : 0.7).setStroke()
+        if shouldStroke {
+            tint.withAlphaComponent(strokeAlpha).setStroke()
             path.lineWidth = 1
             path.stroke()
         }
@@ -382,6 +382,24 @@ private final class BatteryStatusView: NSView {
         if battery.level <= 10 { return .systemRed }
         if battery.level <= 20 { return .systemOrange }
         return .systemBlue
+    }
+
+    private var textColor: NSColor {
+        isLowBatteryWarning ? tintColor : .labelColor
+    }
+
+    private var isLowBatteryWarning: Bool {
+        !battery.isPluggedIn && !battery.isCharging && battery.level <= 20
+    }
+
+    private var shouldStroke: Bool {
+        battery.isPluggedIn || battery.isCharging || isLowBatteryWarning
+    }
+
+    private var strokeAlpha: CGFloat {
+        if battery.isCharging { return 0.9 }
+        if battery.isPluggedIn { return 0.7 }
+        return battery.level <= 10 ? 0.9 : 0.78
     }
 
     private var fillAlpha: CGFloat {

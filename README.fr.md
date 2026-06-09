@@ -32,6 +32,7 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
 - **Batterie compacte**
   - Indicateur de batterie optionnel et indépendant dans la barre de menus, séparé du chat
   - Affiche un nombre étroit sans signe %, avec un remplissage bleu discret pour les barres de menus chargées
+  - Sur batterie, le nombre/contour passe à l’orange à 20% ou moins, puis au rouge à 10% ou moins
   - Peut se masquer automatiquement sur secteur, sans laisser d’espace dans la barre de menus
   - Utilise les informations d’alimentation du système avec une actualisation basse fréquence, sans animation ni surcharge
 
