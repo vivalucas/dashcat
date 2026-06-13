@@ -204,7 +204,8 @@ final class ClipboardManager {
         let maxDimension: CGFloat = 500
         let scaledImage = scaleImage(image, maxDimension: maxDimension) ?? image
 
-        let filePath = (imagesDir as NSString).appendingPathComponent("\(uuid).jpg")
+        let fileName = "\(uuid).jpg"
+        let filePath = (imagesDir as NSString).appendingPathComponent(fileName)
         guard writeJPEG(scaledImage, to: URL(fileURLWithPath: filePath), quality: 0.6) else {
             return nil
         }
@@ -214,7 +215,7 @@ final class ClipboardManager {
             _ = writeJPEG(thumbnail, to: URL(fileURLWithPath: thumbPath), quality: 0.6)
         }
 
-        return filePath
+        return fileName
     }
 
     // MARK: - CRUD
@@ -241,7 +242,8 @@ final class ClipboardManager {
         if sqlite3_step(stmt) == SQLITE_DONE {
             let rowId = sqlite3_last_insert_rowid(db)
             stateLock.lock()
-            latestCache = ClipboardItem(id: rowId, content: content, imagePath: imagePath,
+            let fullImagePath = imagePath.map { (self.imagesDir as NSString).appendingPathComponent(($0 as NSString).lastPathComponent) }
+            latestCache = ClipboardItem(id: rowId, content: content, imagePath: fullImagePath,
                                         sourceApp: sourceApp, isPinned: false, createdAt: now)
             stateLock.unlock()
         } else {
@@ -329,7 +331,8 @@ final class ClipboardManager {
             defer { sqlite3_finalize(stmt) }
             sqlite3_bind_int64(stmt, 1, id)
             if sqlite3_step(stmt) == SQLITE_ROW, let cStr = sqlite3_column_text(stmt, 0) {
-                imagePath = String(cString: cStr)
+                let dbPath = String(cString: cStr)
+                imagePath = (imagesDir as NSString).appendingPathComponent((dbPath as NSString).lastPathComponent)
             }
         }
 
@@ -401,7 +404,9 @@ final class ClipboardManager {
             defer { sqlite3_finalize(stmt) }
             while sqlite3_step(stmt) == SQLITE_ROW {
                 if let cStr = sqlite3_column_text(stmt, 0) {
-                    dbPaths.insert(String(cString: cStr))
+                    let dbPath = String(cString: cStr)
+                    let fullPath = (imagesDir as NSString).appendingPathComponent((dbPath as NSString).lastPathComponent)
+                    dbPaths.insert(fullPath)
                 }
             }
         }
@@ -533,7 +538,9 @@ final class ClipboardManager {
             defer { sqlite3_finalize(pinStmt) }
             while sqlite3_step(pinStmt) == SQLITE_ROW {
                 if let cStr = sqlite3_column_text(pinStmt, 0) {
-                    pinnedPaths.insert(String(cString: cStr))
+                    let dbPath = String(cString: cStr)
+                    let fullPath = (imagesDir as NSString).appendingPathComponent((dbPath as NSString).lastPathComponent)
+                    pinnedPaths.insert(fullPath)
                 }
             }
         }
@@ -551,9 +558,10 @@ final class ClipboardManager {
             // Delete the database record first with a pinned guard. This prevents
             // a newly pinned item from being removed by an older cleanup snapshot.
             var delStmt: OpaquePointer?
-            let delSql = "DELETE FROM clipboard_history WHERE image_path = ? AND is_pinned = 0"
+            let delSql = "DELETE FROM clipboard_history WHERE image_path LIKE ? AND is_pinned = 0"
             if sqlite3_prepare_v2(db, delSql, -1, &delStmt, nil) == SQLITE_OK {
-                sqlite3_bind_text(delStmt, 1, path, -1, SQLITE_TRANSIENT)
+                let pattern = "%" + file
+                sqlite3_bind_text(delStmt, 1, pattern, -1, SQLITE_TRANSIENT)
                 let deleted = sqlite3_step(delStmt) == SQLITE_DONE && sqlite3_changes(db) > 0
                 sqlite3_finalize(delStmt)
                 guard deleted else { continue }
@@ -597,7 +605,10 @@ final class ClipboardManager {
     private func itemFromRow(_ stmt: OpaquePointer?) -> ClipboardItem {
         let id = sqlite3_column_int64(stmt, 0)
         let content = sqlite3_column_text(stmt, 1).map { String(cString: $0) }
-        let imagePath = sqlite3_column_text(stmt, 2).map { String(cString: $0) }
+        var imagePath = sqlite3_column_text(stmt, 2).map { String(cString: $0) }
+        if let path = imagePath {
+            imagePath = (imagesDir as NSString).appendingPathComponent((path as NSString).lastPathComponent)
+        }
         let sourceApp = sqlite3_column_text(stmt, 3).map { String(cString: $0) } ?? ""
         let isPinned = sqlite3_column_int(stmt, 4) != 0
         let createdAt = sqlite3_column_double(stmt, 5)

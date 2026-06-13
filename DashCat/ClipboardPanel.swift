@@ -22,6 +22,7 @@ final class ClipboardPanel: NSPanel {
     private let scrollView = NSScrollView()
     private let tableView = ClipboardTableView()
     private let emptyLabel = NSTextField(labelWithString: "")
+    private let hintLabel = NSTextField(labelWithString: localized("copyHint"))
     private var items: [ClipboardItem] = []
     private var searchQuery = ""
     private let maxHeight: CGFloat = 500
@@ -106,36 +107,6 @@ final class ClipboardPanel: NSPanel {
     override func keyDown(with event: NSEvent) {
         if event.keyCode == 53 { // Escape key
             close()
-        } else if event.keyCode == 36 { // Enter key
-            let row = tableView.selectedRow
-            guard row >= 0, row < items.count else {
-                super.keyDown(with: event)
-                return
-            }
-            let item = items[row]
-            let pb = NSPasteboard.general
-            pb.clearContents()
-
-            if event.modifierFlags.contains(.option) {
-                // Option+Enter: copy plain text only; for images, fall back to normal copy
-                if let content = item.content {
-                    pb.setString(content, forType: .string)
-                } else if item.isImage, let path = item.imagePath, let image = NSImage(contentsOfFile: path) {
-                    pb.writeObjects([image])
-                }
-            } else {
-                // Enter: copy normally (image or text)
-                if item.isImage, let path = item.imagePath, let image = NSImage(contentsOfFile: path) {
-                    pb.writeObjects([image])
-                } else if let content = item.content {
-                    pb.setString(content, forType: .string)
-                }
-            }
-
-            ClipboardManager.shared.syncChangeCount()
-            tableView.deselectRow(row)
-            close()
-            onSelect?(item)
         } else {
             super.keyDown(with: event)
         }
@@ -189,6 +160,8 @@ final class ClipboardPanel: NSPanel {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.clipboardMenuProvider = self
+        tableView.action = #selector(tableViewClicked(_:))
+        tableView.target = self
 
         scrollView.documentView = tableView
         scrollView.hasVerticalScroller = true
@@ -205,6 +178,12 @@ final class ClipboardPanel: NSPanel {
         emptyLabel.isHidden = true
         emptyLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView?.addSubview(emptyLabel)
+
+        hintLabel.font = NSFont.systemFont(ofSize: 11)
+        hintLabel.textColor = .tertiaryLabelColor
+        hintLabel.alignment = .center
+        hintLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView?.addSubview(hintLabel)
     }
 
     // MARK: - Layout
@@ -219,7 +198,11 @@ final class ClipboardPanel: NSPanel {
             scrollView.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 8),
             scrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
             scrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
-            scrollView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            scrollView.bottomAnchor.constraint(equalTo: hintLabel.topAnchor, constant: -8),
+
+            hintLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            hintLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            hintLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
 
             emptyLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             emptyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
@@ -246,7 +229,7 @@ final class ClipboardPanel: NSPanel {
         let rowHeight = tableView.rowHeight + tableView.intercellSpacing.height
         let contentHeight = CGFloat(items.count) * rowHeight
         let searchHeight: CGFloat = 44
-        let padding: CGFloat = 28
+        let padding: CGFloat = 48
         let desiredHeight = min(maxHeight, contentHeight + searchHeight + padding)
 
         guard let button = statusItem?.button, let buttonWindow = button.window else {
@@ -304,6 +287,7 @@ final class ClipboardPanel: NSPanel {
 
     func refreshLocale() {
         searchField.placeholderString = localized("search")
+        hintLabel.stringValue = localized("copyHint")
         if isVisible { reloadData() }
     }
 
@@ -445,26 +429,35 @@ extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
         return cell
     }
 
-    func tableViewSelectionDidChange(_ notification: Notification) {
-        guard !isSelecting else { return }
-        let row = tableView.selectedRow
+    @objc private func tableViewClicked(_ sender: NSTableView) {
+        let row = sender.clickedRow >= 0 ? sender.clickedRow : sender.selectedRow
         guard row >= 0, row < items.count else { return }
-        isSelecting = true
         let item = items[row]
 
-        // Copy to pasteboard
         let pb = NSPasteboard.general
         pb.clearContents()
-        if item.isImage, let path = item.imagePath, let image = NSImage(contentsOfFile: path) {
-            pb.writeObjects([image])
-        } else if let content = item.content {
-            pb.setString(content, forType: .string)
+
+        let isOptionPressed = NSApp.currentEvent?.modifierFlags.contains(.option) == true
+
+        if isOptionPressed {
+            // Option pressed: copy plain text only; for images, fall back to normal copy
+            if let content = item.content {
+                pb.setString(content, forType: .string)
+            } else if item.isImage, let path = item.imagePath, let image = NSImage(contentsOfFile: path) {
+                pb.writeObjects([image])
+            }
+        } else {
+            // Normal: copy normally (image or text)
+            if item.isImage, let path = item.imagePath, let image = NSImage(contentsOfFile: path) {
+                pb.writeObjects([image])
+            } else if let content = item.content {
+                pb.setString(content, forType: .string)
+            }
         }
 
         ClipboardManager.shared.syncChangeCount()
         tableView.deselectRow(row)
         close()
-        isSelecting = false
         onSelect?(item)
     }
 

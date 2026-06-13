@@ -208,6 +208,9 @@ enum Language: String, CaseIterable {
         "updateOk":       ["zh":"已是最新版本",       "zh-TW":"已是最新版本",       "en":"You're up to date",                   "ja":"最新バージョンです",                     "ko":"최신 버전입니다",                         "de":"Sie sind auf dem neuesten Stand",                 "fr":"Vous êtes à jour",                              "es":"Estás actualizado",               "pt-BR":"Você está atualizado",             "it":"Sei aggiornato",                              "ru":"Установлена последняя версия"],
         "updateOkMsg":    ["zh":"DashCat %@ 是最新版本。","zh-TW":"DashCat %@ 是最新版本。","en":"DashCat %@ is the latest version.","ja":"DashCat %@ は最新バージョンです。","ko":"DashCat %@는 최신 버전입니다.","de":"DashCat %@ ist die neueste Version.","fr":"DashCat %@ est la dernière version.","es":"DashCat %@ es la última versión.","pt-BR":"DashCat %@ é a versão mais recente.","it":"DashCat %@ è l'ultima versione.","ru":"DashCat %@ — последняя версия."],
         "fileName":       ["zh":"文件名：","zh-TW":"檔案名稱：","en":"File name:","ja":"ファイル名：","ko":"파일 이름:","de":"Dateiname:","fr":"Nom du fichier :","es":"Nombre del archivo:","pt-BR":"Nome do arquivo:","it":"Nome file:","ru":"Имя файла:"],
+        "copyHint":       ["zh":"⏎ 复制 · ⌥⏎ 提取纯文本", "zh-TW":"⏎ 複製 · ⌥⏎ 提取純文字", "en":"⏎ Copy · ⌥⏎ Plain Text"],
+        "automationPermissionNeeded": ["zh":"DashCat 需要“自动化”权限才能在 Finder 中新建文件。","zh-TW":"DashCat 需要「自動化」權限才能在 Finder 中建立檔案。","en":"DashCat needs Automation permission to create files in Finder."],
+        "openSettings":   ["zh":"前往设置\u{2026}","zh-TW":"前往設定\u{2026}","en":"Open Settings\u{2026}"],
     ]
 
     func str(_ key: String) -> String {
@@ -999,6 +1002,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let currentDays = customHistoryDays ?? historyDays.rawValue
         let input = NSTextField(frame: NSRect(x: 0, y: 0, width: 100, height: 24))
         input.stringValue = "\(currentDays)"
+        input.placeholderString = "1~365"
         alert.accessoryView = input
 
         activateAppForModal()
@@ -1098,10 +1102,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                                               fileName: request.fileName,
                                               fileExtension: request.fileExtension)
             NSWorkspace.shared.activateFileViewerSelecting([fileURL])
-        } catch {
-            NSLog("DashCat Finder new file failed: \(error.localizedDescription)")
-            presentAlert(title: language.str("newFileCreateFail"),
-                         message: language.str("newFileCreateFailMsg"))
+        } catch let error as NSError {
+            NSLog("DashCat Finder new file failed: \(error)")
+            let isPermissionError = error.code == 1 && (error.userInfo["NSAppleScriptErrorNumber"] as? Int) == -1743
+            
+            let alert = NSAlert()
+            alert.messageText = language.str("newFileCreateFail")
+            alert.informativeText = isPermissionError ? language.str("automationPermissionNeeded") : language.str("newFileCreateFailMsg")
+            alert.addButton(withTitle: language.str("ok"))
+            if isPermissionError {
+                alert.addButton(withTitle: language.str("openSettings"))
+            }
+            activateAppForModal()
+            if alert.runModal() == .alertSecondButtonReturn {
+                if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Automation") {
+                    NSWorkspace.shared.open(url)
+                }
+            }
         }
     }
 

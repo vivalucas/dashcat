@@ -62,7 +62,7 @@ final class SystemMonitor {
 
         let total = user + sys + idle + nice
         guard total > 0 else { return Self.default }
-        let value = min(99.9, (1000.0 * (user + sys) / total).rounded() / 10.0)
+        let value = min(99.9, (1000.0 * (user + sys + nice) / total).rounded() / 10.0)
         return MonitorInfo(value, String(format: "%.0f%% ",value))
     }
 
