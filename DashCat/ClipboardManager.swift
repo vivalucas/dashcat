@@ -242,7 +242,7 @@ final class ClipboardManager {
         if sqlite3_step(stmt) == SQLITE_DONE {
             let rowId = sqlite3_last_insert_rowid(db)
             stateLock.lock()
-            let fullImagePath = imagePath.map { (self.imagesDir as NSString).appendingPathComponent(($0 as NSString).lastPathComponent) }
+            let fullImagePath = imagePath.map { (self.imagesDir as NSString).appendingPathComponent($0) }
             latestCache = ClipboardItem(id: rowId, content: content, imagePath: fullImagePath,
                                         sourceApp: sourceApp, isPinned: false, createdAt: now)
             stateLock.unlock()
@@ -558,9 +558,15 @@ final class ClipboardManager {
             // Delete the database record first with a pinned guard. This prevents
             // a newly pinned item from being removed by an older cleanup snapshot.
             var delStmt: OpaquePointer?
-            let delSql = "DELETE FROM clipboard_history WHERE image_path LIKE ? AND is_pinned = 0"
+            let delSql = "DELETE FROM clipboard_history WHERE image_path LIKE ? ESCAPE '\\' AND is_pinned = 0"
             if sqlite3_prepare_v2(db, delSql, -1, &delStmt, nil) == SQLITE_OK {
-                let pattern = "%" + file
+                // Escape SQL wildcards so filenames with % or _ are matched literally,
+                // and prefix with % to also match legacy absolute-path rows.
+                let escaped = file
+                    .replacingOccurrences(of: "\\", with: "\\\\")
+                    .replacingOccurrences(of: "%", with: "\\%")
+                    .replacingOccurrences(of: "_", with: "\\_")
+                let pattern = "%" + escaped
                 sqlite3_bind_text(delStmt, 1, pattern, -1, SQLITE_TRANSIENT)
                 let deleted = sqlite3_step(delStmt) == SQLITE_DONE && sqlite3_changes(db) > 0
                 sqlite3_finalize(delStmt)

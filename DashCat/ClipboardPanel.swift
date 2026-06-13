@@ -28,7 +28,6 @@ final class ClipboardPanel: NSPanel {
     private let maxHeight: CGFloat = 500
     private var searchTimer: Timer?
     private var hasAppeared = false
-    private var isSelecting = false
     private let thumbnailCache: NSCache<NSString, NSImage> = {
         let cache = NSCache<NSString, NSImage>()
         cache.countLimit = 200
@@ -107,6 +106,13 @@ final class ClipboardPanel: NSPanel {
     override func keyDown(with event: NSEvent) {
         if event.keyCode == 53 { // Escape key
             close()
+        } else if event.keyCode == 36 { // Enter key
+            let row = tableView.selectedRow
+            guard row >= 0, row < items.count else {
+                super.keyDown(with: event)
+                return
+            }
+            performCopy(forRow: row, isOption: event.modifierFlags.contains(.option))
         } else {
             super.keyDown(with: event)
         }
@@ -430,24 +436,29 @@ extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
     }
 
     @objc private func tableViewClicked(_ sender: NSTableView) {
-        let row = sender.clickedRow >= 0 ? sender.clickedRow : sender.selectedRow
+        // action fires only on mouse click; clickedRow is always valid here
+        let row = sender.clickedRow
+        guard row >= 0, row < items.count else { return }
+        let isOption = NSApp.currentEvent?.modifierFlags.contains(.option) == true
+        performCopy(forRow: row, isOption: isOption)
+    }
+
+    private func performCopy(forRow row: Int, isOption: Bool) {
         guard row >= 0, row < items.count else { return }
         let item = items[row]
 
         let pb = NSPasteboard.general
         pb.clearContents()
 
-        let isOptionPressed = NSApp.currentEvent?.modifierFlags.contains(.option) == true
-
-        if isOptionPressed {
-            // Option pressed: copy plain text only; for images, fall back to normal copy
+        if isOption {
+            // Option: extract plain text; for images fall back to normal copy
             if let content = item.content {
                 pb.setString(content, forType: .string)
             } else if item.isImage, let path = item.imagePath, let image = NSImage(contentsOfFile: path) {
                 pb.writeObjects([image])
             }
         } else {
-            // Normal: copy normally (image or text)
+            // Normal copy (image or text)
             if item.isImage, let path = item.imagePath, let image = NSImage(contentsOfFile: path) {
                 pb.writeObjects([image])
             } else if let content = item.content {
