@@ -31,3 +31,7 @@ project-log/
 # Claude Code
 .claude/
 CLAUDE.md
+
+# Additional AI tools
+.mimocode/
+.agents/
