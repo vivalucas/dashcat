@@ -9,8 +9,21 @@ DerivedData/
 
 # macOS
 .DS_Store
+Thumbs.db
 *.swp
 *~
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
 
 # Project planning & logs (not source code)
 project-log/
