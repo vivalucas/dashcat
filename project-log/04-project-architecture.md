@@ -70,6 +70,7 @@ project-log/
 | 依赖 | 版本 | 用途 |
 |------|------|------|
 | AppKit | 系统 | UI、菜单栏、面板 |
+| Carbon | 系统 | RegisterEventHotKey 全局快捷键，不需要键盘监听权限 |
 | Foundation | 系统 | 基础模型、文件和时间处理 |
 | SQLite3 | 系统 | 剪贴板历史 |
 | IOKit / ApplicationServices / CoreGraphics | 系统 | 电量、防休眠、滚轮 |

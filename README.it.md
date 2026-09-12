@@ -17,9 +17,10 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
 - **Gestore Appunti**
   - Clic sinistro sull'icona del gatto per aprire il pannello cronologia appunti
   - Filtraggio ricerca in tempo reale
-  - Clic per copiare, `Option + Enter` per copiare come testo semplice
+  - Seleziona con le frecce e copia con Enter. Il testo è sempre semplice; Option + Enter resta disponibile.
   - Clic destro su un elemento per fissarlo in cima
-  - Supporto testo e immagini (immagini compresse in JPEG, salvataggio immagini opzionale)
+  - Testo semplice completo e immagini (PNG/TIFF originali opzionali, miniature separate)
+  - Carica altro mostra la cronologia precedente; il clic destro apre l’anteprima. La scorciatoia è configurabile nelle impostazioni (disattivata inizialmente). I marcatori riservati e temporanei sono ignorati. Gli elementi scaduti non fissati vengono rimossi ogni ora e al risveglio.
   - Retenzione personalizzabile: 7 / 14 / 30 / 90 giorni, per sempre, o un valore personalizzato di 1-365 giorni
   - Tutti i dati salvati localmente — completamente offline, nessuna raccolta dati
 
@@ -79,7 +80,7 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
 - **Clic sinistro** sull'icona del gatto: apri pannello cronologia appunti
   - Digita nella casella di ricerca per filtrare
   - Clic su un elemento per copiarlo
-  - `Option + Enter` per copiare come testo semplice
+  - Seleziona con le frecce e copia con Enter. Il testo è sempre semplice; Option + Enter resta disponibile.
   - Clic destro su un elemento per fissarlo o rimuovere il fissaggio
 - **Clic destro** sull'icona del gatto: apri menu impostazioni
   - Cambia Monitor tra Valori compatti e visualizzazione animata personalizzata
@@ -95,7 +96,7 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
 
 **Quanto spazio su disco usano le immagini?**
 
-Le immagini sono salvate come JPEG (qualche centinaio di KB ciascuna). Il salvataggio immagini è disattivato di default. Quando attivato, c'è un limite totale di 500 MB — le immagini non fissate più vecchie vengono eliminate automaticamente quando si raggiunge il limite.
+Il salvataggio immagini è disattivato per impostazione predefinita. Dati e risoluzione originali PNG/TIFF sono conservati. Oltre 500 MB complessivi, vengono eliminate prima le immagini non fissate più vecchie. Le immagini fissate restano e possono superare la soglia. Le immagini già compresse non recuperano la qualità originale.
 
 **Cosa significano i colori del gatto?**
 

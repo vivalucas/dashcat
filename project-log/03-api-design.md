@@ -8,13 +8,14 @@ DashCat 不提供 HTTP / Web API。
 
 | 接口 | 用途 | 说明 |
 |------|------|------|
+| `RegisterEventHotKey` | 注册用户选定的打开剪贴板快捷键 | 默认关闭，冲突时保留旧配置并提示 |
 | `NSPasteboard.general` | 剪贴板读写 | 轮询监控和回写内容 |
 | `IOKit Power Sources` | 电量读取 | 获取电量、供电和充电状态 |
 | `IOPMAssertion` | 防休眠 | 创建 / 释放休眠抑制 |
 | `CGEventTap` | 滚轮拦截 | 反转鼠标滚轮 |
 | `SMAppService` | 开机启动 | 注册和注销登录项 |
 | `NSAppleScript` | Finder 目录读取 | 获取当前 Finder 窗口目录 |
-| GitHub Releases 页面 | 更新检查 | 打开最新发布页进行检查 |
+| GitHub Releases 页面 | 更新检查 | URLSession 请求 latest，读取重定向版本标签并比较本地版本 |
 
 ## 认证方式
 

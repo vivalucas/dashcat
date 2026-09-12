@@ -17,9 +17,10 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
 - **Gerenciador de Área de Transferência**
   - Clique esquerdo no ícone do gato para abrir o painel de histórico da área de transferência
   - Filtragem de busca em tempo real
-  - Clique para copiar, `Option + Enter` para copiar como texto simples
+  - Selecione com as setas e copie com Enter. O texto é sempre simples; Option + Enter continua disponível.
   - Clique com o botão direito em um item para fixá-lo no topo
-  - Suporte a texto e imagens (imagens comprimidas em JPEG, armazenamento de imagens opcional)
+  - Texto simples completo e imagens (PNG/TIFF originais opcionais, miniaturas separadas)
+  - Carregar mais mostra o histórico anterior; clique direito abre a prévia. O atalho é configurável nos ajustes (desativado por padrão). Marcadores confidenciais e temporários são ignorados. Itens expirados não fixados são limpos a cada hora e ao despertar.
   - Retenção personalizável: 7 / 14 / 30 / 90 dias, para sempre, ou um valor personalizado de 1-365 dias
   - Todos os dados armazenados localmente — totalmente offline, sem coleta de dados
 
@@ -79,7 +80,7 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
 - **Clique esquerdo** no ícone do gato: abrir painel de histórico da área de transferência
   - Digite na caixa de busca para filtrar
   - Clique em um item para copiá-lo
-  - `Option + Enter` para copiar como texto simples
+  - Selecione com as setas e copie com Enter. O texto é sempre simples; Option + Enter continua disponível.
   - Clique com o botão direito em um item para fixar ou desafixar
 - **Clique direito** no ícone do gato: abrir menu de configurações
   - Alternar Monitor entre Valores compactos e exibição animada personalizada
@@ -95,7 +96,7 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
 
 **Quanto espaço em disco as imagens usam?**
 
-As imagens são armazenadas como JPEG (algumas centenas de KB cada). O salvamento de imagens está desativado por padrão. Quando ativado, há um limite total de 500 MB — as imagens não fixadas mais antigas são excluídas automaticamente quando o limite é atingido.
+Salvar imagens está desativado por padrão. Os dados e a resolução originais de PNG/TIFF são preservados. Acima de 500 MB entre originais e miniaturas, as imagens não fixadas mais antigas são apagadas. As fixadas são preservadas e podem exceder o limite. Imagens já comprimidas não recuperam a qualidade original.
 
 **O que significam as cores do gato?**
 

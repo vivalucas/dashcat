@@ -16,6 +16,12 @@ DashCat 是本地 macOS 应用，没有服务器部署。
 4. 执行 Debug 或 Release build
 5. 如需发布，导出 `.app` 或打包成 `.dmg`
 
+## 回归验证
+
+- 执行 `bash Tests/run-clipboard-regression.sh`，测试使用临时数据库、文件和独立 pasteboard。
+- Debug / Release 构建产物指定到 `/tmp`，避免污染仓库。
+- 签名构建必须包含 Apple Events entitlement，再验收 Finder 的自动化授权流程。
+
 ## 发布前检查
 
 - `Info.plist` 版本号正确

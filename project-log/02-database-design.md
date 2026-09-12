@@ -24,7 +24,7 @@ clipboard_history
 |------|------|------|------|
 | id | INTEGER | PRIMARY KEY AUTOINCREMENT | 主键 |
 | content | TEXT | 可空 | 文本内容 |
-| image_path | TEXT | 可空 | 图片文件路径 |
+| image_path | TEXT | 可空 | 图片文件名；兼容旧绝对路径读取 |
 | source_app | TEXT | NOT NULL DEFAULT '' | 来源应用 bundle id |
 | is_pinned | INTEGER | NOT NULL DEFAULT 0 | 是否固定 |
 | created_at | REAL | NOT NULL | Unix 时间戳 |
@@ -37,14 +37,14 @@ clipboard_history
 
 ## 图片存储
 
-- 原图：`~/Library/Application Support/DashCat/Images/{UUID}.jpg`
+- 原图：`~/Library/Application Support/DashCat/Images/{UUID}.png` 或 `.tiff`，原始数据保真保存；兼容旧 `.jpg`
 - 缩略图：`{UUID}_thumb.jpg`
-- 处理方式：JPEG 压缩，单张上限约 500KB
-- 总量阈值：500MB，超出后删除最旧的非固定图片
+- 处理方式：原图不缩放，另生成最长边 80 像素 JPEG 缩略图；旧版压缩造成的质量损失不可恢复
+- 总量阈值：原图与缩略图合计 500MB，超出后删除最旧的非固定图片；固定图片保留，可能单独超过阈值
 
 ## 清理策略
 
-- 启动时清理过期记录，并清理孤儿图片；永久保留模式也会清理孤儿图片
+- 启动、每小时、唤醒和设置变更时清理过期记录，并清理孤儿图片；永久保留模式也会清理孤儿图片
 - 手动清空时先确认范围，可只清除非固定项，也可清除全部；数据库记录删除成功后再删除图片文件
 - 过期清理会跳过固定项
 
@@ -53,7 +53,10 @@ clipboard_history
 - 只保留一张主表，避免过度建模
 - 搜索和历史列表都按 `created_at` 排序
 - 图片文件和数据库记录一起管理，避免悬挂路径
-- 不做全文索引，当前数据量不需要
+- 不做全文索引；后台执行 Unicode 大小写不敏感包含查询
+- 所有数据库访问与图片清理在同一串行队列；查询完整成功才允许孤儿清理
+- 新增 idx_history_order(is_pinned DESC, created_at DESC, id DESC) 支持稳定分页；每次加载 200 条，可继续加载
+- 文本完整保存，包括原换行和 NUL，不静默截断
 
 ## 变更记录
 

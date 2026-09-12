@@ -1,4 +1,5 @@
 import Cocoa
+import Carbon
 import IOKit.pwr_mgt
 import IOKit.ps
 import ServiceManagement
@@ -121,6 +122,22 @@ enum Language: String, CaseIterable {
     }
 
     private static let table: [String: [String: String]] = [
+        "batteryClickHint": ["zh":"左键切换防休眠 · 右键查看详情", "zh-TW":"左鍵切換防休眠 · 右鍵查看詳情", "en":"Click: cycle sleep prevention · Right-click: details", "ja":"クリック：スリープ防止切替 · 右クリック：詳細", "ko":"클릭: 잠자기 방지 전환 · 우클릭: 상세", "de":"Klick: Ruhezustand umschalten · Rechtsklick: Details", "fr":"Clic : veille · Clic droit : détails", "es":"Clic: suspensión · Clic derecho: detalles", "pt-BR":"Clique: suspensão · Botão direito: detalhes", "it":"Clic: sospensione · Clic destro: dettagli", "ru":"Щелчок: режим сна · Правый щелчок: сведения"],
+        "finderFallback": ["zh":"无法读取 Finder 目录，你仍可手动选择文件夹。", "zh-TW":"無法讀取 Finder 目錄，你仍可手動選擇資料夾。", "en":"Cannot read the Finder folder. You can choose a folder manually.", "ja":"Finderの場所を取得できません。フォルダを手動で選択できます。", "ko":"Finder 폴더를 읽을 수 없습니다. 직접 선택할 수 있습니다.", "de":"Finder-Ordner nicht lesbar. Ordner manuell wählen.", "fr":"Dossier Finder inaccessible. Choisissez un dossier manuellement.", "es":"No se puede leer la carpeta de Finder. Elige una manualmente.", "pt-BR":"Não foi possível ler a pasta do Finder. Escolha manualmente.", "it":"Cartella Finder non disponibile. Scegli una cartella manualmente.", "ru":"Папка Finder недоступна. Выберите папку вручную."],
+        "loginApproval": ["zh":"需要在系统登录项中允许 DashCat。", "zh-TW":"需要在系統登入項目中允許 DashCat。", "en":"Allow DashCat in System Settings → Login Items.", "ja":"システム設定のログイン項目でDashCatを許可してください。", "ko":"시스템 설정의 로그인 항목에서 DashCat을 허용하세요.", "de":"DashCat in den Anmeldeobjekten erlauben.", "fr":"Autorisez DashCat dans les éléments d’ouverture.", "es":"Permite DashCat en los ítems de inicio.", "pt-BR":"Permita DashCat nos itens de início.", "it":"Consenti DashCat negli elementi login.", "ru":"Разрешите DashCat в объектах входа."],
+        "shortcutFailed": ["zh":"快捷键无法注册，可能已被占用。请选择其他组合。", "zh-TW":"快捷鍵無法註冊，可能已被佔用。請選擇其他組合。", "en":"Shortcut unavailable; it may already be in use. Choose another combination.", "ja":"ショートカットを登録できません。別の組み合わせを選んでください。", "ko":"단축키를 등록할 수 없습니다. 다른 조합을 선택하세요.", "de":"Kurzbefehl nicht verfügbar. Andere Kombination wählen.", "fr":"Raccourci indisponible. Choisissez une autre combinaison.", "es":"Atajo no disponible. Elige otra combinación.", "pt-BR":"Atalho indisponível. Escolha outra combinação.", "it":"Scorciatoia non disponibile. Scegli un’altra combinazione.", "ru":"Сочетание недоступно. Выберите другое."],
+        "historyCleared": ["zh":"已清除所选范围的历史记录。", "zh-TW":"已清除所選範圍的歷史記錄。", "en":"Selected history cleared.", "ja":"選択範囲の履歴を消去しました。", "ko":"선택한 기록을 삭제했습니다.", "de":"Ausgewählter Verlauf gelöscht.", "fr":"Historique sélectionné effacé.", "es":"Historial seleccionado borrado.", "pt-BR":"Histórico selecionado apagado.", "it":"Cronologia selezionata eliminata.", "ru":"Выбранная история очищена."],
+        "operationFailed": ["zh":"操作未成功，请检查系统设置后重试。", "zh-TW":"操作未成功，請檢查系統設定後重試。", "en":"Operation failed. Check System Settings and try again.", "ja":"操作に失敗しました。システム設定を確認してください。", "ko":"작업에 실패했습니다. 시스템 설정을 확인하세요.", "de":"Aktion fehlgeschlagen. Systemeinstellungen prüfen.", "fr":"Échec. Vérifiez les Réglages Système.", "es":"Error. Revisa los Ajustes del Sistema.", "pt-BR":"Falha. Verifique os Ajustes do Sistema.", "it":"Operazione fallita. Controlla Impostazioni di Sistema.", "ru":"Ошибка. Проверьте Системные настройки."],
+        "clipboardFailure": ["zh":"历史记录操作失败，请检查可用磁盘空间和存储目录权限后重试。", "zh-TW":"歷史記錄操作失敗，請檢查磁碟空間與儲存目錄權限後重試。", "en":"History operation failed. Check free disk space and storage folder permissions, then retry.", "ja":"履歴の操作に失敗しました。空き容量とフォルダの権限を確認してください。", "ko":"기록 작업에 실패했습니다. 디스크 공간과 폴더 권한을 확인하세요.", "de":"Verlaufsaktion fehlgeschlagen. Speicherplatz und Ordnerrechte prüfen.", "fr":"Échec de l’opération. Vérifiez l’espace disque et les droits du dossier.", "es":"Error en el historial. Revisa el espacio y los permisos de la carpeta.", "pt-BR":"Falha no histórico. Verifique o espaço e as permissões da pasta.", "it":"Operazione non riuscita. Controlla spazio e permessi della cartella.", "ru":"Ошибка истории. Проверьте место на диске и права на папку."],
+        "copyFailed": ["zh":"无法读取或复制此条目，请重试。", "zh-TW":"無法讀取或複製此項目，請重試。", "en":"Could not read or copy this item. Try again.", "ja":"読み取りまたはコピーできません。再試行してください。", "ko":"읽거나 복사할 수 없습니다. 다시 시도하세요.", "de":"Eintrag nicht lesbar oder kopierbar. Erneut versuchen.", "fr":"Lecture ou copie impossible. Réessayez.", "es":"No se pudo leer o copiar. Inténtalo de nuevo.", "pt-BR":"Não foi possível ler ou copiar. Tente novamente.", "it":"Impossibile leggere o copiare. Riprova.", "ru":"Не удалось прочитать или скопировать. Повторите попытку."],
+        "invalidDays": ["zh":"请输入 1–365 之间的整数，当前设置尚未更改。", "zh-TW":"請輸入 1–365 的整數，目前設定尚未變更。", "en":"Enter a whole number from 1 to 365. Settings are unchanged.", "ja":"1〜365の整数を入力してください。設定は未変更です。", "ko":"1~365의 정수를 입력하세요. 설정은 변경되지 않았습니다.", "de":"Ganze Zahl von 1 bis 365 eingeben. Einstellung unverändert.", "fr":"Saisissez un entier de 1 à 365. Réglage inchangé.", "es":"Introduce un entero de 1 a 365. Ajuste sin cambios.", "pt-BR":"Digite um inteiro de 1 a 365. Configuração inalterada.", "it":"Inserisci un intero da 1 a 365. Impostazione invariata.", "ru":"Введите целое число от 1 до 365. Настройки не изменены."],
+        "clipboardShortcut": ["zh":"打开剪贴板快捷键", "zh-TW":"開啟剪貼簿快捷鍵", "en":"Open Clipboard Shortcut", "ja":"履歴を開くショートカット", "ko":"클립보드 단축키", "de":"Kurzbefehl für Verlauf", "fr":"Raccourci du presse-papiers", "es":"Atajo del portapapeles", "pt-BR":"Atalho da área de transferência", "it":"Scorciatoia appunti", "ru":"Клавиши открытия истории"],
+        "unknown": ["zh":"未知", "zh-TW":"未知", "en":"Unknown", "ja":"不明", "ko":"알 수 없음", "de":"Unbekannt", "fr":"Inconnu", "es":"Desconocido", "pt-BR":"Desconhecido", "it":"Sconosciuto", "ru":"Неизвестно"],
+        "loading": ["zh":"正在读取…", "zh-TW":"正在讀取…", "en":"Loading…", "ja":"読み込み中…", "ko":"불러오는 중…", "de":"Wird geladen…", "fr":"Chargement…", "es":"Cargando…", "pt-BR":"Carregando…", "it":"Caricamento…", "ru":"Загрузка…"],
+        "copied": ["zh":"已复制", "zh-TW":"已複製", "en":"Copied", "ja":"コピーしました", "ko":"복사됨", "de":"Kopiert", "fr":"Copié", "es":"Copiado", "pt-BR":"Copiado", "it":"Copiato", "ru":"Скопировано"],
+        "copy": ["zh":"复制", "zh-TW":"複製", "en":"Copy", "ja":"コピー", "ko":"복사", "de":"Kopieren", "fr":"Copier", "es":"Copiar", "pt-BR":"Copiar", "it":"Copia", "ru":"Копировать"],
+        "preview": ["zh":"预览", "zh-TW":"預覽", "en":"Preview", "ja":"プレビュー", "ko":"미리보기", "de":"Vorschau", "fr":"Aperçu", "es":"Vista previa", "pt-BR":"Prévia", "it":"Anteprima", "ru":"Просмотр"],
+        "loadMore": ["zh":"加载更多", "zh-TW":"載入更多", "en":"Load More", "ja":"さらに表示", "ko":"더 보기", "de":"Mehr laden", "fr":"Charger plus", "es":"Cargar más", "pt-BR":"Carregar mais", "it":"Carica altro", "ru":"Загрузить ещё"],
         "statusSummary":["zh":"CPU %@  内存 %@","zh-TW":"CPU %@  記憶體 %@","en":"CPU %@  Mem %@","ja":"CPU %@  メモリ %@","ko":"CPU %@  메모리 %@","de":"CPU %@  Speicher %@","fr":"CPU %@  Mémoire %@","es":"CPU %@  Mem %@","pt-BR":"CPU %@  Mem %@","it":"CPU %@  Mem %@","ru":"CPU %@  Память %@"],
         "monitor":      ["zh":"监控",       "zh-TW":"監控",     "en":"Monitor",          "ja":"モニター",             "ko":"모니터",        "de":"Monitor",                     "fr":"Moniteur",               "es":"Monitor",                "pt-BR":"Monitor",             "it":"Monitor",                "ru":"Монитор"],
         "compactValues":["zh":"紧凑数值",   "zh-TW":"緊湊數值", "en":"Compact Values",   "ja":"コンパクト数値",       "ko":"간결한 수치",   "de":"Kompakte Werte",              "fr":"Valeurs compactes",      "es":"Valores compactos",      "pt-BR":"Valores compactos",   "it":"Valori compatti",        "ru":"Компактные значения"],
@@ -208,7 +225,7 @@ enum Language: String, CaseIterable {
         "updateOk":       ["zh":"已是最新版本",       "zh-TW":"已是最新版本",       "en":"You're up to date",                   "ja":"最新バージョンです",                     "ko":"최신 버전입니다",                         "de":"Sie sind auf dem neuesten Stand",                 "fr":"Vous êtes à jour",                              "es":"Estás actualizado",               "pt-BR":"Você está atualizado",             "it":"Sei aggiornato",                              "ru":"Установлена последняя версия"],
         "updateOkMsg":    ["zh":"DashCat %@ 是最新版本。","zh-TW":"DashCat %@ 是最新版本。","en":"DashCat %@ is the latest version.","ja":"DashCat %@ は最新バージョンです。","ko":"DashCat %@는 최신 버전입니다.","de":"DashCat %@ ist die neueste Version.","fr":"DashCat %@ est la dernière version.","es":"DashCat %@ es la última versión.","pt-BR":"DashCat %@ é a versão mais recente.","it":"DashCat %@ è l'ultima versione.","ru":"DashCat %@ — последняя версия."],
         "fileName":       ["zh":"文件名：","zh-TW":"檔案名稱：","en":"File name:","ja":"ファイル名：","ko":"파일 이름:","de":"Dateiname:","fr":"Nom du fichier :","es":"Nombre del archivo:","pt-BR":"Nome do arquivo:","it":"Nome file:","ru":"Имя файла:"],
-        "copyHint":       ["zh":"⏎ 复制 · ⌥⏎ 提取纯文本", "zh-TW":"⏎ 複製 · ⌥⏎ 提取純文字", "en":"⏎ Copy · ⌥⏎ Plain Text", "ja":"⏎ コピー · ⌥⏎ プレーンテキスト", "ko":"⏎ 복사 · ⌥⏎ 일반 텍스트", "de":"⏎ Kopieren · ⌥⏎ Nur Text", "fr":"⏎ Copier · ⌥⏎ Texte brut", "es":"⏎ Copiar · ⌥⏎ Texto plano", "pt-BR":"⏎ Copiar · ⌥⏎ Texto simples", "it":"⏎ Copia · ⌥⏎ Testo normale", "ru":"⏎ Копировать · ⌥⏎ Простой текст"],
+        "copyHint": ["zh":"⏎ 复制纯文本 · 右键预览", "zh-TW":"⏎ 複製純文字 · 右鍵預覽", "en":"⏎ Copy plain text · Right-click to preview", "ja":"⏎ テキストをコピー · 右クリックでプレビュー", "ko":"⏎ 일반 텍스트 복사 · 우클릭 미리보기", "de":"⏎ Nur Text kopieren · Rechtsklick: Vorschau", "fr":"⏎ Copier le texte brut · Clic droit : aperçu", "es":"⏎ Copiar texto plano · Clic derecho: vista previa", "pt-BR":"⏎ Copiar texto simples · Botão direito: prévia", "it":"⏎ Copia testo semplice · Clic destro: anteprima", "ru":"⏎ Копировать текст · Правый щелчок: просмотр"],
         "automationPermissionNeeded": ["zh":"DashCat 需要“自动化”权限才能在 Finder 中新建文件。","zh-TW":"DashCat 需要「自動化」權限才能在 Finder 中建立檔案。","en":"DashCat needs Automation permission to create files in Finder.","ja":"DashCatがFinderでファイルを作成するには「自動化」権限が必要です。","ko":"DashCat이 Finder에서 파일을 만들려면 자동화 권한이 필요합니다.","de":"DashCat benötigt die Berechtigung Automatisierung, um Dateien im Finder zu erstellen.","fr":"DashCat a besoin de l'autorisation Automatisation pour créer des fichiers dans le Finder.","es":"DashCat necesita permiso de Automatización para crear archivos en el Finder.","pt-BR":"O DashCat precisa da permissão de Automação para criar arquivos no Finder.","it":"DashCat ha bisogno dell'autorizzazione Automazione per creare file nel Finder.","ru":"DashCat требует разрешения Автоматизации для создания файлов в Finder."],
         "openSettings":   ["zh":"前往设置\u{2026}","zh-TW":"前往設定\u{2026}","en":"Open Settings\u{2026}","ja":"設定を開く\u{2026}","ko":"설정 열기\u{2026}","de":"Einstellungen öffnen\u{2026}","fr":"Ouvrir les réglages\u{2026}","es":"Abrir ajustes\u{2026}","pt-BR":"Abrir ajustes\u{2026}","it":"Apri impostazioni\u{2026}","ru":"Открыть настройки\u{2026}"],
     ]
@@ -303,7 +320,7 @@ final class StatusDualMetricView: NSView {
 private struct BatteryInfo: Equatable {
     let level: Int
     let isPluggedIn: Bool
-    let isCharging: Bool
+    let isCharging: Bool?
 }
 
 private final class BatteryStatusView: NSView {
@@ -381,7 +398,7 @@ private final class BatteryStatusView: NSView {
     }
 
     private var tintColor: NSColor {
-        if battery.isPluggedIn || battery.isCharging { return .systemPink }
+        if battery.isPluggedIn || battery.isCharging == true { return .systemPink }
         if battery.level <= 10 { return .systemRed }
         if battery.level <= 20 { return .systemOrange }
         return .systemBlue
@@ -392,21 +409,21 @@ private final class BatteryStatusView: NSView {
     }
 
     private var isLowBatteryWarning: Bool {
-        !battery.isPluggedIn && !battery.isCharging && battery.level <= 20
+        !battery.isPluggedIn && battery.isCharging != true && battery.level <= 20
     }
 
     private var shouldStroke: Bool {
-        battery.isPluggedIn || battery.isCharging || isLowBatteryWarning
+        battery.isPluggedIn || battery.isCharging == true || isLowBatteryWarning
     }
 
     private var strokeAlpha: CGFloat {
-        if battery.isCharging { return 0.9 }
+        if battery.isCharging == true { return 0.9 }
         if battery.isPluggedIn { return 0.7 }
         return battery.level <= 10 ? 0.9 : 0.78
     }
 
     private var fillAlpha: CGFloat {
-        battery.isPluggedIn || battery.isCharging ? 0.26 : 0.16
+        battery.isPluggedIn || battery.isCharging == true ? 0.26 : 0.16
     }
 
     static func preferredWidth(for level: Int) -> CGFloat {
@@ -487,6 +504,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // Clipboard panel
     private var clipboardPanel: ClipboardPanel?
+    private var hotKey: EventHotKeyRef?
+    private var hotKeyHandler: EventHandlerRef?
+    private var shortcutItems = [NSMenuItem]()
+    private var shortcutMenuItem: NSMenuItem!
+    private var hasReportedClipboardFailure = false
 
     // Menu item references
     private var statusSummaryItem: NSMenuItem!
@@ -557,6 +579,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         setupSleepWakeNotifications()
         restoreState()
         startRunning()
+        setupClipboardShortcut()
+        NotificationCenter.default.addObserver(self, selector: #selector(clipboardFailed), name: .DashCatClipboardFailed, object: nil)
 
         // Start clipboard monitoring (cleanupExpired runs inside ClipboardManager.init)
         ClipboardManager.shared.startPolling()
@@ -567,6 +591,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ notification: Notification) {
         NSWorkspace.shared.notificationCenter.removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
+        if let hotKey { UnregisterEventHotKey(hotKey) }
+        if let hotKeyHandler { RemoveEventHandler(hotKeyHandler) }
         clipboardPanel?.close()
         clipboardPanel = nil
         stopAccessibilityRetryTimer()
@@ -723,6 +750,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         clearHistoryItem = NSMenuItem(title: "", action: #selector(clearClipboardHistory(_:)), keyEquivalent: "")
         clipboardSubmenu.addItem(clearHistoryItem)
 
+        shortcutMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        let shortcuts = NSMenu()
+        for (index, title) in ["", "⌘⇧V", "⌃⌥V", "⌃⇧Space"].enumerated() {
+            let item = NSMenuItem(title: title, action: #selector(selectClipboardShortcut(_:)), keyEquivalent: "")
+            item.representedObject = index
+            item.target = self
+            shortcutItems.append(item)
+            shortcuts.addItem(item)
+        }
+        shortcutMenuItem.submenu = shortcuts
+        clipboardSubmenu.addItem(shortcutMenuItem)
         clipboardMenuItem.submenu = clipboardSubmenu
         menu.addItem(clipboardMenuItem)
 
@@ -842,6 +880,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         filterTermsItem.title = l.str("filterTerms")
         clearHistoryItem.title  = l.str("clearHistory")
+        shortcutMenuItem.title = l.str("clipboardShortcut")
+        shortcutItems.first?.title = l.str("off")
         reverseMouseScrollItem.title = l.str("reverseMouseScroll")
         accessibilityHintItem.title = l.str("accessibilityNeeded")
         openAccessibilityItem.title = l.str("openAccessibility")
@@ -865,13 +905,67 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             statusItem.menu = menu
             statusItem.button?.performClick(nil)
         } else {
-            // Left click: toggle clipboard panel
-            if clipboardPanel == nil {
-                clipboardPanel = ClipboardPanel()
-                clipboardPanel?.statusItem = statusItem
-            }
-            clipboardPanel?.toggle()
+            toggleClipboardPanel()
         }
+    }
+
+    fileprivate func toggleClipboardPanel() {
+        if clipboardPanel == nil {
+            clipboardPanel = ClipboardPanel()
+            clipboardPanel?.statusItem = statusItem
+        }
+        clipboardPanel?.toggle()
+    }
+
+    private func setupClipboardShortcut() {
+        var type = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
+        InstallEventHandler(GetApplicationEventTarget(), { _, _, context in
+            guard let context else { return OSStatus(eventNotHandledErr) }
+            let app = Unmanaged<AppDelegate>.fromOpaque(context).takeUnretainedValue()
+            DispatchQueue.main.async { app.toggleClipboardPanel() }
+            return noErr
+        }, 1, &type, Unmanaged.passUnretained(self).toOpaque(), &hotKeyHandler)
+        let saved = UserDefaults.standard.integer(forKey: "DashCatClipboardShortcut")
+        if !registerShortcut(saved) { presentAlert(title: language.str("clipboardShortcut"), message: language.str("shortcutFailed")) }
+        refreshShortcutState()
+    }
+
+    private func registerShortcut(_ index: Int) -> Bool {
+        guard (0...3).contains(index) else { return false }
+        var next: EventHotKeyRef?
+        if index > 0 {
+            guard hotKeyHandler != nil else { return false }
+            let modifiers = [0, cmdKey | shiftKey, controlKey | optionKey, controlKey | shiftKey]
+            let code = index == 3 ? kVK_Space : kVK_ANSI_V
+            let id = EventHotKeyID(signature: 0x44434154, id: UInt32(index))
+            guard RegisterEventHotKey(UInt32(code), UInt32(modifiers[index]), id, GetApplicationEventTarget(), 0, &next) == noErr else { return false }
+        }
+        if let hotKey { UnregisterEventHotKey(hotKey) }
+        hotKey = next
+        return true
+    }
+
+    @objc private func selectClipboardShortcut(_ sender: NSMenuItem) {
+        guard let index = sender.representedObject as? Int else { return }
+        if index == UserDefaults.standard.integer(forKey: "DashCatClipboardShortcut"), (index == 0 || hotKey != nil) { return }
+        if registerShortcut(index) {
+            UserDefaults.standard.set(index, forKey: "DashCatClipboardShortcut")
+        } else {
+            presentAlert(title: language.str("clipboardShortcut"), message: language.str("shortcutFailed"))
+        }
+        refreshShortcutState()
+    }
+
+    private func refreshShortcutState() {
+        let active = hotKey == nil ? 0 : UserDefaults.standard.integer(forKey: "DashCatClipboardShortcut")
+        shortcutItems.forEach { $0.state = ($0.representedObject as? Int) == active ? .on : .off }
+    }
+
+    @objc private func clipboardFailed() {
+        // Do not present an alert for every polling failure.
+        guard !hasReportedClipboardFailure else { return }
+        hasReportedClipboardFailure = true
+        presentAlert(title: language.str("clipboardSettings"), message: language.str("clipboardFailure"))
     }
 
     // MARK: - Caffeine
@@ -892,6 +986,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 sleepAssertionID = 0
                 appliedMode = .off
                 caffeineMode = .off
+                presentAlert(title: language.str("sleep"), message: language.str("operationFailed"))
             }
         }
         caffeineItems.forEach { $0.state = ($0.representedObject as? CaffeineMode) == appliedMode ? .on : .off }
@@ -903,6 +998,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         applyMetricDisplay()
         UserDefaults.standard.set(appliedMode.rawValue, forKey: "DashCatCaffeineMode")
+        updateBatteryStatus(force: true)
     }
 
     // MARK: - Menu Actions
@@ -1006,18 +1102,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         alert.accessoryView = input
 
         activateAppForModal()
-        if alert.runModal() == .alertFirstButtonReturn {
-            let days = max(1, min(365, Int(input.stringValue) ?? 30))
+        alert.window.initialFirstResponder = input
+        while alert.runModal() == .alertFirstButtonReturn {
+            guard let days = Int(input.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)), (1...365).contains(days) else {
+                alert.informativeText = l.str("invalidDays")
+                continue
+            }
             UserDefaults.standard.set(days, forKey: "DashCatHistoryDays")
-            historyDaysItems.forEach { $0.state = .off }
-            customDaysItem.title = "\(l.str("customDays")) (\(days))"
+            historyDaysItems.forEach { $0.state = ($0.representedObject as? HistoryDays)?.rawValue == days ? .on : .off }
+            customDaysItem.title = HistoryDays(rawValue: days) == nil ? "\(l.str("customDays")) (\(days))" : l.str("customDays")
             cleanupClipboardHistoryAfterRetentionChange()
+            break
         }
     }
 
     private func cleanupClipboardHistoryAfterRetentionChange() {
-        ClipboardManager.shared.cleanupExpired { [weak self] in
-            self?.clipboardPanel?.reloadData()
+        ClipboardManager.shared.cleanupExpired { [weak self] success in
+            guard let self else { return }
+            self.clipboardPanel?.reloadData()
+            if !success { self.presentAlert(title: self.language.str("history"), message: self.language.str("clipboardFailure")) }
         }
     }
 
@@ -1061,8 +1164,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        ClipboardManager.shared.clearAll(includePinned: includePinned) { [weak self] in
-            self?.clipboardPanel?.reloadData()
+        ClipboardManager.shared.clearAll(includePinned: includePinned) { [weak self] success in
+            guard let self else { return }
+            self.clipboardPanel?.reloadData()
+            self.presentAlert(title: self.language.str("clearHistory"), message: self.language.str(success ? "historyCleared" : "clipboardFailure"))
         }
     }
 
@@ -1096,7 +1201,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func createNewFileInFinder(_ sender: NSMenuItem) {
         do {
-            let defaultFolderURL = try currentFinderFolderURL()
+            let defaultFolderURL: URL
+            do { defaultFolderURL = try currentFinderFolderURL() }
+            catch {
+                let alert = NSAlert()
+                alert.messageText = language.str("newFileCreateFail")
+                let denied = (error as NSError).userInfo["NSAppleScriptErrorNumber"] as? Int == -1743
+                alert.informativeText = language.str(denied ? "automationPermissionNeeded" : "finderFallback")
+                alert.addButton(withTitle: language.str("chooseFolder"))
+                alert.addButton(withTitle: language.str("cancel"))
+                if denied { alert.addButton(withTitle: language.str("openSettings")) }
+                activateAppForModal()
+                let response = alert.runModal()
+                if response == .alertThirdButtonReturn {
+                    NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Automation")!)
+                    return
+                }
+                guard response == .alertFirstButtonReturn,
+                      let folder = chooseFolder(startingAt: FileManager.default.homeDirectoryForCurrentUser) else { return }
+                defaultFolderURL = folder
+            }
             guard let request = promptForNewFile(defaultFolderURL: defaultFolderURL) else { return }
             let fileURL = try createEmptyFile(in: request.folderURL,
                                               fileName: request.fileName,
@@ -1188,10 +1312,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let suffix = index == 1 ? "" : " \(index)"
             let fileURL = folderURL.appendingPathComponent("\(baseName)\(suffix).\(ext)")
             if !FileManager.default.fileExists(atPath: fileURL.path) {
-                guard FileManager.default.createFile(atPath: fileURL.path, contents: Data()) else {
-                    throw NSError(domain: "DashCat.NewFile", code: 3)
+                do {
+                    try Data().write(to: fileURL, options: .withoutOverwriting)
+                    return fileURL
+                } catch let error as NSError {
+                    if error.domain != NSCocoaErrorDomain || error.code != NSFileWriteFileExistsError { throw error }
                 }
-                return fileURL
             }
             index += 1
         }
@@ -1239,8 +1365,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
         } catch {
             NSLog("DashCat launch at login update failed: \(error.localizedDescription)")
+            presentAlert(title: language.str("launchLogin"), message: language.str("operationFailed"))
         }
         refreshLaunchAtLoginState()
+        if SMAppService.mainApp.status == .requiresApproval {
+            presentAlert(title: language.str("launchLogin"), message: language.str("loginApproval"))
+            SMAppService.openSystemSettingsLoginItems()
+        }
     }
 
     private func refreshLaunchAtLoginState() {
@@ -1384,6 +1515,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         view.battery = info
         batteryStatusItem?.length = view.preferredWidth
         batteryStatusItem?.button?.toolTip = String(format: language.str("batteryTooltip"), "\(info.level)")
+            + "\n" + language.str(caffeineMode.locKey) + "\n" + language.str("batteryClickHint")
     }
 
     private func ensureBatteryStatusView(for info: BatteryInfo) -> BatteryStatusView {
@@ -1453,8 +1585,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(disabledMenuItem(String(format: language.str("batteryPowerSource"), powerSource)))
 
         let status: String
-        if info.isCharging {
+        if info.isCharging == true {
             status = language.str("batteryCharging")
+        } else if info.isPluggedIn && info.isCharging == nil {
+            status = language.str("unknown")
         } else if info.isPluggedIn {
             status = language.str("batteryPluggedIn")
         } else {
@@ -1520,7 +1654,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let level = min(100, max(0, rawLevel))
             let state = description[kIOPSPowerSourceStateKey as String] as? String
             let isPluggedIn = state == kIOPSACPowerValue
-            let isCharging = boolValue(description[kIOPSIsChargingKey as String]) ?? isPluggedIn
+            let isCharging = boolValue(description[kIOPSIsChargingKey as String])
             return BatteryInfo(level: level, isPluggedIn: isPluggedIn, isCharging: isCharging)
         }
         return nil

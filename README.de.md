@@ -17,9 +17,10 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
 - **Zwischenablage-Verwaltung**
   - Linksklick auf das Katzen-Symbol öffnet das Zwischenablage-Panel
   - Echtzeit-Suchfilterung
-  - Klick zum Kopieren, `Option + Enter` zum Kopieren als reinen Text
+  - Mit Pfeiltasten auswählen, mit Enter kopieren. Text wird immer als Klartext kopiert; Option + Enter bleibt unterstützt.
   - Einträge per Rechtsklick oben anheften
-  - Text- und Bildunterstützung (Bildspeicherung umschaltbar, JPEG-komprimiert)
+  - Vollständiger Klartext und Bilder (optionale Originalspeicherung als PNG/TIFF, separate Vorschaubilder)
+  - Mehr laden zeigt ältere Einträge, Rechtsklick öffnet die Vorschau. Der Kurzbefehl ist in den Verlaufseinstellungen wählbar (standardmäßig aus). Vertrauliche und temporäre Markierungen werden beachtet; abgelaufene nicht fixierte Einträge werden stündlich und nach dem Aufwachen gelöscht.
   - Anpassbare Aufbewahrung: 7 / 14 / 30 / 90 Tage, unbegrenzt oder ein eigener Wert von 1-365 Tagen
   - Alle Daten lokal gespeichert — vollständig offline, keine Datenerfassung
 
@@ -79,7 +80,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
 - **Linksklick** auf das Katzen-Symbol: Zwischenablage-Historie-Panel öffnen
   - Im Suchfeld eingeben zum Filtern
   - Auf einen Eintrag klicken zum Kopieren
-  - `Option + Enter` zum Kopieren als reinen Text
+  - Mit Pfeiltasten auswählen, mit Enter kopieren. Text wird immer als Klartext kopiert; Option + Enter bleibt unterstützt.
   - Einträge per Rechtsklick anheften oder lösen
 - **Rechtsklick** auf das Katzen-Symbol: Einstellungsmenü öffnen
   - Monitor zwischen Kompakten Werten und eigener Animationsanzeige umschalten
@@ -95,7 +96,7 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
 
 **Wie viel Speicherplatz beanspruchen Bilder?**
 
-Bilder werden als JPEG gespeichert (einige hundert KB pro Bild). Bildspeicherung ist standardmäßig deaktiviert. Wenn aktiviert, gilt ein Gesamtlimit von 500 MB — die ältesten nicht fixierten Bilder werden automatisch gelöscht, wenn das Limit erreicht wird.
+Bildspeicherung ist standardmäßig aus. Originaldaten und Auflösung von PNG/TIFF bleiben erhalten. Ab insgesamt 500 MB für Originale und Vorschaubilder werden die ältesten nicht fixierten Bilder gelöscht. Fixierte Bilder bleiben erhalten und können die Schwelle überschreiten. Bereits komprimierte Bilder erhalten ihre ursprüngliche Qualität nicht zurück.
 
 **Was bedeuten die Katzenfarben?**
 

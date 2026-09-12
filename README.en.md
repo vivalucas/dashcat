@@ -17,9 +17,10 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 - **Clipboard Manager**
   - Left-click the cat icon to open a clipboard history panel
   - Real-time search filtering
-  - Click to copy, `Option + Enter` to copy as plain text
+  - Use arrow keys to select and Enter to copy. Text is always copied as plain text; Option + Enter remains supported.
   - Right-click an item to pin it to the top
-  - Text and image support (JPEG compressed, toggleable image storage)
+  - Full plain text and images (optional original PNG/TIFF storage with separate thumbnails)
+  - Use Load More for older history and right-click to preview. Choose an opening shortcut in Clipboard Settings (off by default). Confidential and transient clipboard markers are ignored. Expired unpinned history is cleaned hourly and after wake.
   - Customizable retention: 7 / 14 / 30 / 90 days, forever, or a custom 1-365 day value
   - Optional filter terms so matching future text clips are not saved
   - All data stored locally — fully offline, no data collection
@@ -82,7 +83,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 - **Left-click** the cat icon: open clipboard history panel
   - Type in the search box to filter
   - Click an item to copy it
-  - `Option + Enter` to copy as plain text
+  - Use arrow keys to select and Enter to copy. Text is always copied as plain text; Option + Enter remains supported.
   - Right-click an item to pin or unpin it
 - **Right-click** the cat icon: open settings menu
   - Switch Monitor between Compact Values and custom animation display
@@ -101,7 +102,7 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
 
 **How much disk space do images use?**
 
-Images are stored as JPEG (a few hundred KB each). Image saving is off by default. When enabled, there is a 500 MB total cap — the oldest unpinned images are deleted automatically when the limit is reached.
+Image saving is off by default. When enabled, original PNG/TIFF data and resolution are preserved. Originals and thumbnails share a 500 MB cleanup threshold; the oldest unpinned images are removed first. Pinned images are always retained and can exceed this threshold. Previously compressed images cannot regain their original quality.
 
 **What do the cat colors mean?**
 

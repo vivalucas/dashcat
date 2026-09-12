@@ -1,7 +1,8 @@
 import Cocoa
+import ImageIO
 
 private func localized(_ key: String) -> String {
-    let code = UserDefaults.standard.string(forKey: "DashCatLanguage") ?? "en"
+    let code = UserDefaults.standard.string(forKey: "DashCatLanguage") ?? Language.systemDefault().rawValue
     let lang = Language(rawValue: code) ?? .english
     return lang.str(key)
 }
@@ -18,6 +19,8 @@ private final class ClipboardTableView: NSTableView {
 }
 
 final class ClipboardPanel: NSPanel {
+    private let manager: ClipboardManager
+    private let pasteboard: NSPasteboard
     private let searchField = NSSearchField()
     private let scrollView = NSScrollView()
     private let tableView = ClipboardTableView()
@@ -25,6 +28,15 @@ final class ClipboardPanel: NSPanel {
     private let hintLabel = NSTextField(labelWithString: localized("copyHint"))
     private var items: [ClipboardItem] = []
     private var searchQuery = ""
+    private let moreButton = NSButton(title: "", target: nil, action: nil)
+    private var pageLimit = 200
+    private var loadGeneration = 0
+    private var isLoading = false
+    private var pendingCommand: Selector?
+    private var copyGeneration = 0
+    private var previewGeneration = 0
+    private var toast: NSPanel?
+    private var loadingThumbnails = Set<String>()
     private let maxHeight: CGFloat = 500
     private var searchTimer: Timer?
     private var hasAppeared = false
@@ -42,7 +54,9 @@ final class ClipboardPanel: NSPanel {
     var onSelect: ((ClipboardItem) -> Void)?
     weak var statusItem: NSStatusItem?
 
-    init() {
+    init(manager: ClipboardManager = .shared, pasteboard: NSPasteboard = .general) {
+        self.manager = manager
+        self.pasteboard = pasteboard
         let panelWidth: CGFloat = 350
         super.init(contentRect: NSRect(x: 0, y: 0, width: panelWidth, height: maxHeight),
                    styleMask: [.nonactivatingPanel, .titled, .fullSizeContentView],
@@ -81,6 +95,9 @@ final class ClipboardPanel: NSPanel {
     override func close() {
         searchTimer?.invalidate()
         searchTimer = nil
+        copyGeneration += 1
+        previewGeneration += 1
+        pendingCommand = nil
         super.close()
     }
 
@@ -113,6 +130,8 @@ final class ClipboardPanel: NSPanel {
                 return
             }
             performCopy(forRow: row, isOption: event.modifierFlags.contains(.option))
+        } else if event.keyCode == 49, tableView.selectedRow >= 0 {
+            showPreview(items[tableView.selectedRow])
         } else {
             super.keyDown(with: event)
         }
@@ -135,6 +154,7 @@ final class ClipboardPanel: NSPanel {
     private func setupSearchField() {
         searchField.placeholderString = localized("search")
         searchField.sendsSearchStringImmediately = true
+        searchField.delegate = self
         searchField.target = self
         searchField.action = #selector(searchChanged(_:))
         searchField.font = NSFont.systemFont(ofSize: 13)
@@ -145,8 +165,14 @@ final class ClipboardPanel: NSPanel {
     }
 
     @objc private func searchChanged(_ sender: NSSearchField) {
+        pendingCommand = nil
+        copyGeneration += 1
+        loadGeneration += 1
+        isLoading = false
+        hintLabel.stringValue = localized("copyHint")
         searchTimer?.invalidate()
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] _ in
+            self?.pageLimit = 200
             self?.searchQuery = sender.stringValue
             self?.reloadData()
         }
@@ -181,6 +207,8 @@ final class ClipboardPanel: NSPanel {
         emptyLabel.font = NSFont.systemFont(ofSize: 13)
         emptyLabel.textColor = .secondaryLabelColor
         emptyLabel.alignment = .center
+        emptyLabel.maximumNumberOfLines = 3
+        emptyLabel.lineBreakMode = .byWordWrapping
         emptyLabel.isHidden = true
         emptyLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView?.addSubview(emptyLabel)
@@ -188,8 +216,16 @@ final class ClipboardPanel: NSPanel {
         hintLabel.font = NSFont.systemFont(ofSize: 11)
         hintLabel.textColor = .tertiaryLabelColor
         hintLabel.alignment = .center
+        hintLabel.lineBreakMode = .byTruncatingTail
+        hintLabel.toolTip = localized("copyHint")
         hintLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView?.addSubview(hintLabel)
+        moreButton.title = localized("loadMore")
+        moreButton.target = self
+        moreButton.action = #selector(loadMore)
+        moreButton.bezelStyle = .rounded
+        moreButton.translatesAutoresizingMaskIntoConstraints = false
+        contentView?.addSubview(moreButton)
     }
 
     // MARK: - Layout
@@ -208,7 +244,9 @@ final class ClipboardPanel: NSPanel {
 
             hintLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             hintLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
-            hintLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            hintLabel.bottomAnchor.constraint(equalTo: moreButton.topAnchor, constant: -4),
+            moreButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
+            moreButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
 
             emptyLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             emptyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
@@ -219,11 +257,44 @@ final class ClipboardPanel: NSPanel {
     // MARK: - Data
 
     func reloadData() {
-        let manager = ClipboardManager.shared
-        items = searchQuery.isEmpty ? manager.fetchAll() : manager.search(query: searchQuery)
-        tableView.reloadData()
-        updateEmptyState()
-        resizeToFitContent()
+        loadGeneration += 1
+        isLoading = true
+        let generation = loadGeneration
+        let selectedID = items.indices.contains(tableView.selectedRow) ? items[tableView.selectedRow].id : nil
+        moreButton.isEnabled = false
+        manager.load(query: searchQuery, limit: pageLimit + 1) { [weak self] result in
+            guard let self, generation == self.loadGeneration else { return }
+            self.isLoading = false
+            switch result {
+            case .success(let loaded):
+                self.moreButton.isHidden = loaded.count <= self.pageLimit
+                self.moreButton.isEnabled = true
+                self.items = Array(loaded.prefix(self.pageLimit))
+                self.tableView.reloadData()
+                self.tableView.deselectAll(nil)
+                if let selectedID, let row = self.items.firstIndex(where: { $0.id == selectedID }) {
+                    self.tableView.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
+                }
+                self.updateEmptyState()
+                self.resizeToFitContent()
+                if let command = self.pendingCommand {
+                    self.pendingCommand = nil
+                    _ = self.executeNavigation(command)
+                }
+            case .failure:
+                self.pendingCommand = nil
+                self.items = []
+                self.tableView.reloadData()
+                self.moreButton.isHidden = true
+                self.emptyLabel.stringValue = localized("clipboardFailure")
+                self.emptyLabel.isHidden = false
+            }
+        }
+    }
+
+    @objc private func loadMore() {
+        pageLimit += 200
+        reloadData()
     }
 
     private func updateEmptyState() {
@@ -235,7 +306,7 @@ final class ClipboardPanel: NSPanel {
         let rowHeight = tableView.rowHeight + tableView.intercellSpacing.height
         let contentHeight = CGFloat(items.count) * rowHeight
         let searchHeight: CGFloat = 44
-        let padding: CGFloat = 48
+        let padding: CGFloat = 78
         let desiredHeight = min(maxHeight, contentHeight + searchHeight + padding)
 
         guard let button = statusItem?.button, let buttonWindow = button.window else {
@@ -274,6 +345,8 @@ final class ClipboardPanel: NSPanel {
     func showPanel() {
         searchField.stringValue = ""
         searchQuery = ""
+        pageLimit = 200
+        hintLabel.stringValue = localized("copyHint")
         hasAppeared = false
         reloadData()
         hasAppeared = true
@@ -294,6 +367,7 @@ final class ClipboardPanel: NSPanel {
     func refreshLocale() {
         searchField.placeholderString = localized("search")
         hintLabel.stringValue = localized("copyHint")
+        moreButton.title = localized("loadMore")
         if isVisible { reloadData() }
     }
 
@@ -301,6 +375,10 @@ final class ClipboardPanel: NSPanel {
         guard row >= 0, row < items.count else { return nil }
         let item = items[row]
         let menu = NSMenu()
+        let preview = NSMenuItem(title: localized("preview"), action: #selector(previewItem(_:)), keyEquivalent: "")
+        preview.target = self
+        preview.representedObject = item
+        menu.addItem(preview)
 
         let pinTitle = item.isPinned ? localized("unpin") : localized("pin")
         let pinItem = NSMenuItem(title: pinTitle, action: #selector(togglePinForItem(_:)), keyEquivalent: "")
@@ -319,7 +397,7 @@ final class ClipboardPanel: NSPanel {
 
 // MARK: - NSTableViewDataSource & NSTableViewDelegate
 
-extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
+extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate, NSSearchFieldDelegate {
     func numberOfRows(in tableView: NSTableView) -> Int {
         items.count
     }
@@ -399,17 +477,18 @@ extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
             iconView?.image = nil
             // Show thumbnail
             if let imgPath = item.imagePath,
-               let thumbPath = ClipboardManager.shared.thumbnailPath(for: imgPath) {
+               let thumbPath = manager.thumbnailPath(for: imgPath) {
                 let cacheKey = thumbPath as NSString
                 if let cached = thumbnailCache.object(forKey: cacheKey) {
                     iconView?.image = cached
-                } else {
+                } else if loadingThumbnails.insert(thumbPath).inserted {
                     let itemID = item.id
                     DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                        guard let data = try? Data(contentsOf: URL(fileURLWithPath: thumbPath)) else { return }
+                        let data = try? Data(contentsOf: URL(fileURLWithPath: thumbPath))
                         DispatchQueue.main.async { [weak self] in
                             guard let self else { return }
-                            guard let image = NSImage(data: data) else { return }
+                            self.loadingThumbnails.remove(thumbPath)
+                            guard let data, let image = NSImage(data: data) else { return }
                             image.size = NSSize(width: 20, height: 20)
                             self.thumbnailCache.setObject(image, forKey: cacheKey)
                             if let currentRow = self.items.firstIndex(where: { $0.id == itemID }) {
@@ -438,53 +517,187 @@ extension ClipboardPanel: NSTableViewDataSource, NSTableViewDelegate {
     @objc private func tableViewClicked(_ sender: NSTableView) {
         // action fires only on mouse click; clickedRow is always valid here
         let row = sender.clickedRow
-        guard row >= 0, row < items.count else { return }
+        guard row >= 0, row < items.count, !isLoading, searchField.stringValue == searchQuery else { return }
         let isOption = NSApp.currentEvent?.modifierFlags.contains(.option) == true
         performCopy(forRow: row, isOption: isOption)
     }
 
     private func performCopy(forRow row: Int, isOption: Bool) {
-        guard row >= 0, row < items.count else { return }
-        let item = items[row]
+        guard items.indices.contains(row), !isLoading else { return }
+        copy(items[row]) // Text history is always plain text.
+    }
 
-        let pb = NSPasteboard.general
-        pb.clearContents()
-
-        if isOption {
-            // Option: extract plain text; for images fall back to normal copy
-            if let content = item.content {
-                pb.setString(content, forType: .string)
-            } else if item.isImage, let path = item.imagePath, let image = NSImage(contentsOfFile: path) {
-                pb.writeObjects([image])
+    private func copy(_ item: ClipboardItem) {
+        copyGeneration += 1
+        let generation = copyGeneration
+        if let content = item.content {
+            writeCopy(item, payload: content as NSString)
+            return
+        }
+        hintLabel.stringValue = localized("loading")
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            var payload: NSPasteboardWriting?
+            if let path = item.imagePath, let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
+               let source = CGImageSourceCreateWithData(data as CFData, nil),
+               CGImageSourceGetCount(source) > 0, CGImageSourceGetStatus(source) == .statusComplete {
+                let ext = URL(fileURLWithPath: path).pathExtension.lowercased()
+                if ext == "png" || ext == "tiff" {
+                    let pasteboardItem = NSPasteboardItem()
+                    pasteboardItem.setData(data, forType: ext == "png" ? .png : .tiff)
+                    payload = pasteboardItem
+                } else if let image = NSImage(data: data), let tiff = image.tiffRepresentation {
+                    let pasteboardItem = NSPasteboardItem()
+                    pasteboardItem.setData(tiff, forType: .tiff)
+                    payload = pasteboardItem
+                }
             }
-        } else {
-            // Normal copy (image or text)
-            if item.isImage, let path = item.imagePath, let image = NSImage(contentsOfFile: path) {
-                pb.writeObjects([image])
-            } else if let content = item.content {
-                pb.setString(content, forType: .string)
+            let prepared = payload
+            DispatchQueue.main.async {
+                guard let self, generation == self.copyGeneration else { return }
+                guard let prepared else { self.showCopyFailure(); return }
+                self.writeCopy(item, payload: prepared)
             }
         }
+    }
 
-        ClipboardManager.shared.syncChangeCount()
-        tableView.deselectRow(row)
+    private func writeCopy(_ item: ClipboardItem, payload: NSPasteboardWriting) {
+        let pb = pasteboard
+        pb.clearContents()
+        guard pb.writeObjects([payload]) else {
+            showCopyFailure()
+            return
+        }
+        manager.syncChangeCount()
         close()
+        showCopiedToast()
         onSelect?(item)
     }
 
-    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        true
+    private func showCopyFailure() {
+        hintLabel.stringValue = localized("copyFailed")
+        if !isVisible {
+            let alert = NSAlert()
+            alert.messageText = localized("copyFailed")
+            NSApp.activate(ignoringOtherApps: true)
+            alert.runModal()
+        }
     }
+
+    private func showCopiedToast() {
+        toast?.close()
+        let panel = NSPanel(contentRect: NSRect(x: frame.midX - 100, y: frame.maxY - 45, width: 200, height: 32),
+                            styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
+        panel.level = .statusBar
+        panel.hasShadow = true
+        let label = NSTextField(labelWithString: localized("copied"))
+        label.alignment = .center
+        label.frame = NSRect(x: 4, y: 8, width: 192, height: 20)
+        panel.contentView?.addSubview(label)
+        toast = panel
+        panel.orderFrontRegardless()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self, weak panel] in
+            panel?.close()
+            if self?.toast === panel { self?.toast = nil }
+        }
+    }
+
+    @objc private func previewItem(_ sender: NSMenuItem) {
+        guard let item = sender.representedObject as? ClipboardItem else { return }
+        showPreview(item)
+    }
+
+    private func showPreview(_ item: ClipboardItem) {
+        previewGeneration += 1
+        let generation = previewGeneration
+        // Read image bytes off the UI thread before presenting the modal preview.
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let data = item.imagePath.flatMap { try? Data(contentsOf: URL(fileURLWithPath: $0)) }
+            DispatchQueue.main.async {
+                guard let self, generation == self.previewGeneration else { return }
+                let alert = NSAlert()
+                alert.messageText = localized("preview")
+                alert.informativeText = "\(item.sourceApp) · \(Date(timeIntervalSince1970: item.createdAt).formatted())"
+                alert.addButton(withTitle: localized("copy"))
+                alert.addButton(withTitle: localized("cancel"))
+                let scroll = NSScrollView(frame: NSRect(x: 0, y: 0, width: 560, height: 340))
+                scroll.hasVerticalScroller = true
+                if let content = item.content {
+                    let text = NSTextView(frame: scroll.bounds)
+                    text.isEditable = false
+                    text.isRichText = false
+                    text.string = content
+                    text.font = .systemFont(ofSize: 13)
+                    text.isVerticallyResizable = true
+                    text.autoresizingMask = [.width]
+                    text.textContainer?.widthTracksTextView = true
+                    scroll.documentView = text
+                    alert.accessoryView = scroll
+                } else if let data, let image = NSImage(data: data) {
+                    let view = NSImageView(frame: scroll.bounds)
+                    view.image = image
+                    view.imageScaling = .scaleProportionallyUpOrDown
+                    alert.accessoryView = view
+                } else {
+                    self.showCopyFailure()
+                    return
+                }
+                self.close()
+                NSApp.activate(ignoringOtherApps: true)
+                if alert.runModal() == .alertFirstButtonReturn { self.copy(item) }
+            }
+        }
+    }
+
+    func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
+        // Leave IME composition/selection to the field editor.
+        guard !textView.hasMarkedText() else { return false }
+        let navigation: Set<Selector> = [#selector(NSResponder.moveDown(_:)), #selector(NSResponder.moveUp(_:)),
+            #selector(NSResponder.insertNewline(_:)), #selector(NSResponder.insertNewlineIgnoringFieldEditor(_:))]
+        if navigation.contains(commandSelector), isLoading || searchQuery != searchField.stringValue {
+            pendingCommand = commandSelector
+            if searchQuery != searchField.stringValue {
+                searchTimer?.invalidate()
+                searchQuery = searchField.stringValue
+                pageLimit = 200
+                reloadData()
+            }
+            return true
+        }
+        return executeNavigation(commandSelector)
+    }
+
+    private func executeNavigation(_ commandSelector: Selector) -> Bool {
+        switch commandSelector {
+        case #selector(NSResponder.moveDown(_:)), #selector(NSResponder.moveUp(_:)):
+            guard !items.isEmpty else { return true }
+            let down = commandSelector == #selector(NSResponder.moveDown(_:))
+            let selected = tableView.selectedRow
+            let row = selected < 0 ? (down ? 0 : items.count - 1) : min(items.count - 1, max(0, selected + (down ? 1 : -1)))
+            tableView.selectRowIndexes(IndexSet(integer: row), byExtendingSelection: false)
+            tableView.scrollRowToVisible(row)
+            return true
+        case #selector(NSResponder.insertNewline(_:)), #selector(NSResponder.insertNewlineIgnoringFieldEditor(_:)):
+            if !items.isEmpty { copy(items[max(0, tableView.selectedRow)]) }
+            return true
+        case #selector(NSResponder.cancelOperation(_:)):
+            close(); return true
+        default: return false
+        }
+    }
+
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool { true }
 
     @objc private func togglePinForItem(_ sender: NSMenuItem) {
         guard let id = sender.representedObject as? Int64 else { return }
-        ClipboardManager.shared.togglePin(id: id)
-        reloadData()
+        manager.togglePin(id: id) { [weak self] success in
+            if success { self?.reloadData() } else { self?.hintLabel.stringValue = localized("clipboardFailure") }
+        }
     }
 
     @objc private func deleteItemAtIndex(_ sender: NSMenuItem) {
         guard let id = sender.representedObject as? Int64 else { return }
-        ClipboardManager.shared.deleteItem(id: id)
-        reloadData()
+        manager.deleteItem(id: id) { [weak self] success in
+            if success { self?.reloadData() } else { self?.hintLabel.stringValue = localized("clipboardFailure") }
+        }
     }
 }

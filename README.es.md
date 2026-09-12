@@ -17,9 +17,10 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
 - **Gestor de Portapapeles**
   - Clic izquierdo en el icono del gato para abrir el panel de historial del portapapeles
   - Filtrado de búsqueda en tiempo real
-  - Clic para copiar, `Option + Enter` para copiar como texto sin formato
+  - Selecciona con las flechas y copia con Enter. El texto siempre es plano; Option + Enter sigue disponible.
   - Clic derecho en un elemento para fijarlo arriba
-  - Soporte para texto e imágenes (imágenes comprimidas en JPEG, almacenamiento de imágenes opcional)
+  - Texto plano completo e imágenes (PNG/TIFF originales opcionales, miniaturas separadas)
+  - Cargar más muestra el historial anterior; clic derecho abre la vista previa. El atajo se configura en los ajustes (desactivado por defecto). Se ignoran los marcadores confidenciales y temporales. Las entradas caducadas no fijadas se limpian cada hora y al despertar.
   - Retención personalizable: 7 / 14 / 30 / 90 días, para siempre, o un valor personalizado de 1-365 días
   - Todos los datos almacenados localmente — totalmente offline, sin recopilación de datos
 
@@ -79,7 +80,7 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
 - **Clic izquierdo** en el icono del gato: abrir panel de historial del portapapeles
   - Escribe en el cuadro de búsqueda para filtrar
   - Clic en un elemento para copiarlo
-  - `Option + Enter` para copiar como texto sin formato
+  - Selecciona con las flechas y copia con Enter. El texto siempre es plano; Option + Enter sigue disponible.
   - Clic derecho en un elemento para fijarlo o desfijarlo
 - **Clic derecho** en el icono del gato: abrir menú de configuración
   - Cambiar Monitor entre Valores compactos y visualización animada personalizada
@@ -95,7 +96,7 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
 
 **¿Cuánto espacio en disco usan las imágenes?**
 
-Las imágenes se almacenan como JPEG (unos cientos de KB cada una). El guardado de imágenes está desactivado por defecto. Cuando se activa, hay un límite total de 500 MB — las imágenes no fijadas más antiguas se eliminan automáticamente cuando se alcanza el límite.
+Guardar imágenes está desactivado por defecto. Se conservan los datos y la resolución originales de PNG/TIFF. Al superar 500 MB entre originales y miniaturas, se borran primero las imágenes no fijadas más antiguas. Las fijadas se conservan y pueden superar el umbral. Las imágenes ya comprimidas no recuperan su calidad original.
 
 **¿Qué significan los colores del gato?**
 

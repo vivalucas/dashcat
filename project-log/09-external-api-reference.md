@@ -6,6 +6,7 @@ DashCat 主要依赖系统 API 和 GitHub 页面。
 
 | 名称 | 用途 | 说明 |
 |------|------|------|
+| Carbon / RegisterEventHotKey | 全局快捷键 | 注册/注销选定的组合键，非全局键盘监听 |
 | AppKit | 菜单栏和面板 | NSStatusItem、NSMenu、NSPanel、NSTableView |
 | Foundation | 文件和数据 | 时间、文件、字符串、URL、NotificationCenter |
 | SQLite3 | 数据库存取 | 剪贴板历史持久化 |
@@ -19,7 +20,7 @@ DashCat 主要依赖系统 API 和 GitHub 页面。
 
 | 名称 | 用途 | 说明 |
 |------|------|------|
-| Releases 页面 | 更新检查 | 打开 `releases/latest` 观察最新版本 |
+| Releases 页面 | 更新检查 | URLSession 请求 `releases/latest` 并读取重定向的版本标签 |
 | 仓库主页 | 代码和说明 | 用户可查看项目主页和文档 |
 
 ## 变更记录

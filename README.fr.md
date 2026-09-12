@@ -17,9 +17,10 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
 - **Gestionnaire de presse-papiers**
   - Clic gauche sur l'icône du chat pour ouvrir le panneau d'historique du presse-papiers
   - Filtrage en temps réel dans la barre de recherche
-  - Cliquer pour copier, `Option + Entrée` pour copier en texte brut
+  - Sélectionnez avec les flèches et copiez avec Entrée. Le texte est toujours brut ; Option + Entrée reste disponible.
   - Clic droit sur un élément pour l'épingler en haut
-  - Support texte et image (stockage d'images activable, compression JPEG)
+  - Texte brut intégral et images (PNG/TIFF originaux en option, miniatures séparées)
+  - Charger plus affiche les anciennes entrées ; le clic droit ouvre l’aperçu. Le raccourci est configurable dans les réglages (désactivé par défaut). Les marqueurs confidentiels et temporaires sont ignorés. Les entrées expirées non épinglées sont nettoyées chaque heure et au réveil.
   - Durée de conservation personnalisable : 7 / 14 / 30 / 90 jours, illimité, ou valeur personnalisée de 1 à 365 jours
   - Toutes les données stockées localement — entièrement hors ligne, aucune collecte de données
 
@@ -79,7 +80,7 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
 - **Clic gauche** sur l'icône du chat : ouvrir le panneau d'historique du presse-papiers
   - Saisir dans la barre de recherche pour filtrer
   - Cliquer sur un élément pour le copier
-  - `Option + Entrée` pour copier en texte brut
+  - Sélectionnez avec les flèches et copiez avec Entrée. Le texte est toujours brut ; Option + Entrée reste disponible.
   - Clic droit sur un élément pour l'épingler ou le détacher
 - **Clic droit** sur l'icône du chat : ouvrir le menu des paramètres
   - Basculer Monitor entre Valeurs compactes et affichage animé personnalisé
@@ -95,7 +96,7 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
 
 **Combien d'espace disque les images utilisent-elles ?**
 
-Les images sont stockées en JPEG (quelques centaines de Ko chacune). L'enregistrement des images est désactivé par défaut. Lorsqu'il est activé, une limite totale de 500 Mo s'applique — les images non épinglées les plus anciennes sont automatiquement supprimées lorsque la limite est atteinte.
+L’enregistrement des images est désactivé par défaut. Les données et la résolution PNG/TIFF originales sont conservées. Au-delà de 500 Mo pour les originaux et miniatures, les images non épinglées les plus anciennes sont supprimées. Les images épinglées restent conservées et peuvent dépasser ce seuil. La qualité des anciennes images compressées ne peut pas être restaurée.
 
 **Que signifient les couleurs du chat ?**
 

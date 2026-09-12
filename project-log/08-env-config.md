@@ -31,6 +31,7 @@ DashCat 没有环境变量，也没有外部服务配置。
 | Key | 用途 |
 |-----|------|
 | `com.apple.security.app-sandbox = false` | 不启用沙箱 |
+| `com.apple.security.automation.apple-events = true` | Hardened Runtime 签名构建允许请求 Finder 自动化授权 |
 
 ## 变更记录
 
