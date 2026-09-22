@@ -25,12 +25,8 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Project planning & logs (not source code)
-project-log/
-
 # Claude Code
 .claude/
-CLAUDE.md
 
 # Additional AI tools
 .mimocode/

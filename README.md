@@ -128,6 +128,10 @@ DashCat 将剪贴板管理（Maccy）、系统监控、防休眠（Amphetamine /
 
 预构建版本未经 Apple 付费开发者证书签名，Gatekeeper 会显示此提示，应用本身完好无损。在终端执行 `xattr -cr /Applications/DashCat.app` 可移除隔离标记，之后即可正常启动。如果不想执行此命令，推荐自行编译并用个人账号签名。
 
+## 开发文档
+
+项目架构、功能约定、数据兼容、验证与发行流程见 [handbook/README.md](handbook/README.md)。
+
 
 ## 许可
 
