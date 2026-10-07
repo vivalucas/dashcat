@@ -66,9 +66,9 @@ final class SystemMonitor {
         return MonitorInfo(value, String(format: "%.0f%% ",value))
     }
 
-    // MARK: - Memory Pressure
+    // MARK: - Memory Usage
 
-    func memoryPressure() -> MonitorInfo {
+    func memoryUsage() -> MonitorInfo {
         var stats = vm_statistics64_data_t()
         var count = mach_msg_type_number_t(
             MemoryLayout<vm_statistics64_data_t>.size / MemoryLayout<integer_t>.size)
@@ -80,18 +80,20 @@ final class SystemMonitor {
         }
         guard ok == KERN_SUCCESS else { return Self.default }
 
-        let active     = Double(stats.active_count)          * pageSize
-        let wired      = Double(stats.wire_count)            * pageSize
-        let compressed = Double(stats.compressor_page_count) * pageSize
-        var pressure   = min(95.0, (active + wired + compressed) / totalMemory * 100.0)
+        return Self.memoryUsage(active: Double(stats.active_count) * pageSize,
+            inactive: Double(stats.inactive_count) * pageSize, wired: Double(stats.wire_count) * pageSize,
+            compressed: Double(stats.compressor_page_count) * pageSize,
+            purgeable: Double(stats.purgeable_count) * pageSize, fileBacked: Double(stats.external_page_count) * pageSize,
+            total: totalMemory)
+    }
 
-        var swap = xsw_usage()
-        var swapSize = MemoryLayout<xsw_usage>.size
-        if sysctlbyname("vm.swapusage", &swap, &swapSize, nil, 0) == 0, swap.xsu_used > 0 {
-            let swapFraction = Double(swap.xsu_used) / Double(max(1, swap.xsu_total))
-            pressure = min(99.9, max(pressure, 80.0 + swapFraction * 19.9))
-        }
-
-        return MonitorInfo(pressure, String(format: "%.0f%% ",pressure))
+    static func memoryUsage(active: Double, inactive: Double, wired: Double, compressed: Double,
+                            purgeable: Double, fileBacked: Double, total: Double) -> MonitorInfo {
+        guard total > 0 else { return Self.default }
+        // Physical resident app/system pages plus compressor storage, excluding
+        // purgeable pages and reclaimable file-backed cache. Swap is disk space.
+        let used = max(0, active + inactive + wired + compressed - purgeable - fileBacked)
+        let value = min(100, used / total * 100)
+        return MonitorInfo(value, String(format: "%.0f%% ", value))
     }
 }

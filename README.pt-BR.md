@@ -18,14 +18,16 @@ Assim nasceu o DashCat. Um gato na barra de menus — quanto mais rápido ele co
   - Clique esquerdo no ícone do gato para abrir o painel de histórico da área de transferência
   - Filtragem de busca em tempo real
   - Selecione com as setas e copie com Enter. O texto é sempre simples; Option + Enter continua disponível.
-  - Clique com o botão direito em um item para fixá-lo no topo
+  - Itens fixados usam um pequeno alfinete e podem ser renomeados com clique direito. O nome é exibido; clicar ainda copia todo o conteúdo original. Um nome vazio restaura a exibição padrão.
+  - Pause a captura ou exclua apps. Mudanças de retenção mostram quantos itens serão apagados antes da confirmação; os fixados são preservados.
   - Texto simples completo e imagens (PNG/TIFF originais opcionais, miniaturas separadas)
   - Carregar mais mostra o histórico anterior; clique direito abre a prévia. O atalho é configurável nos ajustes (desativado por padrão). Marcadores confidenciais e temporários são ignorados. Itens expirados não fixados são limpos a cada hora e ao despertar.
   - Retenção personalizável: 7 / 14 / 30 / 90 dias, para sempre, ou um valor personalizado de 1-365 dias
   - Todos os dados armazenados localmente — totalmente offline, sem coleta de dados
 
 - **Monitor do Sistema**
-  - O padrão é Valores compactos: percentuais C/M em duas linhas para CPU + memória, economizando espaço na barra
+- O padrão é Valores compactos: percentuais C/M em duas linhas para CPU + memória, economizando espaço na barra
+  - M mostra a memória física de apps, sistema e compressão, sem o cache recuperável; swap não aumenta esse valor.
   - Exibição personalizada permite escolher fonte (Combinado, CPU, Memória) e estilo (Animação, Animação + valor)
   - A velocidade da animação do gato reflete a carga do sistema em tempo real — quanto mais rápido corre, maior a pressão
   - O modo combinado escolhe automaticamente o maior valor entre CPU e memória para a animação

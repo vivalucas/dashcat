@@ -18,14 +18,16 @@ So entstand DashCat. Eine Katze in der Menüleiste — je schneller sie rennt, d
   - Linksklick auf das Katzen-Symbol öffnet das Zwischenablage-Panel
   - Echtzeit-Suchfilterung
   - Mit Pfeiltasten auswählen, mit Enter kopieren. Text wird immer als Klartext kopiert; Option + Enter bleibt unterstützt.
-  - Einträge per Rechtsklick oben anheften
+  - Angeheftete Einträge haben eine kleine Stecknadel und lassen sich per Rechtsklick umbenennen. Der Name wird angezeigt; ein Klick kopiert den vollständigen Originalinhalt. Ein leerer Name stellt die Standardanzeige wieder her.
+  - Aufzeichnung pausieren oder Apps ausschließen. Änderungen der Aufbewahrung zeigen vor der Bestätigung die Anzahl zu löschender Einträge; angeheftete bleiben erhalten.
   - Vollständiger Klartext und Bilder (optionale Originalspeicherung als PNG/TIFF, separate Vorschaubilder)
   - Mehr laden zeigt ältere Einträge, Rechtsklick öffnet die Vorschau. Der Kurzbefehl ist in den Verlaufseinstellungen wählbar (standardmäßig aus). Vertrauliche und temporäre Markierungen werden beachtet; abgelaufene nicht fixierte Einträge werden stündlich und nach dem Aufwachen gelöscht.
   - Anpassbare Aufbewahrung: 7 / 14 / 30 / 90 Tage, unbegrenzt oder ein eigener Wert von 1-365 Tagen
   - Alle Daten lokal gespeichert — vollständig offline, keine Datenerfassung
 
 - **Systemmonitor**
-  - Standard ist Kompakte Werte: zweizeilige C/M-Prozentwerte für CPU + Speicher sparen Platz in der Menüleiste
+- Standard ist Kompakte Werte: zweizeilige C/M-Prozentwerte für CPU + Speicher sparen Platz in der Menüleiste
+  - M zeigt den physischen Speicher für Apps, System und Kompression ohne rückgewinnbaren Dateicache; Swap erhöht diesen Wert nicht.
   - Eigene Anzeige erlaubt Monitorquelle (Kombiniert, CPU, Speicher) und Anzeigeart (Animation, Animation + Wert)
   - Geschwindigkeit der Katzen-Animation spiegelt die Systemauslastung in Echtzeit wider — je schneller, desto höher die Auslastung
   - Im kombinierten Modus wird automatisch die höhere CPU- oder Speicherbelastung zur Steuerung der Animation verwendet

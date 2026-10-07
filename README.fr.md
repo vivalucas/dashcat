@@ -18,14 +18,16 @@ C'est ainsi qu'est né DashCat. Un chat dans la barre de menus — plus il court
   - Clic gauche sur l'icône du chat pour ouvrir le panneau d'historique du presse-papiers
   - Filtrage en temps réel dans la barre de recherche
   - Sélectionnez avec les flèches et copiez avec Entrée. Le texte est toujours brut ; Option + Entrée reste disponible.
-  - Clic droit sur un élément pour l'épingler en haut
+  - Les éléments épinglés portent une petite épingle et peuvent être renommés par clic droit. Le nom est affiché ; un clic copie toujours le contenu original complet. Un nom vide rétablit l’affichage initial.
+  - Suspendez la collecte ou excluez des apps. Un changement de conservation affiche le nombre d’éléments à supprimer avant confirmation ; les éléments épinglés restent conservés.
   - Texte brut intégral et images (PNG/TIFF originaux en option, miniatures séparées)
   - Charger plus affiche les anciennes entrées ; le clic droit ouvre l’aperçu. Le raccourci est configurable dans les réglages (désactivé par défaut). Les marqueurs confidentiels et temporaires sont ignorés. Les entrées expirées non épinglées sont nettoyées chaque heure et au réveil.
   - Durée de conservation personnalisable : 7 / 14 / 30 / 90 jours, illimité, ou valeur personnalisée de 1 à 365 jours
   - Toutes les données stockées localement — entièrement hors ligne, aucune collecte de données
 
 - **Moniteur système**
-  - Par défaut, Valeurs compactes affiche CPU + mémoire en deux lignes C/M pour économiser la barre de menus
+- Par défaut, Valeurs compactes affiche CPU + mémoire en deux lignes C/M pour économiser la barre de menus
+  - M indique la mémoire physique utilisée par les apps, le système et la compression, sans le cache récupérable ; le swap n’augmente pas cette valeur.
   - Affichage personnalisé permet de choisir la source (Combiné, CPU, Mémoire) et le style (Animation, Animation + valeur)
   - La vitesse d'animation du chat reflète la charge système en temps réel — plus il court vite, plus la charge est élevée
   - En mode combiné, la ressource la plus sollicitée (CPU ou mémoire) pilote l'animation

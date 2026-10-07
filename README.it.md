@@ -18,14 +18,16 @@ Ecco com'è nato DashCat. Un gatto nella barra dei menu — più veloce corre, p
   - Clic sinistro sull'icona del gatto per aprire il pannello cronologia appunti
   - Filtraggio ricerca in tempo reale
   - Seleziona con le frecce e copia con Enter. Il testo è sempre semplice; Option + Enter resta disponibile.
-  - Clic destro su un elemento per fissarlo in cima
+  - Gli elementi fissati hanno una piccola puntina e si possono rinominare con clic destro. Si mostra il nome; un clic copia sempre tutto il contenuto originale. Un nome vuoto ripristina la vista predefinita.
+  - Sospendi l’acquisizione o escludi app. Le modifiche alla conservazione mostrano quanti elementi saranno eliminati prima della conferma; quelli fissati restano.
   - Testo semplice completo e immagini (PNG/TIFF originali opzionali, miniature separate)
   - Carica altro mostra la cronologia precedente; il clic destro apre l’anteprima. La scorciatoia è configurabile nelle impostazioni (disattivata inizialmente). I marcatori riservati e temporanei sono ignorati. Gli elementi scaduti non fissati vengono rimossi ogni ora e al risveglio.
   - Retenzione personalizzabile: 7 / 14 / 30 / 90 giorni, per sempre, o un valore personalizzato di 1-365 giorni
   - Tutti i dati salvati localmente — completamente offline, nessuna raccolta dati
 
 - **Monitor Sistema**
-  - L'impostazione predefinita è Valori compatti: percentuali C/M su due righe per CPU + memoria, risparmiando spazio nella barra menu
+- L'impostazione predefinita è Valori compatti: percentuali C/M su due righe per CPU + memoria, risparmiando spazio nella barra menu
+  - M mostra la memoria fisica di app, sistema e compressione, senza la cache recuperabile; lo swap non aumenta il valore.
   - Visualizzazione personalizzata consente di scegliere fonte (Combinato, CPU, Memoria) e stile (Animazione, Animazione + valore)
   - La velocità dell'animazione del gatto riflette il carico del sistema in tempo reale — più veloce corre, più alta è la pressione
   - La modalità combinata sceglie automaticamente il valore più alto tra CPU e memoria per l'animazione

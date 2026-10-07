@@ -21,8 +21,11 @@
 | `source_app` | `TEXT NOT NULL DEFAULT ''` | 来源应用 bundle id，未知为空字符串 |
 | `is_pinned` | `INTEGER NOT NULL DEFAULT 0` | 0/1 固定状态 |
 | `created_at` | `REAL NOT NULL` | Unix 时间戳 |
+| `name` | `TEXT`，可空 | 用户名称，独立于原文/原图；只允许固定项编辑 |
 
 索引：`idx_created_at(created_at)` 支持时间读取；`idx_history_order(is_pinned DESC, created_at DESC, id DESC)` 支持稳定分页。
+
+启动读取 `PRAGMA table_info`，旧库缺少 `name` 时执行 `ALTER TABLE ... ADD COLUMN name TEXT`；旧记录名称为空，原内容、路径和固定状态不变。采集暂停及排除应用列表分别存于 UserDefaults 的 `DashCatClipboardPaused`、`DashCatClipboardExcludedApps`。
 
 ## 图片与生命周期
 
@@ -31,6 +34,7 @@
 - 启动、每小时、唤醒和保留设置变化时清理过期非固定项；永久保留仍清理孤儿文件。
 - 原图与缩略图合计超过 500MB 时按最旧顺序删除非固定图片。固定图片保留，因此总量可以超过阈值。
 - 查询图片引用集合失败时不得清孤儿，防止数据库故障被误判为“无人引用”。
+- 连接启用 `secure_delete=ON`；删除、过期/容量清理及改名清理后截断 WAL。被其他读连接阻塞时报告清理未完成，数据库已删除的记录仍应从 UI 消失，之后可重试。该约定不保证系统快照、备份或文件系统底层介质的安全擦除。
 
 ## 兼容与变更要求
 

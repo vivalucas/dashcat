@@ -3,6 +3,7 @@ import Carbon
 import IOKit.pwr_mgt
 import IOKit.ps
 import ServiceManagement
+import UniformTypeIdentifiers
 
 // MARK: - MonitorMode
 
@@ -122,6 +123,37 @@ enum Language: String, CaseIterable {
     }
 
     private static let table: [String: [String: String]] = [
+        "retry": ["zh":"重试", "zh-TW":"重試", "en":"Retry", "ja":"再試行", "ko":"다시 시도", "de":"Erneut versuchen", "fr":"Réessayer", "es":"Reintentar", "pt-BR":"Tentar novamente", "it":"Riprova", "ru":"Повторить"],
+        "save": ["zh":"保存", "zh-TW":"儲存", "en":"Save", "ja":"保存", "ko":"저장", "de":"Speichern", "fr":"Enregistrer", "es":"Guardar", "pt-BR":"Salvar", "it":"Salva", "ru":"Сохранить"],
+        "pauseCapture": ["zh":"暂停采集", "zh-TW":"暫停擷取", "en":"Pause Capture", "ja":"記録を一時停止", "ko":"기록 일시 정지", "de":"Aufzeichnung pausieren", "fr":"Suspendre la collecte", "es":"Pausar captura", "pt-BR":"Pausar captura", "it":"Sospendi acquisizione", "ru":"Приостановить запись"],
+        "resumeCapture": ["zh":"恢复采集", "zh-TW":"恢復擷取", "en":"Resume Capture", "ja":"記録を再開", "ko":"기록 다시 시작", "de":"Aufzeichnung fortsetzen", "fr":"Reprendre la collecte", "es":"Reanudar captura", "pt-BR":"Retomar captura", "it":"Riprendi acquisizione", "ru":"Возобновить запись"],
+        "capturePausedHint": ["zh":"采集已暂停 · 历史仍可复制", "zh-TW":"擷取已暫停 · 歷史仍可複製", "en":"Capture paused · History can still be copied", "ja":"記録は停止中 · 履歴はコピー可能", "ko":"기록 일시 정지 · 기존 기록 복사 가능", "de":"Aufzeichnung pausiert · Verlauf bleibt kopierbar", "fr":"Collecte suspendue · Historique toujours copiable", "es":"Captura pausada · El historial se puede copiar", "pt-BR":"Captura pausada · Histórico ainda disponível", "it":"Acquisizione sospesa · Cronologia copiabile", "ru":"Запись приостановлена · Историю можно копировать"],
+        "captureActive": ["zh":"剪贴板采集中", "zh-TW":"剪貼簿擷取中", "en":"Clipboard capture active", "ja":"クリップボードを記録中", "ko":"클립보드 기록 중", "de":"Zwischenablage wird aufgezeichnet", "fr":"Collecte du presse-papiers active", "es":"Captura del portapapeles activa", "pt-BR":"Captura da área de transferência ativa", "it":"Acquisizione appunti attiva", "ru":"Запись буфера обмена включена"],
+        "excludedApps": ["zh":"不记录这些应用", "zh-TW":"不記錄這些應用程式", "en":"Excluded Applications", "ja":"記録しないアプリ", "ko":"기록 제외 앱", "de":"Ausgeschlossene Apps", "fr":"Applications exclues", "es":"Aplicaciones excluidas", "pt-BR":"Aplicativos excluídos", "it":"Applicazioni escluse", "ru":"Исключённые приложения"],
+        "excludeCurrentApp": ["zh":"不记录当前应用：%@", "zh-TW":"不記錄目前應用程式：%@", "en":"Exclude Current App: %@", "ja":"現在のアプリを除外：%@", "ko":"현재 앱 제외: %@", "de":"Aktuelle App ausschließen: %@", "fr":"Exclure l’application active : %@", "es":"Excluir aplicación actual: %@", "pt-BR":"Excluir aplicativo atual: %@", "it":"Escludi applicazione attuale: %@", "ru":"Исключить текущее приложение: %@"],
+        "addExcludedApp": ["zh":"添加应用…", "zh-TW":"加入應用程式…", "en":"Add Application…", "ja":"アプリを追加…", "ko":"앱 추가…", "de":"App hinzufügen…", "fr":"Ajouter une application…", "es":"Añadir aplicación…", "pt-BR":"Adicionar aplicativo…", "it":"Aggiungi applicazione…", "ru":"Добавить приложение…"],
+        "removeExcludedAppHint": ["zh":"点击恢复记录此应用；只影响后续复制。", "zh-TW":"點擊恢復記錄此應用程式；僅影響後續複製。", "en":"Click to resume capturing this app. Future copies only.", "ja":"クリックで記録を再開。今後のコピーのみ。", "ko":"클릭하여 기록 재개. 이후 복사에만 적용.", "de":"Klicken zum Aufzeichnen dieser App. Nur künftige Kopien.", "fr":"Cliquez pour reprendre la collecte. Copies futures uniquement.", "es":"Haz clic para registrar esta app. Solo copias futuras.", "pt-BR":"Clique para registrar este app. Apenas cópias futuras.", "it":"Clic per acquisire questa app. Solo copie future.", "ru":"Нажмите для возобновления записи. Только будущие копии."],
+        "clipboardNeedsAttention": ["zh":"历史记录需要处理", "zh-TW":"歷史記錄需要處理", "en":"History Needs Attention", "ja":"履歴の確認が必要", "ko":"기록 확인 필요", "de":"Verlauf erfordert Aufmerksamkeit", "fr":"Historique à vérifier", "es":"El historial requiere atención", "pt-BR":"O histórico precisa de atenção", "it":"Cronologia da controllare", "ru":"История требует внимания"],
+        "cleanupPending": ["zh":"历史记录已更新，但清理尚未完成；请修复存储问题后重试。", "zh-TW":"歷史記錄已更新，但清理尚未完成；請修復儲存問題後重試。", "en":"History updated, but cleanup is incomplete. Resolve the storage issue and retry.", "ja":"履歴は更新済みですが、消去処理は未完了です。保存先を確認して再試行してください。", "ko":"기록은 갱신되었지만 정리가 완료되지 않았습니다. 저장 문제를 해결한 후 다시 시도하세요.", "de":"Verlauf aktualisiert, Bereinigung unvollständig. Speicherproblem beheben und erneut versuchen.", "fr":"Historique mis à jour, mais nettoyage incomplet. Corrigez le stockage puis réessayez.", "es":"Historial actualizado, limpieza incompleta. Resuelve el almacenamiento y reintenta.", "pt-BR":"Histórico atualizado, limpeza incompleta. Resolva o armazenamento e tente novamente.", "it":"Cronologia aggiornata, pulizia incompleta. Risolvi l’archiviazione e riprova.", "ru":"История обновлена, но очистка не завершена. Исправьте проблему хранения и повторите."],
+        "fileCleanupFailed": ["zh":"部分图片文件尚未清理。请检查图片目录权限和磁盘空间后重试。", "zh-TW":"部分圖片檔案尚未清理。請檢查圖片目錄權限與磁碟空間後重試。", "en":"Some image files remain. Check image folder permissions and disk space, then retry.", "ja":"一部の画像が残っています。保存先の権限と空き容量を確認してください。", "ko":"일부 이미지 파일이 남아 있습니다. 폴더 권한과 디스크 공간을 확인하세요.", "de":"Einige Bilder verbleiben. Ordnerrechte und Speicherplatz prüfen, dann erneut versuchen.", "fr":"Des images restent. Vérifiez les droits du dossier et l’espace disque.", "es":"Quedan imágenes. Revisa permisos de carpeta y espacio en disco.", "pt-BR":"Algumas imagens permanecem. Verifique permissões da pasta e espaço em disco.", "it":"Restano immagini. Controlla permessi della cartella e spazio su disco.", "ru":"Остались изображения. Проверьте права на папку и место на диске."],
+        "privacyCleanupFailed": ["zh":"存储中的旧内容尚未完成清理。请关闭其他读取历史的程序，检查磁盘空间和权限后重试。", "zh-TW":"儲存中的舊內容尚未清理完成。請關閉其他讀取歷史的程式，檢查磁碟空間與權限後重試。", "en":"Old stored content could not be cleaned up. Close other history readers, check disk space and permissions, then retry.", "ja":"保存先の古い内容を消去できません。他の履歴閲覧プログラムを閉じ、空き容量と権限を確認してください。", "ko":"저장소의 이전 내용을 정리하지 못했습니다. 다른 기록 읽기 프로그램을 닫고 공간과 권한을 확인하세요.", "de":"Alte Daten nicht bereinigt. Andere Verlaufsleser schließen, Speicherplatz und Rechte prüfen.", "fr":"Anciennes données non nettoyées. Fermez les autres lecteurs, vérifiez espace et droits.", "es":"No se limpiaron los datos antiguos. Cierra otros lectores y revisa espacio y permisos.", "pt-BR":"Dados antigos não foram limpos. Feche outros leitores e verifique espaço e permissões.", "it":"Dati precedenti non puliti. Chiudi altri lettori e controlla spazio e permessi.", "ru":"Не удалось очистить старые данные. Закройте другие программы чтения истории и проверьте место и права."],
+        "imageInvalid": ["zh":"图片无法解码，请从来源应用重新复制原图。", "zh-TW":"圖片無法解碼，請從來源應用程式重新複製原圖。", "en":"This image cannot be decoded. Copy the original again from its source app.", "ja":"画像を読み込めません。元のアプリから再度コピーしてください。", "ko":"이미지를 해석할 수 없습니다. 원래 앱에서 다시 복사하세요.", "de":"Bild nicht lesbar. Original erneut aus der Quell-App kopieren.", "fr":"Image illisible. Recopiez l’original depuis son application.", "es":"No se puede decodificar. Copia de nuevo el original desde su aplicación.", "pt-BR":"Não foi possível decodificar. Copie o original novamente no app de origem.", "it":"Immagine non decodificabile. Ricopia l’originale dall’app di origine.", "ru":"Не удаётся декодировать изображение. Скопируйте оригинал снова из исходного приложения."],
+        "imageMissing": ["zh":"原图文件缺失，请从来源应用重新复制图片。", "zh-TW":"原圖檔案遺失，請從來源應用程式重新複製圖片。", "en":"The original image is missing. Copy it again from its source app.", "ja":"元の画像が見つかりません。元のアプリから再度コピーしてください。", "ko":"원본 이미지가 없습니다. 원래 앱에서 다시 복사하세요.", "de":"Originalbild fehlt. Erneut aus der Quell-App kopieren.", "fr":"Image originale introuvable. Recopiez-la depuis son application.", "es":"Falta el original. Copia la imagen de nuevo desde su aplicación.", "pt-BR":"O original não foi encontrado. Copie novamente no app de origem.", "it":"Originale mancante. Ricopia dall’app di origine.", "ru":"Оригинал отсутствует. Скопируйте его снова из исходного приложения."],
+        "imageUnreadable": ["zh":"无法读取原图，请检查文件权限后重试。", "zh-TW":"無法讀取原圖，請檢查檔案權限後重試。", "en":"Cannot read the original image. Check file permissions and retry.", "ja":"元の画像を読み取れません。ファイルの権限を確認してください。", "ko":"원본 이미지를 읽을 수 없습니다. 파일 권한을 확인하세요.", "de":"Originalbild nicht lesbar. Dateirechte prüfen und erneut versuchen.", "fr":"Image originale inaccessible. Vérifiez les droits du fichier.", "es":"No se puede leer el original. Revisa los permisos del archivo.", "pt-BR":"Não foi possível ler o original. Verifique as permissões do arquivo.", "it":"Originale non leggibile. Controlla i permessi del file.", "ru":"Не удаётся прочитать оригинал. Проверьте права на файл."],
+        "itemMissing": ["zh":"此条目已被删除，请刷新列表。", "zh-TW":"此項目已被刪除，請重新整理列表。", "en":"This item was deleted. Refresh the list.", "ja":"項目は削除済みです。一覧を更新してください。", "ko":"항목이 삭제되었습니다. 목록을 새로 고치세요.", "de":"Eintrag gelöscht. Liste aktualisieren.", "fr":"Entrée supprimée. Actualisez la liste.", "es":"Elemento eliminado. Actualiza la lista.", "pt-BR":"Item apagado. Atualize a lista.", "it":"Voce eliminata. Aggiorna l’elenco.", "ru":"Запись удалена. Обновите список."],
+        "pinBeforeRename": ["zh":"请先固定此条目，再设置名称。", "zh-TW":"請先固定此項目，再設定名稱。", "en":"Pin this item before naming it.", "ja":"名前を付ける前に固定してください。", "ko":"이름 지정 전에 항목을 고정하세요.", "de":"Eintrag vor dem Benennen anheften.", "fr":"Épinglez cette entrée avant de la nommer.", "es":"Fija el elemento antes de nombrarlo.", "pt-BR":"Fixe o item antes de nomeá-lo.", "it":"Fissa la voce prima di nominarla.", "ru":"Закрепите запись перед переименованием."],
+        "invalidClipName": ["zh":"名称应为单行，不超过 200 个字符。留空恢复默认显示。", "zh-TW":"名稱應為單行，不超過 200 個字元。留空恢復預設顯示。", "en":"Use one line, up to 200 characters. Leave blank to reset.", "ja":"名前は1行、200文字以内。空欄で既定表示に戻ります。", "ko":"이름은 한 줄, 200자 이내. 비우면 기본 표시로 복원.", "de":"Eine Zeile, maximal 200 Zeichen. Leer lassen zum Zurücksetzen.", "fr":"Une ligne, 200 caractères maximum. Laissez vide pour réinitialiser.", "es":"Una línea y hasta 200 caracteres. Vacío para restablecer.", "pt-BR":"Uma linha, até 200 caracteres. Em branco para restaurar.", "it":"Una riga, massimo 200 caratteri. Vuoto per ripristinare.", "ru":"Одна строка, до 200 символов. Пустое имя сбрасывает отображение."],
+        "pinnedMarker": ["zh":"已固定", "zh-TW":"已固定", "en":"Pinned", "ja":"固定済み", "ko":"고정됨", "de":"Angeheftet", "fr":"Épinglé", "es":"Fijado", "pt-BR":"Fixado", "it":"Fissato", "ru":"Закреплено"],
+        "renameClip": ["zh":"重命名…", "zh-TW":"重新命名…", "en":"Rename…", "ja":"名前を変更…", "ko":"이름 변경…", "de":"Umbenennen…", "fr":"Renommer…", "es":"Renombrar…", "pt-BR":"Renomear…", "it":"Rinomina…", "ru":"Переименовать…"],
+        "renameClipPrompt": ["zh":"名称仅用于显示和搜索，复制与预览仍使用完整原内容。留空恢复默认显示。", "zh-TW":"名稱僅用於顯示與搜尋，複製及預覽仍使用完整原內容。留空恢復預設顯示。", "en":"The name is used for display and search. Copy and preview keep the full original content. Leave blank to reset.", "ja":"名前は表示と検索に使います。コピーとプレビューは元の内容を使用します。空欄で表示を戻します。", "ko":"이름은 표시와 검색에만 사용됩니다. 복사와 미리보기는 전체 원본을 사용합니다. 비우면 기본 표시로 복원.", "de":"Name für Anzeige und Suche. Kopieren und Vorschau nutzen den vollständigen Originalinhalt. Leer lassen zum Zurücksetzen.", "fr":"Nom pour l’affichage et la recherche. Copie et aperçu conservent le contenu original complet. Laissez vide pour réinitialiser.", "es":"El nombre sirve para mostrar y buscar. Copia y vista previa mantienen todo el original. Vacío para restablecer.", "pt-BR":"Nome para exibição e busca. Cópia e prévia mantêm todo o original. Em branco para restaurar.", "it":"Nome per visualizzazione e ricerca. Copia e anteprima mantengono tutto l’originale. Vuoto per ripristinare.", "ru":"Имя для отображения и поиска. Копирование и просмотр сохраняют полный оригинал. Оставьте пустым для сброса."],
+        "resetClipName": ["zh":"恢复默认显示", "zh-TW":"恢復預設顯示", "en":"Reset Name", "ja":"既定表示に戻す", "ko":"기본 표시 복원", "de":"Name zurücksetzen", "fr":"Réinitialiser le nom", "es":"Restablecer nombre", "pt-BR":"Restaurar nome", "it":"Ripristina nome", "ru":"Сбросить имя"],
+        "previewFullHint": ["zh":"右键预览完整内容；单击或 Enter 复制原内容。", "zh-TW":"右鍵預覽完整內容；點擊或 Enter 複製原內容。", "en":"Right-click for full preview. Click or Enter copies the original.", "ja":"右クリックで全文を表示。クリックまたはEnterで元の内容をコピー。", "ko":"우클릭으로 전체 미리보기. 클릭 또는 Enter로 원본 복사.", "de":"Rechtsklick für vollständige Vorschau. Klick oder Enter kopiert das Original.", "fr":"Clic droit : aperçu complet. Clic ou Entrée copie l’original.", "es":"Botón derecho para ver todo. Clic o Enter copia el original.", "pt-BR":"Botão direito para prévia completa. Clique ou Enter copia o original.", "it":"Clic destro per anteprima completa. Clic o Invio copia l’originale.", "ru":"Правый щелчок — полный просмотр. Щелчок или Enter копирует оригинал."],
+        "mainClickHint": ["zh":"左键打开剪贴板 · 右键打开设置", "zh-TW":"左鍵開啟剪貼簿 · 右鍵開啟設定", "en":"Click: clipboard · Right-click: settings", "ja":"クリック：履歴 · 右クリック：設定", "ko":"클릭: 클립보드 · 우클릭: 설정", "de":"Klick: Zwischenablage · Rechtsklick: Einstellungen", "fr":"Clic : presse-papiers · Clic droit : réglages", "es":"Clic: portapapeles · Botón derecho: ajustes", "pt-BR":"Clique: área de transferência · Botão direito: ajustes", "it":"Clic: appunti · Clic destro: impostazioni", "ru":"Щелчок: буфер обмена · Правый щелчок: настройки"],
+        "retentionConfirmTitle": ["zh":"缩短历史保留时间？", "zh-TW":"縮短歷史保留時間？", "en":"Shorten History Retention?", "ja":"履歴の保存期間を短縮しますか？", "ko":"기록 보관 기간을 줄일까요?", "de":"Verlaufsdauer verkürzen?", "fr":"Réduire la conservation ?", "es":"¿Reducir la conservación?", "pt-BR":"Reduzir retenção do histórico?", "it":"Ridurre la conservazione?", "ru":"Сократить срок хранения?"],
+        "retentionConfirmMessage": ["zh":"改为 %@ 天将立即删除约 %@ 条过期记录。固定项保留，此操作无法撤销。", "zh-TW":"改為 %@ 天將立即刪除約 %@ 筆過期記錄。固定項目保留，無法復原。", "en":"Changing to %@ days removes about %@ expired entries immediately. Pinned entries stay. This cannot be undone.", "ja":"%@日への変更で期限切れの約%@件を即時削除します。固定項目は保持されます。元に戻せません。", "ko":"%@일로 변경하면 만료된 약 %@개가 즉시 삭제됩니다. 고정 항목은 유지됩니다. 되돌릴 수 없습니다.", "de":"Bei %@ Tagen werden etwa %@ alte Einträge sofort gelöscht. Angeheftete bleiben. Nicht rückgängig zu machen.", "fr":"Passer à %@ jours supprime aussitôt environ %@ entrées expirées. Les épingles restent. Irréversible.", "es":"Cambiar a %@ días borra de inmediato unas %@ entradas caducadas. Las fijadas se conservan. No se puede deshacer.", "pt-BR":"Mudar para %@ dias apaga cerca de %@ registros vencidos imediatamente. Os fixados permanecem. Irreversível.", "it":"Passare a %@ giorni elimina subito circa %@ voci scadute. Quelle fissate restano. Non annullabile.", "ru":"Срок %@ дней сразу удалит около %@ старых записей. Закреплённые сохранятся. Отменить нельзя."],
+        "changeRetention": ["zh":"更改并清理", "zh-TW":"變更並清理", "en":"Change and Clean Up", "ja":"変更して削除", "ko":"변경 및 정리", "de":"Ändern und bereinigen", "fr":"Modifier et nettoyer", "es":"Cambiar y limpiar", "pt-BR":"Alterar e limpar", "it":"Modifica e pulisci", "ru":"Изменить и очистить"],
+        "memoryUsageHint": ["zh":"M：内存占用率（应用、系统及压缩内存；不含可回收文件缓存）", "zh-TW":"M：記憶體使用率（應用程式、系統與壓縮記憶體；不含可回收檔案快取）", "en":"M: memory used by apps, system and compression; reclaimable file cache excluded", "ja":"M：アプリ・システム・圧縮メモリの使用率。回収可能なファイルキャッシュを除く", "ko":"M: 앱·시스템·압축 메모리 사용률. 회수 가능한 파일 캐시 제외", "de":"M: Speicher für Apps, System und Kompression; rückgewinnbarer Dateicache ausgeschlossen", "fr":"M : mémoire des apps, du système et compressée ; cache récupérable exclu", "es":"M: memoria de apps, sistema y compresión; caché recuperable excluida", "pt-BR":"M: memória de apps, sistema e compressão; cache recuperável excluído", "it":"M: memoria di app, sistema e compressione; cache recuperabile esclusa", "ru":"M: память приложений, системы и сжатия; освобождаемый файловый кеш исключён"],
+        "filterTermsHelp": ["zh":"每行一个词，包含匹配、不区分大小写；仅影响后续复制。", "zh-TW":"每行一個詞，包含比對、不區分大小寫；僅影響之後的複製。", "en":"One term per line. Case-insensitive contains matching; applies only to future copies.", "ja":"1 行に 1 語。大文字・小文字を区別しない部分一致。今後のコピーにのみ適用。", "ko":"한 줄에 한 단어. 대소문자를 구분하지 않는 포함 검색이며 이후 복사에만 적용됩니다.", "de":"Ein Begriff pro Zeile. Teiltreffer ohne Beachtung der Großschreibung; nur für künftige Kopien.", "fr":"Un terme par ligne. Recherche partielle sans distinction de casse ; uniquement pour les prochaines copies.", "es":"Un término por línea. Coincidencia parcial sin distinguir mayúsculas; solo para futuras copias.", "pt-BR":"Um termo por linha. Correspondência parcial sem distinguir maiúsculas; só para cópias futuras.", "it":"Un termine per riga. Corrispondenza parziale senza distinzione di maiuscole; solo per copie future.", "ru":"Один термин на строку. Поиск вхождения без учёта регистра; только для будущих копирований."],
         "batteryClickHint": ["zh":"左键切换防休眠 · 右键查看详情", "zh-TW":"左鍵切換防休眠 · 右鍵查看詳情", "en":"Click: cycle sleep prevention · Right-click: details", "ja":"クリック：スリープ防止切替 · 右クリック：詳細", "ko":"클릭: 잠자기 방지 전환 · 우클릭: 상세", "de":"Klick: Ruhezustand umschalten · Rechtsklick: Details", "fr":"Clic : veille · Clic droit : détails", "es":"Clic: suspensión · Clic derecho: detalles", "pt-BR":"Clique: suspensão · Botão direito: detalhes", "it":"Clic: sospensione · Clic destro: dettagli", "ru":"Щелчок: режим сна · Правый щелчок: сведения"],
         "finderFallback": ["zh":"无法读取 Finder 目录，你仍可手动选择文件夹。", "zh-TW":"無法讀取 Finder 目錄，你仍可手動選擇資料夾。", "en":"Cannot read the Finder folder. You can choose a folder manually.", "ja":"Finderの場所を取得できません。フォルダを手動で選択できます。", "ko":"Finder 폴더를 읽을 수 없습니다. 직접 선택할 수 있습니다.", "de":"Finder-Ordner nicht lesbar. Ordner manuell wählen.", "fr":"Dossier Finder inaccessible. Choisissez un dossier manuellement.", "es":"No se puede leer la carpeta de Finder. Elige una manualmente.", "pt-BR":"Não foi possível ler a pasta do Finder. Escolha manualmente.", "it":"Cartella Finder non disponibile. Scegli una cartella manualmente.", "ru":"Папка Finder недоступна. Выберите папку вручную."],
         "loginApproval": ["zh":"需要在系统登录项中允许 DashCat。", "zh-TW":"需要在系統登入項目中允許 DashCat。", "en":"Allow DashCat in System Settings → Login Items.", "ja":"システム設定のログイン項目でDashCatを許可してください。", "ko":"시스템 설정의 로그인 항목에서 DashCat을 허용하세요.", "de":"DashCat in den Anmeldeobjekten erlauben.", "fr":"Autorisez DashCat dans les éléments d’ouverture.", "es":"Permite DashCat en los ítems de inicio.", "pt-BR":"Permita DashCat nos itens de início.", "it":"Consenti DashCat negli elementi login.", "ru":"Разрешите DashCat в объектах входа."],
@@ -509,6 +541,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var shortcutItems = [NSMenuItem]()
     private var shortcutMenuItem: NSMenuItem!
     private var hasReportedClipboardFailure = false
+    private var clipboardStorageError: ClipboardError?
+    private var isChangingRetention = false
 
     // Menu item references
     private var statusSummaryItem: NSMenuItem!
@@ -527,6 +561,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var caffeineItems: [NSMenuItem] = []
     private var clipboardMenuItem: NSMenuItem!
     private var saveImagesItem: NSMenuItem!
+    private var pauseCaptureItem: NSMenuItem!
+    private var excludedAppsItem: NSMenuItem!
+    private var clipboardStatusItem: NSMenuItem!
+    private var retryHistoryItem: NSMenuItem!
     private var historyMenuItem: NSMenuItem!
     private var historyDaysItems: [NSMenuItem] = []
     private var customDaysItem: NSMenuItem!
@@ -580,7 +618,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         restoreState()
         startRunning()
         setupClipboardShortcut()
-        NotificationCenter.default.addObserver(self, selector: #selector(clipboardFailed), name: .DashCatClipboardFailed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(clipboardFailed(_:)), name: .DashCatClipboardFailed, object: ClipboardManager.shared)
+        NotificationCenter.default.addObserver(self, selector: #selector(clipboardStatusChanged(_:)), name: .DashCatClipboardDidChange, object: ClipboardManager.shared)
 
         // Start clipboard monitoring (cleanupExpired runs inside ClipboardManager.init)
         ClipboardManager.shared.startPolling()
@@ -638,6 +677,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.image = defaultFrames.first
         statusItem.button?.font = NSFont.monospacedSystemFont(ofSize: 11, weight: .regular)
         statusItem.button?.action = #selector(buttonClicked(_:))
+        statusItem.button?.target = self
         statusItem.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
         updateStatusItemLength()
     }
@@ -722,6 +762,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Clipboard submenu
         clipboardMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
         let clipboardSubmenu = NSMenu()
+
+        pauseCaptureItem = NSMenuItem(title: "", action: #selector(toggleClipboardCapture(_:)), keyEquivalent: "")
+        clipboardSubmenu.addItem(pauseCaptureItem)
+        excludedAppsItem = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        excludedAppsItem.submenu = NSMenu()
+        clipboardSubmenu.addItem(excludedAppsItem)
+        clipboardStatusItem = makeHeader()
+        clipboardSubmenu.addItem(clipboardStatusItem)
+        retryHistoryItem = NSMenuItem(title: "", action: #selector(retryClipboardStorage(_:)), keyEquivalent: "")
+        clipboardSubmenu.addItem(retryHistoryItem)
+        clipboardSubmenu.addItem(.separator())
 
         saveImagesItem = NSMenuItem(title: "", action: #selector(toggleSaveImages(_:)), keyEquivalent: "")
         saveImagesItem.state = UserDefaults.standard.bool(forKey: "DashCatSaveImages") ? .on : .off
@@ -837,6 +888,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             "\(Int(cachedCPU.value.rounded()))%",
             "\(Int(cachedMemory.value.rounded()))%"
         )
+        let detail = statusSummaryItem.title + "\n" + language.str("memoryUsageHint") + "\n" + language.str(caffeineMode.locKey)
+            + "\n" + language.str(ClipboardManager.shared.isPaused ? "capturePausedHint" : "captureActive")
+        statusItem.button?.toolTip = detail + "\n" + language.str("mainClickHint")
+        statusItem.button?.setAccessibilityLabel("DashCat")
+        statusItem.button?.setAccessibilityValue(detail)
+        statusItem.button?.setAccessibilityHelp(language.str("mainClickHint"))
     }
 
     private func applyLanguage() {
@@ -867,6 +924,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         clipboardMenuItem.title = l.str("clipboardSettings")
         saveImagesItem.title    = l.str("saveImages")
+        pauseCaptureItem.title = l.str(ClipboardManager.shared.isPaused ? "resumeCapture" : "pauseCapture")
+        excludedAppsItem.title = l.str("excludedApps")
+        retryHistoryItem.title = l.str("retry")
         historyMenuItem.title   = l.str("history")
         for item in historyDaysItems {
             if let days = item.representedObject as? HistoryDays {
@@ -894,6 +954,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         contactItem.title       = l.str("contact")
         quitItem.title          = l.str("quit")
         updateStatusSummary()
+        refreshHistoryMenuState()
+        refreshClipboardMenuState()
     }
 
     // MARK: - Button
@@ -961,11 +1023,100 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         shortcutItems.forEach { $0.state = ($0.representedObject as? Int) == active ? .on : .off }
     }
 
-    @objc private func clipboardFailed() {
+    @objc private func clipboardFailed(_ notification: Notification) {
+        let error = notification.userInfo?["error"] as? ClipboardError ?? .storage
+        if error.requiresStorageRetry { clipboardStorageError = error }
+        refreshClipboardMenuState()
+        guard notification.userInfo?["alert"] as? Bool != false else { return }
         // Do not present an alert for every polling failure.
         guard !hasReportedClipboardFailure else { return }
         hasReportedClipboardFailure = true
-        presentAlert(title: language.str("clipboardSettings"), message: language.str("clipboardFailure"))
+        let committed = notification.userInfo?["committed"] as? Bool == true
+        presentClipboardResult(ClipboardMutationResult(committed: committed, error: error))
+    }
+
+    @objc private func clipboardStatusChanged(_ notification: Notification) {
+        if notification.userInfo?["storageRecovered"] as? Bool == true {
+            clipboardStorageError = nil
+            hasReportedClipboardFailure = false
+        }
+        refreshClipboardMenuState()
+        updateStatusSummary()
+    }
+
+    private func presentClipboardResult(_ result: ClipboardMutationResult, successKey: String? = nil) {
+        if let error = result.error {
+            let detail = language.str(error.messageKey)
+            presentAlert(title: language.str("clipboardSettings"), message: result.committed ? language.str("cleanupPending") + "\n\n" + detail : detail)
+        } else if let successKey { presentAlert(title: language.str("clipboardSettings"), message: language.str(successKey)) }
+    }
+
+    @objc private func retryClipboardStorage(_ sender: NSMenuItem) {
+        sender.isEnabled = false
+        ClipboardManager.shared.retryStorage { [weak self] result in
+            guard let self else { return }
+            sender.isEnabled = true
+            if result.succeeded { self.clipboardStorageError = nil; self.hasReportedClipboardFailure = false }
+            self.refreshClipboardMenuState()
+            self.presentClipboardResult(result)
+        }
+    }
+
+    private func refreshClipboardMenuState() {
+        guard pauseCaptureItem != nil else { return }
+        pauseCaptureItem.title = language.str(ClipboardManager.shared.isPaused ? "resumeCapture" : "pauseCapture")
+        pauseCaptureItem.state = ClipboardManager.shared.isPaused ? .on : .off
+        clipboardStatusItem.title = language.str("clipboardNeedsAttention")
+        clipboardStatusItem.toolTip = clipboardStorageError.map { language.str($0.messageKey) }
+        clipboardStatusItem.isHidden = clipboardStorageError == nil
+        retryHistoryItem.isHidden = clipboardStorageError == nil
+        refreshExcludedAppsMenu()
+    }
+
+    private func refreshExcludedAppsMenu() {
+        guard let submenu = excludedAppsItem.submenu else { return }
+        submenu.removeAllItems()
+        let excluded = ClipboardManager.shared.excludedApps()
+        if let app = NSWorkspace.shared.frontmostApplication, let bundleID = app.bundleIdentifier,
+           bundleID != Bundle.main.bundleIdentifier {
+            let item = NSMenuItem(title: String(format: language.str("excludeCurrentApp"), app.localizedName ?? bundleID), action: #selector(toggleExcludedApp(_:)), keyEquivalent: "")
+            item.target = self; item.representedObject = bundleID
+            item.state = excluded.contains(bundleID) ? .on : .off
+            submenu.addItem(item)
+        }
+        let add = NSMenuItem(title: language.str("addExcludedApp"), action: #selector(addExcludedApplication(_:)), keyEquivalent: "")
+        add.target = self
+        submenu.addItem(add)
+        if !excluded.isEmpty { submenu.addItem(.separator()) }
+        for bundleID in excluded {
+            let name = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID)
+                .map { FileManager.default.displayName(atPath: $0.path) } ?? bundleID
+            let item = NSMenuItem(title: name, action: #selector(toggleExcludedApp(_:)), keyEquivalent: "")
+            item.target = self; item.representedObject = bundleID; item.state = .on
+            item.toolTip = language.str("removeExcludedAppHint")
+            submenu.addItem(item)
+        }
+    }
+
+    @objc private func toggleExcludedApp(_ sender: NSMenuItem) {
+        guard let bundleID = sender.representedObject as? String else { return }
+        ClipboardManager.shared.setAppExcluded(bundleID, excluded: !ClipboardManager.shared.excludedApps().contains(bundleID))
+        refreshClipboardMenuState()
+    }
+
+    @objc private func addExcludedApplication(_ sender: NSMenuItem) {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.applicationBundle]
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = true
+        panel.directoryURL = URL(fileURLWithPath: "/Applications", isDirectory: true)
+        panel.prompt = language.str("addExcludedApp")
+        activateAppForModal()
+        guard panel.runModal() == .OK else { return }
+        for url in panel.urls {
+            if let bundleID = Bundle(url: url)?.bundleIdentifier { ClipboardManager.shared.setAppExcluded(bundleID, excluded: true) }
+        }
+        refreshClipboardMenuState()
     }
 
     // MARK: - Caffeine
@@ -997,6 +1148,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             statusItem.button?.image = frames[index % frames.count]
         }
         applyMetricDisplay()
+        updateStatusSummary()
         UserDefaults.standard.set(appliedMode.rawValue, forKey: "DashCatCaffeineMode")
         updateBatteryStatus(force: true)
     }
@@ -1079,12 +1231,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         UserDefaults.standard.set(newValue, forKey: "DashCatSaveImages")
     }
 
+    @objc private func toggleClipboardCapture(_ sender: NSMenuItem) {
+        ClipboardManager.shared.setPaused(!ClipboardManager.shared.isPaused)
+        refreshClipboardMenuState()
+        updateStatusSummary()
+    }
+
     @objc private func selectHistoryDays(_ sender: NSMenuItem) {
         guard let days = sender.representedObject as? HistoryDays else { return }
-        UserDefaults.standard.set(days.rawValue, forKey: "DashCatHistoryDays")
-        historyDaysItems.forEach { $0.state = ($0.representedObject as? HistoryDays) == days ? .on : .off }
-        customDaysItem.title = language.str("customDays")
-        cleanupClipboardHistoryAfterRetentionChange()
+        requestRetentionChange(days.rawValue)
     }
 
     @objc private func selectCustomDays(_ sender: NSMenuItem) {
@@ -1095,7 +1250,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         alert.addButton(withTitle: l.str("ok"))
         alert.addButton(withTitle: l.str("cancel"))
 
-        let currentDays = customHistoryDays ?? historyDays.rawValue
+        let currentDays = customHistoryDays ?? (historyDays == .forever ? 30 : historyDays.rawValue)
         let input = NSTextField(frame: NSRect(x: 0, y: 0, width: 100, height: 24))
         input.stringValue = "\(currentDays)"
         input.placeholderString = "1~365"
@@ -1108,19 +1263,51 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 alert.informativeText = l.str("invalidDays")
                 continue
             }
-            UserDefaults.standard.set(days, forKey: "DashCatHistoryDays")
-            historyDaysItems.forEach { $0.state = ($0.representedObject as? HistoryDays)?.rawValue == days ? .on : .off }
-            customDaysItem.title = HistoryDays(rawValue: days) == nil ? "\(l.str("customDays")) (\(days))" : l.str("customDays")
-            cleanupClipboardHistoryAfterRetentionChange()
+            requestRetentionChange(days)
             break
         }
     }
 
+    private func refreshHistoryMenuState() {
+        let saved = UserDefaults.standard.integer(forKey: "DashCatHistoryDays")
+        let days = saved == 0 ? 30 : saved
+        historyDaysItems.forEach { $0.state = ($0.representedObject as? HistoryDays)?.rawValue == days ? .on : .off }
+        customDaysItem.state = HistoryDays(rawValue: days) == nil ? .on : .off
+        customDaysItem.title = HistoryDays(rawValue: days) == nil ? "\(language.str("customDays")) (\(days))" : language.str("customDays")
+        historyMenuItem.isEnabled = !isChangingRetention
+    }
+
+    private func requestRetentionChange(_ days: Int) {
+        guard !isChangingRetention else { return }
+        isChangingRetention = true
+        refreshHistoryMenuState()
+        ClipboardManager.shared.countExpiring(days: days) { [weak self] result in
+            guard let self else { return }
+            defer { self.isChangingRetention = false; self.refreshHistoryMenuState() }
+            switch result {
+            case .failure(let error):
+                self.presentAlert(title: self.language.str("history"), message: self.language.str((error as? ClipboardError)?.messageKey ?? "clipboardFailure"))
+            case .success(let count):
+                if count > 0 {
+                    let alert = NSAlert()
+                    alert.messageText = self.language.str("retentionConfirmTitle")
+                    alert.informativeText = String(format: self.language.str("retentionConfirmMessage"), "\(days)", "\(count)")
+                    alert.addButton(withTitle: self.language.str("changeRetention"))
+                    alert.addButton(withTitle: self.language.str("cancel"))
+                    self.activateAppForModal()
+                    guard alert.runModal() == .alertFirstButtonReturn else { return }
+                }
+                UserDefaults.standard.set(days, forKey: "DashCatHistoryDays")
+                self.cleanupClipboardHistoryAfterRetentionChange()
+            }
+        }
+    }
+
     private func cleanupClipboardHistoryAfterRetentionChange() {
-        ClipboardManager.shared.cleanupExpired { [weak self] success in
+        ClipboardManager.shared.cleanupExpired { [weak self] result in
             guard let self else { return }
             self.clipboardPanel?.reloadData()
-            if !success { self.presentAlert(title: self.language.str("history"), message: self.language.str("clipboardFailure")) }
+            self.presentClipboardResult(result)
         }
     }
 
@@ -1164,10 +1351,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        ClipboardManager.shared.clearAll(includePinned: includePinned) { [weak self] success in
+        ClipboardManager.shared.clearAll(includePinned: includePinned) { [weak self] result in
             guard let self else { return }
             self.clipboardPanel?.reloadData()
-            self.presentAlert(title: self.language.str("clearHistory"), message: self.language.str(success ? "historyCleared" : "clipboardFailure"))
+            self.presentClipboardResult(result, successKey: "historyCleared")
         }
     }
 
@@ -1516,6 +1703,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         batteryStatusItem?.length = view.preferredWidth
         batteryStatusItem?.button?.toolTip = String(format: language.str("batteryTooltip"), "\(info.level)")
             + "\n" + language.str(caffeineMode.locKey) + "\n" + language.str("batteryClickHint")
+        batteryStatusItem?.button?.setAccessibilityLabel(language.str("battery"))
+        batteryStatusItem?.button?.setAccessibilityValue(String(format: language.str("batteryTooltip"), "\(info.level)") + ", " + language.str(caffeineMode.locKey))
+        batteryStatusItem?.button?.setAccessibilityHelp(language.str("batteryClickHint"))
     }
 
     private func ensureBatteryStatusView(for info: BatteryInfo) -> BatteryStatusView {
@@ -1719,9 +1909,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func updateMetric() {
         let cpu = monitor.cpuUsage()
-        let mem = monitor.memoryPressure()
+        let mem = monitor.memoryUsage()
         cachedCPU = cpu
         cachedMemory = mem
+        updateStatusSummary()
         dualMetric = nil
         if currentMode == .cpuMemory {
             dualMetric = (cpu, mem)
@@ -2046,6 +2237,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             UserDefaults.standard.set(displayMode.rawValue, forKey: "DashCatDisplayMode")
         }
         refreshDisplayMenuState()
+        refreshClipboardMenuState()
+        refreshHistoryMenuState()
         switch displayMode {
         case .pctOnly:
             statusItem.button?.image = nil
@@ -2092,6 +2285,8 @@ extension AppDelegate: NSMenuDelegate {
         refreshScrollState()
         refreshBatteryMenuState()
         refreshDisplayMenuState()
+        refreshClipboardMenuState()
+        refreshHistoryMenuState()
     }
 
     func menuDidClose(_ menu: NSMenu) {
@@ -2212,7 +2407,7 @@ private final class FilterTermsAccessoryView: NSView {
     private let textView = NSTextView()
 
     init(language: Language, terms: [String]) {
-        super.init(frame: NSRect(x: 0, y: 0, width: 420, height: 220))
+        super.init(frame: NSRect(x: 0, y: 0, width: 420, height: 260))
         build(language: language, terms: terms)
     }
 
@@ -2228,14 +2423,16 @@ private final class FilterTermsAccessoryView: NSView {
         titleLabel.stringValue = language.str("filterTerms")
         titleLabel.font = NSFont.systemFont(ofSize: 13, weight: .semibold)
         titleLabel.textColor = .labelColor
-        titleLabel.frame = NSRect(x: 0, y: 198, width: 420, height: 18)
+        titleLabel.frame = NSRect(x: 0, y: 238, width: 420, height: 18)
 
-        helperLabel.stringValue = language.str("filterTermsPrompt")
+        helperLabel.stringValue = language.str("filterTermsHelp")
         helperLabel.font = NSFont.systemFont(ofSize: 11)
         helperLabel.textColor = .secondaryLabelColor
-        helperLabel.frame = NSRect(x: 0, y: 177, width: 420, height: 16)
+        helperLabel.frame = NSRect(x: 0, y: 184, width: 420, height: 44)
+        helperLabel.maximumNumberOfLines = 3
+        helperLabel.lineBreakMode = .byWordWrapping
 
-        scrollView.frame = NSRect(x: 0, y: 0, width: 420, height: 168)
+        scrollView.frame = NSRect(x: 0, y: 0, width: 420, height: 176)
         scrollView.hasVerticalScroller = true
         scrollView.drawsBackground = true
         scrollView.backgroundColor = .textBackgroundColor

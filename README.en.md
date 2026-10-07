@@ -18,7 +18,8 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - Left-click the cat icon to open a clipboard history panel
   - Real-time search filtering
   - Use arrow keys to select and Enter to copy. Text is always copied as plain text; Option + Enter remains supported.
-  - Right-click an item to pin it to the top
+  - Pinned items use a small pin marker and can be renamed from the context menu. The name is displayed; clicking still copies the full original content. Leave the name blank to reset it.
+  - Pause capture or exclude selected apps. Retention changes show the number of items to delete before confirmation; pins are preserved.
   - Full plain text and images (optional original PNG/TIFF storage with separate thumbnails)
   - Use Load More for older history and right-click to preview. Choose an opening shortcut in Clipboard Settings (off by default). Confidential and transient clipboard markers are ignored. Expired unpinned history is cleaned hourly and after wake.
   - Customizable retention: 7 / 14 / 30 / 90 days, forever, or a custom 1-365 day value
@@ -26,7 +27,8 @@ That's how DashCat came to be. A cat sitting in the menu bar — the faster it r
   - All data stored locally — fully offline, no data collection
 
 - **System Monitor**
-  - Defaults to Compact Values: a two-line C/M percentage readout for CPU + memory that saves menu bar space
+- Defaults to Compact Values: a two-line C/M percentage readout for CPU + memory that saves menu bar space
+  - M shows physical memory used by apps, the system and compression, excluding reclaimable file cache; swap does not raise this value.
   - Custom Display lets you choose the monitor source (Combined, CPU, Memory) and display style (Animation, Animation + Value)
   - Cat animation speed reflects real-time system load — the faster it runs, the higher the pressure
   - Combined mode automatically picks the higher of CPU / memory to drive the animation

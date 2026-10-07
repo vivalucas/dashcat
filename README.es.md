@@ -18,14 +18,16 @@ Así nació DashCat. Un gato en la barra de menús: cuanto más rápido corre, m
   - Clic izquierdo en el icono del gato para abrir el panel de historial del portapapeles
   - Filtrado de búsqueda en tiempo real
   - Selecciona con las flechas y copia con Enter. El texto siempre es plano; Option + Enter sigue disponible.
-  - Clic derecho en un elemento para fijarlo arriba
+  - Los elementos fijados llevan una pequeña chincheta y se pueden renombrar con clic derecho. Se muestra el nombre; al hacer clic se copia todo el contenido original. Un nombre vacío restaura la vista predeterminada.
+  - Pausa la captura o excluye apps. Al cambiar la retención, se confirma cuántos elementos se eliminarán; los fijados se conservan.
   - Texto plano completo e imágenes (PNG/TIFF originales opcionales, miniaturas separadas)
   - Cargar más muestra el historial anterior; clic derecho abre la vista previa. El atajo se configura en los ajustes (desactivado por defecto). Se ignoran los marcadores confidenciales y temporales. Las entradas caducadas no fijadas se limpian cada hora y al despertar.
   - Retención personalizable: 7 / 14 / 30 / 90 días, para siempre, o un valor personalizado de 1-365 días
   - Todos los datos almacenados localmente — totalmente offline, sin recopilación de datos
 
 - **Monitor del Sistema**
-  - El modo predeterminado es Valores compactos: porcentajes C/M en dos líneas para CPU + memoria, ahorrando espacio en la barra
+- El modo predeterminado es Valores compactos: porcentajes C/M en dos líneas para CPU + memoria, ahorrando espacio en la barra
+  - M muestra la memoria física de apps, sistema y compresión, sin la caché recuperable; el swap no aumenta el valor.
   - Visualización personalizada permite elegir fuente (Combinado, CPU, Memoria) y estilo (Animación, Animación + valor)
   - La velocidad de animación del gato refleja la carga del sistema en tiempo real — cuanto más rápido corre, mayor es la presión
   - El modo combinado elige automáticamente el mayor valor entre CPU y memoria para la animación
