@@ -6,7 +6,7 @@
 
 | 环境 | 工具链依据 | 安装与启动入口 | 已验证范围 |
 | --- | --- | --- | --- |
-| macOS 13+ / Apple Silicon | Xcode、系统 Swift 与 macOS SDK；`DashCat.xcodeproj` | Xcode 打开工程，选择 `DashCat` scheme 后运行 | 2.5.0 Debug/Release 无签名构建曾通过 |
+| macOS 13+ / Apple Silicon | Xcode、系统 Swift 与 macOS SDK；`DashCat.xcodeproj` | Xcode 打开工程，选择 `DashCat` scheme 后运行 | 2.6.0 Release 本地构建、ad-hoc 签名、全新安装及启动检查通过；其他 macOS 版本见 10 验收边界 |
 | Intel macOS | 不支持 | 不适用 | 未构建 |
 | Windows / Linux | 不支持 AppKit 应用 | 不适用 | 未验证 |
 
